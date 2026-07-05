@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logika II — materiały do egzaminu</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #F4EEE3; font-family: Georgia, 'Iowan Old Style', serif; }
+  button:focus { outline: 2px solid #B8742E; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// ---------- ICON COMPONENTS (replacing lucide-react) ----------
+function ChevronRight({ size=18, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={style}><polyline points="9,18 15,12 9,6"/></svg>;
+}
+function ChevronDown({ size=18, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={style}><polyline points="6,9 12,15 18,9"/></svg>;
+}
+function Check({ size=16, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={style}><polyline points="20,6 9,17 4,12"/></svg>;
+}
+function X({ size=16, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={style}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+}
+function RotateCcw({ size=15, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><polyline points="1,4 1,10 7,10"/><path d="M3.51,15a9,9,0,1,0,.49-3.88"/></svg>;
+}
+function BookOpen({ size=26, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><path d="M2,3h6a4,4,0,0,1,4,4V20a3,3,0,0,0-3,-3H2z"/><path d="M22,3h-6a4,4,0,0,0-4,4V20a3,3,0,0,1,3,-3h7z"/></svg>;
+}
+function Target({ size=28, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>;
+}
+function Flame({ size=18, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><path d="M8.5,14.5A2.5,2.5,0,0,0,11,12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054,2-6,0.5,2.5,2,4.9,4,6.5s3,3.5,3,5.5a7,7,0,1,1-14,0c0-1.153.433-2.294,1-3A2.5,2.5,0,0,0,8.5,14.5z"/></svg>;
+}
+function Award({ size=22, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><circle cx="12" cy="8" r="6"/><path d="M15.477,12.89L17,22l-5-3-5,3,1.523-9.11"/></svg>;
+}
+function Lightbulb({ size=14, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09,14c.18-.98,0.98-1.62,1.26-2.5a6,6,0,1,0-8.73.03c.28.88,1.07,1.52,1.25,2.5"/></svg>;
+}
+function PenLine({ size=14, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><path d="M12,20h9"/><path d="M16.5,3.5a2.121,2.121,0,0,1,3,3L7,19l-4,1,1-4L16.5,3.5z"/></svg>;
+}
+function Eye({ size=14, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><path d="M1,12S5,4,12,4s11,8,11,8-4,8-11,8S1,12,1,12z"/><circle cx="12" cy="12" r="3"/></svg>;
+}
+function EyeOff({ size=13, color="currentColor", style }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}><path d="M17.94,17.94A10.07,10.07,0,0,1,12,20c-7,0-11-8-11-8a18.45,18.45,0,0,1,5.06-5.94"/><path d="M9.9,4.24A9.12,9.12,0,0,1,12,4c7,0,11,8,11,8a18.5,18.5,0,0,1-2.16,3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>;
+}
+
+// ---------- STORAGE POLYFILL (localStorage fallback jeśli window.storage niedostępne) ----------
+const storage = (() => {
+  if (typeof window !== 'undefined' && window.storage) return window.storage;
+  // localStorage fallback
+  return {
+    get: async (key) => {
+      try { const v = localStorage.getItem('logika_' + key); return v ? { value: v } : null; } catch { return null; }
+    },
+    set: async (key, value) => {
+      try { localStorage.setItem('logika_' + key, value); return { key, value }; } catch { return null; }
+    }
+  };
+})();
+
+// ---------- APP CODE ----------
+
+// ---------- QUIZ BANK ----------
+const quizBanks = {
+  d1a: {
+    title: "Znaki, nazwy, definicje",
+    questions: [
+      {
+        q: "Czym różni się znak od oznaki?",
+        options: [
+          "Znak jest słowny, oznaka — niesłowna",
+          "Znak rządzi się regułą znaczeniową, oznaka tylko współwystępuje ze stanem rzeczy bez takiej reguły",
+          "Znak jest fałszywy, oznaka prawdziwa",
+          "Nie ma różnicy, to synonimy"
+        ],
+        correct: 1,
+        explain: "Dym jest oznaką ognia (brak reguły znaczeniowej), ale kreski narysowane przez policjanta na asfalcie są znakiem (są reguły wskazujące, co oznaczają)."
+      },
+      {
+        q: "\"Białość\" to przykład nazwy:",
+        options: ["konkretnej", "abstrakcyjnej", "indywidualnej", "zbiorowej"],
+        correct: 1,
+        explain: "Nazwa abstrakcyjna nie jest znakiem rzeczy/osoby, lecz wskazuje na cechę, zdarzenie lub stosunek."
+      },
+      {
+        q: "\"Toruń\" i \"najsłynniejsze z pierników miasto w Polsce\" — to przykład tego, że:",
+        options: [
+          "nazwa indywidualna i generalna mogą mieć ten sam desygnat",
+          "to dwie nazwy puste",
+          "obie nazwy są zbiorowe",
+          "obie są nazwami abstrakcyjnymi"
+        ],
+        correct: 0,
+        explain: "Toruń to nazwa indywidualna (oznacza to miasto bez względu na cechy), a druga nazwa jest generalna (przez cechę), choć mają ten sam desygnat."
+      },
+      {
+        q: "Nazwa \"najstarszy żyjący w dniu 15 IX 1993 człowiek\" jest nazwą:",
+        options: ["indywidualną", "jednostkową, lecz generalną", "pustą", "zbiorową"],
+        correct: 1,
+        explain: "Klasyczna pułapka: nazwa jednostkowa (jeden desygnat) ≠ nazwa indywidualna. Ta nazwa wskazuje na cechę (a nie na konkretne indywiduum z założenia), więc jest generalna, choć ma jeden desygnat."
+      },
+      {
+        q: "Zespół cech wystarczający do odróżnienia desygnatów nazwy od innych przedmiotów to:",
+        options: ["treść leksykalna", "zespół cech konstytutywnych", "cechy konsekutywne", "determinanda"],
+        correct: 1,
+        explain: "Cechy konstytutywne wystarczają do rozpoznania desygnatu; pozostałe wspólne cechy (które z tego wynikają) to cechy konsekutywne."
+      },
+      {
+        q: "\"Zając jest pospolity w Polsce\" — słowo \"zając\" występuje tu w supozycji:",
+        options: ["prostej", "formalnej", "materialnej", "indywidualnej"],
+        correct: 1,
+        explain: "Supozycja formalna = nazwa dla całego gatunku (nie pojedynczego desygnatu). Supozycja prosta byłaby np. w \"Zając przebiegł mi drogę\"."
+      },
+      {
+        q: "Definicja \"Logika jest nauką o myśleniu zgodnym z prawidłami logiki\" zawiera błąd:",
+        options: ["ignotum per ignotum", "idem per idem (błędne koło bezpośrednie)", "przesunięcia kategorialnego", "definicji za szerokiej"],
+        correct: 1,
+        explain: "Wyraz definiowany (\"logika\") występuje w definiens — to błędne koło bezpośrednie."
+      },
+      {
+        q: "\"Prokurator jest to pracownik prokuratury\" — to definicja:",
+        options: ["za wąska", "za szeroka", "z błędnym kołem", "z przesunięciem kategorialnym"],
+        correct: 1,
+        explain: "Zakres definiensa (\"pracownik prokuratury\") jest szerszy niż definiendum — obejmuje też kancelistów, woźnych itd. Definicja za szeroka."
+      },
+      {
+        q: "\"Norma jest pewnym stosunkiem między ludźmi\" — to przykład błędu:",
+        options: ["idem per idem", "ignotum per ignotum", "przesunięcia kategorialnego", "definicji za wąskiej"],
+        correct: 2,
+        explain: "Norma to wypowiedź, nie stosunek — to przypisanie przedmiotu z innej kategorii ontologicznej (przesunięcie kategorialne)."
+      },
+      {
+        q: "Definicja przez podanie rodzaju (genus) i różnicy gatunkowej (differentia specifica) to definicja:",
+        options: ["nominalna sprawozdawcza", "klasyczna", "regulująca", "przez postulaty"],
+        correct: 1,
+        explain: "\"Dom to budynek (genus) mieszkalny (differentia specifica)\" — wzór definicji klasycznej."
+      },
+      {
+        q: "Definicja w ustawie ustalająca, że \"przyuczona pielęgniarka\" to osoba pracująca min. 2 lata bez wykształcenia, to definicja:",
+        options: ["sprawozdawcza", "konstrukcyjna", "regulująca", "ostensywna"],
+        correct: 2,
+        explain: "Regulująca — doprecyzowuje nieostre, ale już istniejące znaczenie (różni się od konstrukcyjnej, która tworzy całkiem nowe znaczenie)."
+      },
+      {
+        q: "Czy definicja konstrukcyjna może być prawdziwa lub fałszywa?",
+        options: ["Tak, zawsze", "Nie, to nie ma sensu — to projekt, nie sprawozdanie", "Tylko jeśli się przyjmie w języku", "Tylko jeśli jest klasyczna"],
+        correct: 1,
+        explain: "Definicja konstrukcyjna projektuje nowe znaczenie — nie opisuje stanu faktycznego, więc kategorie prawda/fałsz się tu nie stosują."
+      }
+    ]
+  },
+  d1b: {
+    title: "Podział logiczny",
+    questions: [
+      {
+        q: "Podział pociągów na pasażerskie i towarowe (pomijając techniczne) jest błędny, bo:",
+        options: ["jest nierozłączny", "jest niewyczerpujący", "ma za dużo członów", "narusza zasadę dychotomii"],
+        correct: 1,
+        explain: "Istnieją pociągi techniczne, które nie należą do żadnego z dwóch członów — suma członów nie wyczerpuje całości dzielonej."
+      },
+      {
+        q: "Podział pracowników wg zawodu, gdy niektórzy mają dwa zawody, narusza zasadę:",
+        options: ["wyczerpywania", "rozłączności", "jednej podstawy podziału", "dychotomii"],
+        correct: 1,
+        explain: "Te osoby należałyby do dwóch członów na raz — to narusza rozłączność."
+      },
+      {
+        q: "Podział Polaków na blondynów i rolników jest błędny, bo:",
+        options: [
+          "brak jednej podstawy podziału (fundamentum divisionis)",
+          "jest tylko niewyczerpujący",
+          "jest tylko nierozłączny",
+          "jest poprawny"
+        ],
+        correct: 0,
+        explain: "Człony wyróżniono wg dwóch zupełnie różnych cech (kolor włosów i zawód) — to gwarantuje zarówno niewyczerpanie, jak i nierozłączność."
+      },
+      {
+        q: "Podział na: rodziny z 1-3 dzieci, z 3-5, z 5-7, z 7+ jest błędny, bo:",
+        options: ["niewyczerpujący", "granice się powtarzają — nierozłączny", "brak podstawy podziału", "to nie jest podział logiczny"],
+        correct: 1,
+        explain: "Rodziny z 3, 5, 7 dzieci są liczone podwójnie — przedziały powinny być np. 1-2, 3-4, 5-6, 7+."
+      },
+      {
+        q: "Podział dychotomiczny wg cech kontradyktorycznych to podział na:",
+        options: [
+          "dwie dowolne grupy",
+          "przedmioty mające pewną cechę i przedmioty jej nieposiadające",
+          "rodzaj i różnicę gatunkową",
+          "klasy abstrakcji"
+        ],
+        correct: 1,
+        explain: "Np. mieszkańcy umiejący czytać / nie umiejący czytać — z definicji wyczerpujący i rozłączny, jeśli nazwa jest ostra."
+      },
+      {
+        q: "Wielostopniowy podział logiczny z dalszym podziałem członów nazywamy:",
+        options: ["partycją", "typologią", "klasyfikacją", "dychotomią"],
+        correct: 2,
+        explain: "Klasyfikacja = podział logiczny powtórzony na kolejnych poziomach (np. segregacja akt sądowych)."
+      },
+      {
+        q: "\"Roślina dzieli się na korzeń, łodygę, liście i kwiat\" — to:",
+        options: ["podział logiczny naturalny", "podział logiczny sztuczny", "partycja (wyróżnianie części, nie podział logiczny)", "klasyfikacja"],
+        correct: 2,
+        explain: "Partycja wyróżnia części składowe jednego przedmiotu, nie człony zakresu nazwy — to nie jest podział logiczny."
+      },
+      {
+        q: "Ogólna cecha, według której odmian wyróżniamy człony podziału (np. \"kolor\"), nazywa się:",
+        options: ["determinanta", "determinanda", "fundamentum divisionis sensu stricto", "genus"],
+        correct: 1,
+        explain: "Determinanda to ogólna cecha (np. kolor), determinaty to jej odmiany (czerwony, zielony...)."
+      }
+    ]
+  },
+  d2a: {
+    title: "Zdania, relacje",
+    questions: [
+      {
+        q: "Stosunek \"x kocha y\" jest stosunkiem:",
+        options: ["symetrycznym", "asymetrycznym", "nonsymetrycznym", "przechodnim"],
+        correct: 2,
+        explain: "Z tego, że Jan kocha Zofię, nie wynika ani że Zofia kocha Jana, ani że nie kocha — stosunek nonsymetryczny."
+      },
+      {
+        q: "Stosunek wynikania logicznego między zdaniami jest stosunkiem:",
+        options: ["symetrycznym i przechodnim", "nonsymetrycznym i przechodnim", "asymetrycznym i nieprzechodnim", "symetrycznym i nieprzechodnim"],
+        correct: 1,
+        explain: "Z p→q nie wynika q→p (nonsymetryczny), ale wynikanie jest przechodnie: jeśli p wynika z q, a q z r, to p wynika z r."
+      },
+      {
+        q: "Stosunek ojcostwa (\"x jest ojcem y\") jest:",
+        options: ["przechodni", "atranzytywny", "nontranzytywny", "symetryczny"],
+        correct: 1,
+        explain: "Jeśli Adam jest ojcem Bolesława, a Bolesław ojcem Czesława, to na pewno Adam NIE jest ojcem Czesława — atranzytywny (czyli zawsze przeczy przechodniości)."
+      },
+      {
+        q: "Stosunek pokrewieństwa jest stosunkiem:",
+        options: ["przechodnim", "atranzytywnym", "nontranzytywnym (ani przechodni, ani atranzytywny)", "asymetrycznym"],
+        correct: 2,
+        explain: "Ojciec jest krewnym dziecka, dziecko krewnym matki, ale ojciec zwykle nie jest krewnym matki — czasem zachodzi, czasem nie."
+      },
+      {
+        q: "Aby stosunek był porządkujący w danej klasie, musi być jednocześnie:",
+        options: [
+          "symetryczny, przechodni, zwrotny",
+          "asymetryczny, przechodni, spójny",
+          "nonsymetryczny, atranzytywny, spójny",
+          "symetryczny, przechodni, spójny"
+        ],
+        correct: 1,
+        explain: "Te trzy warunki łącznie pozwalają ustawić elementy klasy w jeden uporządkowany szereg (np. wzrost żołnierzy w kompanii)."
+      },
+      {
+        q: "Stosunek równościowy w danej klasie to stosunek:",
+        options: [
+          "symetryczny, przechodni, zwrotny",
+          "asymetryczny, przechodni, spójny",
+          "tylko symetryczny",
+          "spójny i asymetryczny"
+        ],
+        correct: 0,
+        explain: "Np. rówieśnictwo — symetryczny + przechodni + zwrotny = pozwala dzielić klasę na klasy abstrakcji."
+      },
+      {
+        q: "Stosunek spójny w klasie Z oznacza, że:",
+        options: [
+          "każdy element jest w relacji z samym sobą",
+          "dla każdych dwóch różnych x, y z klasy zachodzi xRy lub yRx",
+          "relacja jest symetryczna",
+          "relacja jest przechodnia"
+        ],
+        correct: 1,
+        explain: "Spójność = dla każdej pary elementów klasy któryś kierunek relacji musi zachodzić — \"łączy\" wszystkich."
+      },
+      {
+        q: "\"Deszcz jest pożyteczny\" to przykład:",
+        options: ["zdania w pełni określonego", "wypowiedzi niezupełnej (wymaga dopowiedzenia: dla czego/kogo?)", "zdania analitycznego", "funkcji zdaniowej"],
+        correct: 1,
+        explain: "Wypowiedź niezupełna — potrzebuje uzupełnienia kontekstem, by stała się pełnym zdaniem logicznym o określonej wartości logicznej."
+      },
+      {
+        q: "Zdanie w sensie logicznym musi być:",
+        options: [
+          "tylko gramatycznie poprawne",
+          "oznajmujące, prawdziwe albo fałszywe obiektywnie",
+          "zawsze prawdziwe",
+          "pytające lub rozkazujące"
+        ],
+        correct: 1,
+        explain: "Zdanie logiczne stwierdza prawdę, ma obiektywną wartość logiczną (prawda/fałsz) niezależną od tego, kto je wypowiada."
+      }
+    ]
+  },
+  d2b: {
+    title: "Normy, modalności, pytania",
+    questions: [
+      {
+        q: "Norma indywidualna różni się od generalnej tym, że:",
+        options: [
+          "dotyczy jednego, ściśle wskazanego adresata, a generalna — klasy adresatów",
+          "jest konkretna, a generalna abstrakcyjna",
+          "to synonimy",
+          "indywidualna jest zawsze prawem, generalna zwyczajem"
+        ],
+        correct: 0,
+        explain: "Adresat normy: indywidualny (jedna osoba) vs generalny (klasa osób wyróżniona przez cechę)."
+      },
+      {
+        q: "Norma konkretna a abstrakcyjna różnią się ze względu na:",
+        options: [
+          "liczbę adresatów",
+          "okoliczność — jednorazowa sytuacja vs powtarzalna kategoria sytuacji",
+          "to, czy jest zapisana w ustawie",
+          "ich obowiązywanie"
+        ],
+        correct: 1,
+        explain: "Konkretna odnosi się do jednorazowo określonej sytuacji, abstrakcyjna — do powtarzalnego typu okoliczności."
+      },
+      {
+        q: "Norma równościowa (z notatek: symetryczna, spójna) — to relacja, w której:",
+        options: [
+          "wszyscy adresaci są sobie równi w danym zbiorze",
+          "norma jest taka sama dla każdego",
+          "norma dotyczy tylko jednej osoby",
+          "to nie istnieje"
+        ],
+        correct: 0,
+        explain: "Zgodnie z definicją relacji równościowej (symetryczna+przechodnia+zwrotna), choć w notatkach skrótowo: symetryczna i spójna w danym zbiorze."
+      },
+      {
+        q: "Wypowiedź oceniająca wyraża:",
+        options: ["opis stanu świata", "aprobatę lub deaprobatę jakiegoś zjawiska", "żądanie informacji", "zawsze normę postępowania"],
+        correct: 1,
+        explain: "Ocena to stan umysłowy przeżycia aprobaty lub deaprobaty — różni się od zdania opisowego."
+      },
+      {
+        q: "Rodzaje wypowiedzi oceniających to (wg notatek): estetyczna, moralna i:",
+        options: ["logiczna", "hedonistyczna", "deontyczna", "epistemiczna"],
+        correct: 1,
+        explain: "Trzy typy ocen: estetyczna (piękne/brzydkie), moralna (dobre/złe), hedonistyczna (przyjemne/nieprzyjemne)."
+      },
+      {
+        q: "Pytanie \"Jakiego koloru jest uczucie?\" jest pytaniem:",
+        options: [
+          "otwartym, ale poprawnym",
+          "niewłaściwie postawionym — błędne założenie",
+          "do rozstrzygnięcia",
+          "sugestywnym"
+        ],
+        correct: 1,
+        explain: "Założeniem pytania jest, że uczucie ma kolor — co jest niezgodne z rzeczywistością, więc pytanie jest niewłaściwie postawione."
+      },
+      {
+        q: "Pytanie \"Czy dziś jest ładna pogoda?\" to pytanie:",
+        options: ["do uzupełnienia, otwarte", "do rozstrzygnięcia, zamknięte", "sugestywne z natury", "bez założenia"],
+        correct: 1,
+        explain: "Pytanie do rozstrzygnięcia żąda wyboru: tak / nie — to pytanie zamknięte."
+      },
+      {
+        q: "Odpowiedź \"Uderzył mnie jakiś wysoki brunet\" na pytanie \"Kto pana uderzył?\" jest odpowiedzią:",
+        options: ["całkowitą wprost", "całkowitą nie wprost", "częściową", "niewłaściwą"],
+        correct: 2,
+        explain: "Nie wskazuje konkretnego napastnika (nie jest właściwa), ale pozwala wykluczyć niektórych podejrzanych (niskiego blondyna) — to odpowiedź częściowa."
+      },
+      {
+        q: "Pytanie sugestywne to pytanie, które:",
+        options: [
+          "ma błędne założenie",
+          "niepostrzeżenie narzuca zapytywanemu określoną odpowiedź",
+          "jest zawsze pytaniem otwartym",
+          "domaga się odpowiedzi prawdziwej"
+        ],
+        correct: 1,
+        explain: "Np. \"Czy miał brązowy kapelusz?\" sugeruje konkretną odpowiedź osobie niepewnej — różni się od pytania niewłaściwie postawionego."
+      }
+    ]
+  },
+  d3a: {
+    title: "Chalmers: indukcja i falsyfikacja",
+    questions: [
+      {
+        q: "Indukcjonizm naiwny zakłada, że nauka zaczyna się od:",
+        options: [
+          "teorii, którą się potem testuje",
+          "neutralnych, obiektywnych obserwacji niezależnych od teorii",
+          "falsyfikacji hipotez",
+          "paradygmatu"
+        ],
+        correct: 1,
+        explain: "Naiwny indukcjonizm: obserwacja jest punktem wyjścia, niezależna od oczekiwań i teorii — to właśnie Chalmers krytykuje."
+      },
+      {
+        q: "Główny problem uzasadnienia zasady indukcji (Hume) polega na tym, że:",
+        options: [
+          "indukcji nie można uzasadnić dedukcyjnie, a uzasadnienie indukcyjne jest błędem petitio principii",
+          "indukcja zawsze daje fałszywe wnioski",
+          "nikt nie używa rozumowania indukcyjnego",
+          "dedukcja jest gorsza od indukcji"
+        ],
+        correct: 0,
+        explain: "Uzasadnianie indukcji przez to, że dotychczas działała, jest rozumowaniem indukcyjnym — zakłada to, co ma udowodnić (błędne koło)."
+      },
+      {
+        q: "Wg Chalmersa zdania obserwacyjne są:",
+        options: [
+          "całkowicie niezależne od teorii",
+          "zawsze formułowane w języku jakiejś teorii — \"obciążone teorią\"",
+          "tylko subiektywnymi wrażeniami",
+          "niepotrzebne do nauki"
+        ],
+        correct: 1,
+        explain: "To kluczowa teza rozdziału III: obserwacja zależy od teoretycznych założeń obserwatora, nie jest neutralnym punktem wyjścia."
+      },
+      {
+        q: "Falsyfikacjonizm (Popper) jako kryterium naukowości teorii przyjmuje:",
+        options: [
+          "potwierdzalność przez obserwacje",
+          "falsyfikowalność — możliwość empirycznego obalenia teorii",
+          "powszechną akceptację przez naukowców",
+          "logiczną niesprzeczność"
+        ],
+        correct: 1,
+        explain: "Teoria naukowa musi dawać się w zasadzie obalić przez doświadczenie — teorie niefalsyfikowalne (np. tautologie) nie są naukowe w tym sensie."
+      },
+      {
+        q: "Mocną stroną rozumowania dedukcyjnego (wg Chalmersa) jest, że:",
+        options: [
+          "zawsze prowadzi do nowej wiedzy o świecie",
+          "jeśli przesłanki prawdziwe i forma poprawna, wniosek musi być prawdziwy",
+          "jest niezawodne w przewidywaniu przyszłości",
+          "nie wymaga przesłanek ogólnych"
+        ],
+        correct: 1,
+        explain: "Dedukcja zachowuje prawdziwość: prawdziwe przesłanki + poprawna forma = gwarantowany prawdziwy wniosek. Słabość: nie poszerza wiedzy, jest tak dobra jak przesłanki."
+      },
+      {
+        q: "Słabą stroną indukcji jest to, że:",
+        options: [
+          "wnioski ogólne z konkretnych przypadków nigdy nie są logicznie gwarantowane",
+          "nie da się jej stosować w naukach przyrodniczych",
+          "jest formalnie niespójna",
+          "zawsze prowadzi do tautologii"
+        ],
+        correct: 0,
+        explain: "Z dowolnej liczby zaobserwowanych przypadków nie wynika logicznie prawo ogólne — kolejna obserwacja może je obalić."
+      }
+    ]
+  },
+  fast: {
+    title: "Quiz końcowy — 15 pytań z całości",
+    questions: [
+      {
+        q: "\"Kierowca pogotowia włącza niebieskie światło\" to przykład:",
+        options: ["oznaki", "znaku", "definicji", "normy"],
+        correct: 1,
+        explain: "Istnieje reguła znaczeniowa (przepisy) nakazująca wiązać z tym sygnałem określoną treść — to znak, nie oznaka."
+      },
+      {
+        q: "Nazwa pusta to nazwa, która:",
+        options: ["ma jeden desygnat", "ma wiele desygnatów", "nie ma żadnego desygnatu", "jest nazwą zbiorową"],
+        correct: 2,
+        explain: "Np. \"krasnoludek\" — nazwa generalna, ma treść, ale brak desygnatów."
+      },
+      {
+        q: "\"Sejm\" w odróżnieniu od \"poseł\" to przykład nazwy:",
+        options: ["jednostkowej", "zbiorowej (kolektywnej)", "pustej", "indywidualnej"],
+        correct: 1,
+        explain: "Sejm to agregat posłów — desygnatem nazwy zbiorowej jest całość, nie poszczególny element."
+      },
+      {
+        q: "Definicja sprawozdawcza różni się od projektującej tym, że:",
+        options: [
+          "sprawozdawcza opisuje istniejące znaczenie, projektująca ustala znaczenie na przyszłość",
+          "sprawozdawcza jest zawsze fałszywa",
+          "projektująca opisuje istniejące użycie słowa",
+          "nie ma różnicy"
+        ],
+        correct: 0,
+        explain: "Sprawozdawcza może być prawdziwa/fałszywa (opisuje fakt językowy); projektująca to akt ustanowienia, nie opis."
+      },
+      {
+        q: "Definicja za wąska to taka, w której:",
+        options: [
+          "definiens obejmuje więcej niż definiendum",
+          "definiens nie obejmuje wszystkich desygnatów definiendum",
+          "definiendum występuje w definiensie",
+          "rodzaj jest źle wybrany"
+        ],
+        correct: 1,
+        explain: "Np. \"ołówek to przyrząd z grafitu w niebieskiej oprawce\" — pomija ołówki innych kolorów."
+      },
+      {
+        q: "Warunki poprawnego podziału logicznego to:",
+        options: ["jedna podstawa, wyczerpywanie i rozłączność", "tylko rozłączność", "tylko wyczerpywanie", "dychotomia i klasyfikacja"],
+        correct: 0,
+        explain: "Wszystkie trzy łącznie gwarantują poprawność podziału."
+      },
+      {
+        q: "Stosunek \"jest większy od\" jest:",
+        options: ["symetryczny", "asymetryczny i przechodni", "nonsymetryczny", "zwrotny"],
+        correct: 1,
+        explain: "Jeśli A>B, to nieprawda że B>A (asymetryczny); jeśli A>B i B>C, to A>C (przechodni)."
+      },
+      {
+        q: "Stosunek \"jest rówieśnikiem\" jest:",
+        options: ["porządkujący", "równościowy (symetryczny, przechodni, zwrotny)", "atranzytywny", "asymetryczny"],
+        correct: 1,
+        explain: "Klasyczny przykład relacji równościowej z podręcznika — dzieli klasę na klasy abstrakcji (roczniki)."
+      },
+      {
+        q: "Norma generalna i abstrakcyjna razem oznaczają normę, która:",
+        options: [
+          "dotyczy jednej osoby w jednej sytuacji",
+          "dotyczy klasy osób w powtarzalnym typie sytuacji",
+          "nie obowiązuje",
+          "jest zawsze ustawą"
+        ],
+        correct: 1,
+        explain: "Połączenie dwóch wymiarów: adresat (generalny = klasa) i okoliczność (abstrakcyjna = typ powtarzalny) — typowa norma ustawowa."
+      },
+      {
+        q: "Pytanie zawierające błędne założenie wymaga odpowiedzi, która:",
+        options: [
+          "odpowiada wprost na pytanie",
+          "znosi (obala) mylne założenie",
+          "jest zawsze \"tak\"",
+          "ignoruje pytanie"
+        ],
+        correct: 1,
+        explain: "Np. na \"Dlaczego biję matkę?\" trzeba odpowiedzieć, że się jej nie bije — nie szukać przyczyny nieistniejącego faktu."
+      },
+      {
+        q: "Pytania do rozstrzygnięcia są pytaniami:",
+        options: ["zawsze otwartymi", "zamkniętymi — wyznaczają schemat odpowiedzi", "tylko retorycznymi", "bez założenia"],
+        correct: 1,
+        explain: "Żądają wyboru z gotowych opcji (np. tak/nie) — schemat odpowiedzi jest z góry znany."
+      },
+      {
+        q: "Wg Poppera teoria niefalsyfikowalna jest:",
+        options: ["najlepszą teorią naukową", "nienaukowa w sensie kryterium falsyfikowalności", "zawsze prawdziwa", "tautologią logiczną tylko w matematyce"],
+        correct: 1,
+        explain: "Jeśli żadne doświadczenie nie może jej obalić, nie spełnia kryterium naukowości Poppera (np. niektóre wersje psychoanalizy, wg Poppera)."
+      },
+      {
+        q: "Problem indukcji wg Hume'a/Chalmersa dotyczy tego, że:",
+        options: [
+          "nie możemy logicznie uzasadnić przejścia od przypadków jednostkowych do prawa ogólnego",
+          "indukcja jest tym samym co dedukcja",
+          "obserwacje są zawsze błędne",
+          "naukowcy nie używają indukcji"
+        ],
+        correct: 0,
+        explain: "To centralny problem epistemologiczny: żadna liczba obserwacji nie daje logicznej gwarancji prawa uniwersalnego."
+      },
+      {
+        q: "Zdania obserwacyjne są \"obciążone teorią\" — to znaczy, że:",
+        options: [
+          "są bezużyteczne",
+          "ich formułowanie zależy od teoretycznej wiedzy i pojęć obserwatora",
+          "są zawsze fałszywe",
+          "nie istnieją w nauce"
+        ],
+        correct: 1,
+        explain: "Np. fizyk i laik \"widzą\" inaczej ten sam eksperyment, bo mają różne ramy teoretyczne interpretujące dane sensoryczne."
+      },
+      {
+        q: "Stosunek nontranzytywny (np. przyjaźń) to taki, który:",
+        options: [
+          "jest zawsze przechodni",
+          "nigdy nie jest przechodni",
+          "czasem jest, a czasem nie jest przechodni — zależy od przypadku",
+          "jest tym samym co atranzytywny"
+        ],
+        correct: 2,
+        explain: "Nontranzytywny ≠ atranzytywny. Przyjaciel przyjaciela bywa przyjacielem, ale nie musi — to nie jest regularność."
+      }
+    ]
+  },
+  extra: {
+    title: "Uzupełnienie — stosunki nazw, modalności, normy, oceny",
+    questions: [
+      {
+        q: "Zakresy nazw \"pies\" (S) i \"ssak\" (P) są w stosunku:",
+        options: ["zamienności", "podrzędności S względem P", "krzyżowania się", "wykluczania się"],
+        correct: 1,
+        explain: "Każdy pies jest ssakiem, ale nie każdy ssak jest psem — zakres S leży całkowicie wewnątrz zakresu P."
+      },
+      {
+        q: "Zakresy nazw \"student\" i \"sportowiec\" są w stosunku:",
+        options: ["podrzędności", "nadrzędności", "krzyżowania się", "sprzeczności"],
+        correct: 2,
+        explain: "Są studenci-sportowcy, są studenci niesportowcy i są sportowcy niebędący studentami — trzy różne grupy, to krzyżowanie."
+      },
+      {
+        q: "Różnica między sprzecznością a przeciwieństwem (jako odmianami wykluczania się) polega na tym, że:",
+        options: [
+          "sprzeczność dotyczy tylko liczb",
+          "przy sprzeczności suma obu zakresów wyczerpuje całą klasę uniwersalną, przy przeciwieństwie nie",
+          "przeciwieństwo jest mocniejszą formą sprzeczności",
+          "nie ma żadnej różnicy"
+        ],
+        correct: 1,
+        explain: "Sprzeczność: każdy przedmiot jest jednym z dwóch (np. parzysta/nieparzysta). Przeciwieństwo: oba zakresy się wykluczają, ale są jeszcze inne przedmioty poza nimi (np. pies/kot — są jeszcze konie)."
+      },
+      {
+        q: "Zdanie \"Minuta składa się z 60 sekund\" jest zdaniem:",
+        options: ["syntetycznym", "analitycznym", "egzystencjalnym", "subsumpcyjnym"],
+        correct: 1,
+        explain: "Prawdziwość wynika z samej definicji sekundy (1/60 minuty) — nie trzeba nic sprawdzać w rzeczywistości."
+      },
+      {
+        q: "\"Jan jest górnikiem\" to przykład zdania:",
+        options: ["egzystencjalnego", "atomicznego", "subsumpcyjnego", "problematycznego"],
+        correct: 1,
+        explain: "Atomiczne — nazwa indywidualna (Jan) przynależy do klasy oznaczonej nazwą generalną (górnicy)."
+      },
+      {
+        q: "\"Każdy notariusz jest prawnikiem\" to przykład zdania:",
+        options: ["atomicznego", "egzystencjalnego", "subsumpcyjnego", "apodyktycznego"],
+        correct: 2,
+        explain: "Subsumpcyjne — obie nazwy (notariusz, prawnik) są generalne; jedna klasa zawiera się w drugiej."
+      },
+      {
+        q: "\"Ta zupa jest pyszna\" to wypowiedź oceniająca typu:",
+        options: ["estetyczna", "moralna", "hedonistyczna", "epistemiczna"],
+        correct: 2,
+        explain: "Hedonistyczna — dotyczy przyjemności/nieprzyjemności, nie piękna czy etyki."
+      },
+      {
+        q: "Norma, którą ktoś ustanowił mając władzę nad adresatami i nie odwołał, ma uzasadnienie:",
+        options: ["aksjologiczne", "tetyczne", "behawiorystyczne", "epistemiczne"],
+        correct: 1,
+        explain: "Tetyczne — obowiązywanie wynika z samego faktu ustanowienia przez kogoś mającego władzę, niezależnie od oceny treści normy."
+      },
+      {
+        q: "\"Sędzia MUSI orzec utratę praw publicznych przy karze śmierci\" — interpretacja słowa \"musi\":",
+        options: ["logiczna", "dynamiczna", "tetyczna", "psychologiczna"],
+        correct: 2,
+        explain: "Tetyczna — wynika z nakazu obowiązującej normy prawnej, nie z logiki czy przyczynowości fizycznej."
+      },
+      {
+        q: "Zdanie \"Jutro może być pochmurno\" to zdanie:",
+        options: ["asertoryczne", "apodyktyczne", "problematyczne", "subsumpcyjne"],
+        correct: 2,
+        explain: "Problematyczne — stwierdza tylko możliwość (\"może być\"), nie pewność czy konieczność."
+      },
+      {
+        q: "Z tego, że zdanie apodyktyczne jest prawdziwe (\"musi być A\"), wynika że:",
+        options: [
+          "odpowiednie zdanie problematyczne jest fałszywe",
+          "odpowiednie zdanie asertoryczne i problematyczne są też prawdziwe",
+          "nic nie wynika",
+          "odpowiednie zdanie asertoryczne jest fałszywe"
+        ],
+        correct: 1,
+        explain: "Łańcuch wynikania: apodyktyczne → asertoryczne → problematyczne. Jeśli coś musi być, to jest, a jeśli jest, to z pewnością może być."
+      },
+      {
+        q: "\"Sejm Rzeczypospolitej\" względem \"poseł na Sejm\" — poseł NIE jest desygnatem nazwy \"Sejm\", bo:",
+        options: [
+          "Sejm to nazwa pusta",
+          "Sejm to nazwa zbiorowa — jej desygnatem jest cały agregat (całość), nie pojedynczy element",
+          "Sejm to nazwa abstrakcyjna",
+          "to błąd, poseł jest desygnatem Sejmu"
+        ],
+        correct: 1,
+        explain: "Nazwa zbiorowa (kolektywna) ma za desygnat AGREGAT złożony z części — Sejm jako całość, nie poszczególnych posłów. To różni się od nazwy ogólnej (niezbiorowej), gdzie desygnatami są pojedyncze elementy."
+      },
+      {
+        q: "Definicja przez postulaty różni się od definicji równościowej tym, że:",
+        options: [
+          "jest zawsze fałszywa",
+          "nie ma postaci 'definiendum = definiens' — znaczenie wynika z reguł/zdań, w których słowo występuje",
+          "dotyczy tylko liczb",
+          "nie ma żadnej różnicy"
+        ],
+        correct: 1,
+        explain: "Definicja przez postulaty (jak definiowanie 'między' czy 'punktu' w geometrii) nie podaje wprost równoważnego wyrażenia — odbiorca domyśla się znaczenia z tego, jak słowo działa w podanych zdaniach-postulatach."
+      },
+      {
+        q: "\"Ten obraz jest ładny\" jest przykładem wypowiedzi, która:",
+        options: [
+          "zawsze ma wartość prawda/fałsz",
+          "nigdy nie ma wartości prawda/fałsz",
+          "jest dwuznaczna — może być czystą oceną (bez wartości logicznej) albo zdaniem opisowym o zgodności z kanonem estetycznym (z wartością logiczną)",
+          "jest normą postępowania"
+        ],
+        correct: 2,
+        explain: "Z samej budowy zdania nie da się rozstrzygnąć, czy to wyraz czyjejś oceny estetycznej (bez wartości logicznej) czy zdanie opisowe stwierdzające zgodność z przyjętymi kanonami (z wartością logiczną) — to właśnie istota spornego związku ocen ze zdaniami w sensie logicznym."
+      }
+    ]
+  },
+  q_r1: {
+    title: "Znaki i nazwy (rozdz. I–II)",
+    questions: [
+      {
+        q: "Sygnał trąbki myśliwskiej oznaczający dla wytropionych psów gończych „zwierzyna w zasięgu”, wcześniej wyuczony przez tropiciela, to:",
+        options: [
+          "oznaka, bo psy reagują na dźwięk automatycznie",
+          "znak, bo dźwięk ten ma ustaloną przez człowieka regułę znaczeniową",
+          "ani znak, ani oznaka — psy nie rozumieją języka",
+          "oznaka, bo dotyczy tylko zwierząt, nie ludzi"
+        ],
+        correct: 1,
+        explain: "Tropiciel celowo wyuczył psy konkretnego sygnału wedle ustalonej przez siebie reguły — to znak, niezależnie od tego, że odbiorcą jest zwierzę."
+      },
+      {
+        q: "Nazwa „zazdrość” jest nazwą:",
+        options: [
+          "abstrakcyjną, bo wskazuje na stan/cechę, nie na rzecz czy osobę",
+          "konkretną, bo można ją zobaczyć w czyimś zachowaniu",
+          "konkretną, bo dotyczy konkretnej osoby, która jej doświadcza",
+          "abstrakcyjną, tylko jeśli mówimy o niej w liczbie mnogiej"
+        ],
+        correct: 0,
+        explain: "Zazdrość to stan/cecha, nie rzecz czy osoba — to klasyczna nazwa abstrakcyjna, niezależnie od liczby."
+      },
+      {
+        q: "Nazwa «jedyne dziecko, które urodziło się w tym szpitalu 1 stycznia 2000 roku o północy» jest nazwą:",
+        options: [
+          "indywidualną, bo ma tylko jeden desygnat",
+          "indywidualną, bo odnosi się do osoby, nie do cechy",
+          "pustą, bo nie wiadomo, czy taka osoba istnieje",
+          "generalną, choć ma jeden desygnat, bo wskazuje przez cechę, nie przez „imię”"
+        ],
+        correct: 3,
+        explain: "Nazwa wskazuje przez zespół cech (urodzenie w danym miejscu, czasie) — to generalna, mimo że (przy założeniu, że taka osoba istnieje) ma jeden desygnat. Jednostkowość i indywidualność to różne sprawy."
+      },
+      {
+        q: "Nazwa «największa liczba naturalna» jest nazwą:",
+        options: [
+          "ogólną, bo liczb naturalnych jest nieskończenie wiele",
+          "pustą, bo nie istnieje największa liczba naturalna",
+          "jednostkową, bo „największa” wskazuje na jeden konkretny obiekt",
+          "ogólną, bo nazwa dotyczy wszystkich liczb dużych"
+        ],
+        correct: 1,
+        explain: "Nazwa ma jasną treść, ale żaden obiekt jej nie spełnia (zbiór liczb naturalnych jest nieograniczony) — to nazwa pusta."
+      },
+      {
+        q: "Dla nazwy «trójkąt prostokątny» cecha „suma kwadratów przyprostokątnych równa kwadratowi przeciwprostokątnej” (twierdzenie Pitagorasa) jest cechą:",
+        options: [
+          "konsekutywną, bo wynika automatycznie z posiadania kąta prostego",
+          "konstytutywną, bo bez niej nie da się rozpoznać trójkąta prostokątnego",
+          "konstytutywną, bo dotyczy wszystkich trójkątów",
+          "konsekutywną, tylko w trójkątach równoramiennych"
+        ],
+        correct: 0,
+        explain: "Cechą konstytutywną trójkąta prostokątnego jest posiadanie kąta prostego — relacja Pitagorasa wynika z tego automatycznie, więc jest konsekutywna."
+      },
+      {
+        q: "«Walc jest tańcem o metrum trzymiarowym» — słowo «walc» występuje tu w supozycji:",
+        options: [
+          "prostej, bo mowa o jednym konkretnym walcu",
+          "materialnej, bo słowo «walc» jest tu cytowane",
+          "prostej, bo «walc» to nazwa konkretna",
+          "formalnej, bo mowa o całym gatunku tańca, nie o jednym wykonaniu"
+        ],
+        correct: 3,
+        explain: "Mówimy tu o walcu jako gatunku tańca w ogóle, nie o jednym konkretnym wykonaniu — to supozycja formalna."
+      },
+      {
+        q: "Wyrażenie «mieszkanie wynajmowane na podstawie umowy zawartej przed notariuszem» jest nazwą:",
+        options: [
+          "prostą, bo opisuje jeden rodzaj mieszkania",
+          "złożoną, bo składa się z więcej niż jednego wyrazu",
+          "prostą, bo «mieszkanie» jest rzeczownikiem w liczbie pojedynczej",
+          "złożoną, tylko jeśli wynajmujący jest osobą prawną"
+        ],
+        correct: 1,
+        explain: "Liczy się liczba wyrazów składowych całej nazwy, nie to, ile rodzajów czy desygnatów opisuje — to nazwa złożona."
+      },
+      {
+        q: "Nazwa «orkiestra symfoniczna» względem nazwy «muzyk grający w orkiestrze symfonicznej» pozostaje w takiej relacji, że:",
+        options: [
+          "muzyk jest desygnatem orkiestry, bo orkiestrę tworzą muzycy",
+          "obie nazwy są sobie równoznaczne",
+          "orkiestra to nazwa zbiorowa — muzyk NIE jest jej desygnatem, desygnatem jest cały zespół",
+          "orkiestra to nazwa pusta, jeśli nie gra akurat koncertu"
+        ],
+        correct: 2,
+        explain: "Orkiestra to agregat złożony z muzyków — desygnatem nazwy zbiorowej jest całość, nie poszczególny muzyk. To częsty błąd: mylenie agregatu z klasą jego elementów."
+      },
+      {
+        q: "Nazwa «obecny dziekan tego wydziału» (przy założeniu, że akurat istnieje jeden taki dziekan) jest:",
+        options: [
+          "generalna i jednostkowa — wskazuje przez funkcję, ma jeden desygnat w danym momencie",
+          "indywidualna i jednostkowa jednocześnie",
+          "generalna i pusta, bo funkcja dziekana się zmienia",
+          "indywidualna i pusta"
+        ],
+        correct: 0,
+        explain: "Nazwa wskazuje przez cechę (sprawowanie funkcji dziekana), więc jest generalna — a skoro akurat jeden desygnat ją spełnia, jest też jednostkowa."
+      },
+      {
+        q: "Jeśli ktoś definiuje «ptak» jako «zwierzę latające», popełnia błąd, bo:",
+        options: [
+          "latanie jest cechą konsekutywną, nigdy nie może być częścią treści nazwy",
+          "zwierzęta nie mogą mieć cech wspólnych",
+          "«ptak» to nazwa abstrakcyjna, nie da się jej zdefiniować przez cechy",
+          "nie wszystkie ptaki latają (np. struś, pingwin), więc to nie jest cecha konstytutywna wszystkich desygnatów"
+        ],
+        correct: 3,
+        explain: "Cecha konstytutywna musi przysługiwać KAŻDEMU desygnatowi nazwy. Struś i pingwin są ptakami, ale nie latają — definicja jest więc nieprawidłowa (za wąska względem rzeczywistego zakresu)."
+      }
+    ]
+  },
+  q_r3: {
+    title: "Stosunki między zakresami nazw (rozdz. III)",
+    questions: [
+      {
+        q: "Zakresy nazw «sonet» i «wiersz» są w stosunku:",
+        options: [
+          "krzyżowania się — są sonety niebędące wierszami i wiersze niebędące sonetami",
+          "nadrzędności nazwy «sonet» względem «wiersz» — każdy wiersz jest sonetem",
+          "zamienności — każdy sonet jest wierszem i każdy wiersz jest sonetem",
+          "podrzędności nazwy «sonet» względem nazwy «wiersz» — każdy sonet jest wierszem, ale nie każdy wiersz jest sonetem"
+        ],
+        correct: 3,
+        explain: "Sonet to szczególny rodzaj wiersza (o określonej formie) — zakres «sonet» leży całkowicie wewnątrz zakresu «wiersz», ale nie odwrotnie."
+      },
+      {
+        q: "Zakresy nazw «napój» i «kawa» są w stosunku:",
+        options: [
+          "podrzędności nazwy «napój» względem «kawa» — każdy napój jest kawą",
+          "nadrzędności nazwy «napój» względem «kawa» — każda kawa jest napojem, ale nie każdy napój jest kawą",
+          "krzyżowania się — są napoje niebędące kawą i kawy niebędące napojem",
+          "wykluczania się — żaden napój nie jest kawą"
+        ],
+        correct: 1,
+        explain: "Kawa jest szczególnym rodzajem napoju — zakres «kawa» leży wewnątrz zakresu «napój», więc «napój» jest nadrzędny względem «kawa»."
+      },
+      {
+        q: "Zakresy nazw «weganin» i «maratończyk» są w stosunku:",
+        options: [
+          "krzyżowania się — są weganie biegający maratony, weganie niebiegający, i maratończycy niebędący weganami",
+          "podrzędności — każdy weganin jest maratończykiem",
+          "sprzeczności — weganin i maratończyk to nazwy negatywne względem siebie",
+          "przeciwieństwa — nikt nie może być jednocześnie weganinem i maratończykiem"
+        ],
+        correct: 0,
+        explain: "Te dwie cechy (dieta i sport) są od siebie niezależne — część weganów biega maratony, część nie, i są maratończycy niebędący weganami. To krzyżowanie."
+      },
+      {
+        q: "Zakresy nazw «trójkąt równoboczny» i «trójkąt równokątny» są w stosunku:",
+        options: [
+          "podrzędności — każdy równoboczny jest równokątny, ale nie odwrotnie",
+          "krzyżowania się — są trójkąty równoboczne niebędące równokątnymi",
+          "zamienności — każdy trójkąt równoboczny jest równokątny i każdy równokątny jest równoboczny",
+          "nadrzędności — «trójkąt równokątny» to szersza kategoria"
+        ],
+        correct: 2,
+        explain: "W geometrii euklidesowej trójkąt równoboczny i równokątny to dokładnie te same figury — zbiory desygnatów są identyczne, czyli zamienność."
+      },
+      {
+        q: "Zakresy nazw «pełnoletni» i «niepełnoletni» są w stosunku wykluczania się — a konkretnie:",
+        options: [
+          "przeciwieństwa, bo nikt nie jest jednocześnie pełnoletni i niepełnoletni",
+          "krzyżowania, bo niektórzy ludzie są i pełnoletni, i niepełnoletni",
+          "podrzędności, bo pełnoletni to szczególny przypadek niepełnoletniego",
+          "sprzeczności, bo to nazwy negatywne względem siebie i razem wyczerpują całą klasę ludzi"
+        ],
+        correct: 3,
+        explain: "«Niepełnoletni» to dosłowna negacja «pełnoletni» — każdy człowiek jest jednym albo drugim, bez trzeciej możliwości. To sprzeczność, nie przeciwieństwo."
+      },
+      {
+        q: "Zakresy nazw «orzeł» i «delfin» są w stosunku wykluczania się — a konkretnie:",
+        options: [
+          "sprzeczności, bo orzeł i delfin razem wyczerpują wszystkie zwierzęta",
+          "przeciwieństwa, bo żadne zwierzę nie jest jednocześnie orłem i delfinem, ale istnieją zwierzęta będące ani jednym, ani drugim",
+          "krzyżowania, bo niektóre orły są też delfinami",
+          "podrzędności, bo delfin to szczególny rodzaj orła"
+        ],
+        correct: 1,
+        explain: "Orzeł i delfin nie mają wspólnych desygnatów, ale nie są wzajemnymi negacjami — istnieją inne zwierzęta (np. koty) będące ani jednym, ani drugim. To przeciwieństwo."
+      },
+      {
+        q: "Kluczowa różnica między sprzecznością a przeciwieństwem zakresów dwóch nazw polega na tym, że:",
+        options: [
+          "sprzeczność dotyczy tylko nazw abstrakcyjnych, przeciwieństwo — konkretnych",
+          "przeciwieństwo zawsze obejmuje więcej niż dwie nazwy",
+          "przy sprzeczności suma obu zakresów wyczerpuje całą klasę uniwersalną, a przy przeciwieństwie — nie",
+          "sprzeczność jest możliwa tylko między nazwami zbiorowymi"
+        ],
+        correct: 2,
+        explain: "To jest właśnie kryterium rozróżniające: sprzeczność = para negatywna, wyczerpująca wszystko; przeciwieństwo = wykluczają się, ale są jeszcze inne przedmioty poza obiema nazwami."
+      },
+      {
+        q: "Zakresy nazw «lekarz» i «kierowca rajdowy» są w stosunku:",
+        options: [
+          "krzyżowania się — są lekarze będący kierowcami rajdowymi, lekarze nimi niebędący, i kierowcy rajdowi niebędący lekarzami",
+          "wykluczania się, bo te zawody się wzajemnie wykluczają",
+          "podrzędności, bo każdy kierowca rajdowy musi mieć przeszkolenie medyczne, więc jest lekarzem",
+          "nadrzędności, bo «lekarz» to szersza kategoria zawodowa"
+        ],
+        correct: 0,
+        explain: "Te dwa zawody nie są ani podrzędne, ani wykluczające się — ktoś może być i lekarzem, i kierowcą rajdowym, ale nie musi, w żadną stronę. To krzyżowanie."
+      }
+    ]
+  },
+  q_r6: {
+    title: "Zdanie w sensie logicznym (rozdz. VI)",
+    questions: [
+      {
+        q: "«Zamknij okno, proszę!» jest:",
+        options: [
+          "wypowiedzią niezupełną, bo nie wiadomo które okno",
+          "wypowiedzią, która NIE jest zdaniem w sensie logicznym — to rozkaz, nie ma wartości prawda/fałsz",
+          "zdaniem analitycznym, bo wynika z reguł języka polskiego",
+          "zdaniem w sensie logicznym, bo jest gramatycznie poprawne"
+        ],
+        correct: 1,
+        explain: "Rozkazy nie stwierdzają niczego, więc nie mają wartości prawda/fałsz — nie są zdaniami w sensie logicznym, niezależnie od poprawności gramatycznej."
+      },
+      {
+        q: "«Ten film jest dobry» to przykład:",
+        options: [
+          "zdania egzystencjalnego, bo stwierdza istnienie filmu",
+          "zdania analitycznego, bo ocena filmu wynika z jego treści",
+          "zdania w pełni określonego, bo «dobry» ma jasne znaczenie",
+          "wypowiedzi niezupełnej — dobry pod jakim względem i dla kogo nie jest określone"
+        ],
+        correct: 3,
+        explain: "«Dobry» wymaga domyślnego uzupełnienia (dobry jako komedia? dla dzieci? technicznie?) — bez tego nie ma jednoznacznej wartości logicznej."
+      },
+      {
+        q: "«Każdy wdowiec był żonaty» jest zdaniem:",
+        options: [
+          "analitycznym — wynika z samej definicji słowa „wdowiec”, nie trzeba nic sprawdzać w świecie",
+          "syntetycznym, bo dotyczy konkretnych ludzi i ich historii życia",
+          "egzystencjalnym, bo stwierdza istnienie wdowców",
+          "subsumpcyjnym, bo łączy dwie nazwy indywidualne"
+        ],
+        correct: 0,
+        explain: "Bycie żonatym w przeszłości jest częścią samej definicji słowa «wdowiec» — prawdziwość wynika z znaczenia słów, nie z obserwacji świata."
+      },
+      {
+        q: "«Najwyższy szczyt Ameryki Południowej ma 6961 metrów» jest zdaniem:",
+        options: [
+          "analitycznym, bo „najwyższy szczyt” z definicji ma jakąś wysokość",
+          "egzystencjalnym, bo stwierdza istnienie takiego szczytu",
+          "syntetycznym — trzeba było zmierzyć wysokość, nie wynika to z samej definicji słów",
+          "atomicznym, bo dotyczy jednej liczby"
+        ],
+        correct: 2,
+        explain: "Konkretna wartość wysokości pochodzi z pomiaru (doświadczenia), nie z definicji słów «najwyższy szczyt» — to zdanie syntetyczne."
+      },
+      {
+        q: "«Istnieje liczba pierwsza większa od miliona» jest zdaniem:",
+        options: [
+          "atomicznym, bo dotyczy jednej konkretnej liczby",
+          "egzystencjalnym — stwierdza, że klasa takich liczb nie jest pusta, bez wskazania konkretnej",
+          "subsumpcyjnym, bo łączy dwie nazwy generalne",
+          "analitycznym, bo liczby pierwsze są zdefiniowane matematycznie"
+        ],
+        correct: 1,
+        explain: "Zdanie nie wskazuje KONKRETNEJ liczby — twierdzi tylko, że taka liczba istnieje (klasa desygnatów nie jest pusta). To zdanie egzystencjalne."
+      },
+      {
+        q: "«Maria jest nauczycielką» jest zdaniem:",
+        options: [
+          "subsumpcyjnym, bo «nauczycielka» to nazwa generalna",
+          "egzystencjalnym, bo stwierdza istnienie Marii",
+          "syntetycznym, ale nie atomicznym, bo dotyczy zawodu",
+          "atomicznym — nazwa indywidualna (Maria) przynależy do klasy oznaczonej nazwą generalną (nauczycielki)"
+        ],
+        correct: 3,
+        explain: "Jedna konkretna osoba (nazwa indywidualna) zostaje przypisana do klasy (nazwa generalna) — to wzorcowy przykład zdania atomicznego."
+      },
+      {
+        q: "«Niektórzy informatycy grają w szachy» jest zdaniem:",
+        options: [
+          "atomicznym, bo dotyczy konkretnej grupy ludzi",
+          "egzystencjalnym, bo stwierdza istnienie informatyków",
+          "subsumpcyjnym — obie nazwy («informatyk», «osoba grająca w szachy») są generalne, jedna klasa częściowo zawiera się w drugiej",
+          "analitycznym, bo wynika z definicji słowa «informatyk»"
+        ],
+        correct: 2,
+        explain: "Obie nazwy są generalne (klasy, nie jednostki), a zdanie stwierdza częściowe zawieranie się jednej klasy w drugiej — to subsumpcyjne, nie atomiczne (atomiczne wymaga nazwy indywidualnej)."
+      },
+      {
+        q: "Czy wszystkie wypowiedzi niezupełne są zdaniami w sensie logicznym?",
+        options: [
+          "Nie — są nimi tylko o tyle, o ile słuchacz domyśli się brakującego uzupełnienia i powstanie wypowiedź o określonej wartości prawda/fałsz",
+          "Tak, bo w mowie potocznej każda wypowiedź ma jakąś wartość logiczną",
+          "Tak, ale tylko jeśli są wypowiedziane przez kompetentnego użytkownika języka",
+          "Nie, żadna wypowiedź niezupełna nigdy nie staje się zdaniem w sensie logicznym"
+        ],
+        correct: 0,
+        explain: "Wypowiedź niezupełna spełnia rolę zdania logicznego warunkowo — zależnie od domyślnego uzupełnienia może powstać zdanie prawdziwe, fałszywe, albo (bez uzupełnienia) wciąż nie być zdaniem w ogóle."
+      }
+    ]
+  },
+  q_r9: {
+    title: "Normy i wypowiedzi oceniające (rozdz. IX)",
+    questions: [
+      {
+        q: "«Każdy pasażer powinien zapiąć pasy podczas startu samolotu» to norma:",
+        options: [
+          "indywidualna i konkretna — dotyczy jednego pasażera w jednym konkretnym locie",
+          "generalna i konkretna — dotyczy klasy osób, ale tylko jednego startu",
+          "generalna i abstrakcyjna — adresat to klasa osób (pasażerowie), okoliczność to powtarzalny typ sytuacji (każdy start)",
+          "indywidualna i abstrakcyjna — dotyczy jednej osoby, ale powtarzalnie"
+        ],
+        correct: 2,
+        explain: "Adresat jest wskazany przez cechę (każdy, kto jest pasażerem) — generalny. Okoliczność (start samolotu) jest powtarzalnym typem sytuacji, nie jednorazową — abstrakcyjna."
+      },
+      {
+        q: "«Tomek powinien co kwartał składać raport z postępów w pracy» to norma:",
+        options: [
+          "indywidualna i abstrakcyjna — jeden konkretny adresat, ale powtarzalna okoliczność (co kwartał)",
+          "generalna i abstrakcyjna — klasa osób, powtarzalna okoliczność",
+          "indywidualna i konkretna — jeden adresat, jednorazowa sytuacja",
+          "generalna i konkretna — klasa osób, jedna sytuacja"
+        ],
+        correct: 0,
+        explain: "Adresat jest jedną, konkretnie wskazaną osobą (Tomek) — indywidualna. Okoliczność powtarza się co kwartał — abstrakcyjna."
+      },
+      {
+        q: "«Kto pierwszy zauważy dzisiaj usterkę na linii produkcyjnej, powinien zgłosić to brygadziście» to norma:",
+        options: [
+          "indywidualna i konkretna — jeden adresat, jedna sytuacja",
+          "generalna i abstrakcyjna — klasa osób, powtarzalna sytuacja",
+          "indywidualna i abstrakcyjna — jeden adresat, powtarzalna sytuacja",
+          "generalna i konkretna — adresat wskazany przez cechę (ktokolwiek), ale okoliczność jednorazowa (dzisiaj)"
+        ],
+        correct: 3,
+        explain: "Adresatem jest «ktokolwiek, kto pierwszy zauważy» — to cecha, nie konkretna osoba (generalna). Ale chodzi o jedną, jednorazową sytuację (dzisiaj) — konkretna."
+      },
+      {
+        q: "Norma «Pracownicy muszą nosić kask na budowie», ustanowiona przez kierownika budowy w regulaminie BHP, ma uzasadnienie:",
+        options: [
+          "aksjologiczne — bo noszenie kasku jest oceniane jako dobre",
+          "tetyczne — obowiązuje, bo ktoś mający odpowiednią władzę ją ustanowił i nie odwołał",
+          "behawiorystyczne — bo wszyscy pracownicy faktycznie noszą kaski",
+          "żadne z powyższych — to tylko zwyczaj branżowy"
+        ],
+        correct: 1,
+        explain: "Norma pochodzi z formalnego aktu ustanowienia przez osobę mającą władzę (kierownika) — to właśnie uzasadnienie tetyczne, niezależnie od tego, czy norma jest też oceniana jako dobra."
+      },
+      {
+        q: "Norma «Powinieneś przeprosić, gdy kogoś niesłusznie skrzywdzisz», której nikt formalnie nie ustanowił, ma uzasadnienie:",
+        options: [
+          "tetyczne — bo istnieje jakiś nieformalny normodawca",
+          "behawiorystyczne — bo każdy faktycznie przeprasza w takiej sytuacji",
+          "aksjologiczne — wskazane postępowanie jest oceniane jako dobre samo przez się lub przez swoje skutki",
+          "żadne z powyższych — to nie jest prawdziwa norma"
+        ],
+        correct: 2,
+        explain: "Norma nie ma formalnego normodawcy, ale jej treść jest uzasadniona przez ocenę: przepraszanie po wyrządzeniu krzywdy jest oceniane jako dobre — to uzasadnienie aksjologiczne."
+      },
+      {
+        q: "We wsi X nikt formalnie nie zakazał pracy w niedzielę, ale każdy, kto by pracował, byłby towarzysko potępiony, i faktycznie nikt nie pracuje — to wskazuje na obowiązywanie:",
+        options: [
+          "behawiorystyczne — norma jest społecznie skuteczna (ludzie się jej podporządkowują, nieposłuch grozi sankcją), niezależnie od formalnego ustanowienia",
+          "tetyczne — bo zwyczaj wsi działa jak ustanowiona norma prawna",
+          "aksjologiczne — bo praca w niedzielę jest oceniana jako złe zachowanie",
+          "żadne z powyższych — zwyczaj nie jest normą"
+        ],
+        correct: 0,
+        explain: "Kluczowy fakt to SPOŁECZNA SKUTECZNOŚĆ (ludzie się podporządkowują, grozi sankcja towarzyska) — to definicja obowiązywania behawiorystycznego, niezależna od tego, czy ktoś formalnie ją ustanowił."
+      },
+      {
+        q: "«Ten budynek jest brzydki» to ocena:",
+        options: [
+          "moralna — dotyczy dobra/zła etycznego",
+          "hedonistyczna — dotyczy przyjemności/nieprzyjemności",
+          "epistemiczna — dotyczy wiedzy/pewności",
+          "estetyczna — dotyczy piękna/brzydoty"
+        ],
+        correct: 3,
+        explain: "Piękno i brzydota to kategorie estetyczne — to wzorcowy przykład oceny estetycznej."
+      },
+      {
+        q: "«Oszukiwanie na egzaminie jest niegodne» to ocena:",
+        options: [
+          "estetyczna — dotyczy piękna/brzydoty",
+          "moralna — dotyczy dobra/zła w sensie etycznym",
+          "hedonistyczna — dotyczy przyjemności/nieprzyjemności",
+          "deontyczna — dotyczy obowiązku/nakazu"
+        ],
+        correct: 1,
+        explain: "Godność/niegodność postępowania to kategoria etyczna — to ocena moralna, nie modalność deontyczna (która dotyczyłaby normy typu „nie wolno oszukiwać”, nie samej oceny czynu)."
+      },
+      {
+        q: "«Ta restauracja jest dobra» jest przykładem wypowiedzi, która:",
+        options: [
+          "zawsze ma wartość prawda/fałsz, bo opisuje jakość jedzenia",
+          "nigdy nie ma wartości prawda/fałsz, bo każda ocena jest czysto subiektywna",
+          "może być dwuznaczna — albo czysty wyraz oceny (bez wartości logicznej), albo zdanie opisowe o zgodności z jakimś standardem jakości (z wartością logiczną)",
+          "jest normą postępowania, bo zachęca do wizyty w tej restauracji"
+        ],
+        correct: 2,
+        explain: "Tak jak «Ten obraz jest ładny» — nie da się z samej budowy zdania rozstrzygnąć, czy to czysta ocena, czy zdanie opisowe o spełnianiu jakiegoś obiektywnego standardu (np. ocen w przewodnikach kulinarnych)."
+      }
+    ]
+  },
+  q_r10: {
+    title: "Modalności (rozdz. X)",
+    questions: [
+      {
+        q: "«Wieloryb MUSI oddychać płucami, bo wszystkie ssaki oddychają płucami, a wieloryb jest ssakiem» — interpretacja słowa «musi»:",
+        options: [
+          "dynamiczna — bo to fakt biologiczny o przyczynach fizjologicznych",
+          "tetyczna — bo biologia nakazuje wielorybom oddychać płucami",
+          "psychologiczna — bo to silne przeświadczenie biologów",
+          "logiczna — wynika z reguł wnioskowania z uznanych przesłanek, nie z przyczynowości fizycznej"
+        ],
+        correct: 3,
+        explain: "Wniosek wynika tu z dedukcji (przesłanka ogólna + przesłanka szczegółowa), nie z bezpośredniej obserwacji przyczyn fizjologicznych — to interpretacja logiczna."
+      },
+      {
+        q: "«Bez paliwa silnik MUSI się zatrzymać» — interpretacja słowa «musi»:",
+        options: [
+          "dynamiczna — zatrzymanie jest nieuchronnie spowodowane przez istniejące czynniki przyczynowe (brak paliwa)",
+          "logiczna — wynika z definicji słowa «silnik»",
+          "aksjologiczna — bo dobrze, żeby silnik się zatrzymał bez paliwa",
+          "tetyczna — bo istnieje przepis nakazujący zatrzymanie silnika"
+        ],
+        correct: 0,
+        explain: "To nieuchronność PRZYCZYNOWA (fizyczny mechanizm), nie logiczna konsekwencja definicji czy norma — interpretacja dynamiczna."
+      },
+      {
+        q: "Fotograf mówi: «Na tym ujęciu światło MUSI być miękkie» (żeby portret dobrze wyszedł) — interpretacja słowa «musi»:",
+        options: [
+          "dynamiczna — bo światło fizycznie zmusza aparat do innej ekspozycji",
+          "logiczna — wynika z zasad optyki",
+          "aksjologiczna — wyraża, że byłoby źle (gorszy efekt), gdyby światło nie było miękkie, nie logiczną czy przyczynową nieuchronność",
+          "tetyczna — bo istnieje zawodowa norma fotograficzna nakazująca miękkie światło"
+        ],
+        correct: 2,
+        explain: "To nie jest logiczna czy przyczynowa nieuchronność (twarde światło jest fizycznie możliwe) — to ocena: miękkie światło jest preferowane ze względu na lepszy efekt."
+      },
+      {
+        q: "«Kierowca MUSI zatrzymać się na czerwonym świetle» — interpretacja słowa «musi»:",
+        options: [
+          "dynamiczna — bo czerwone światło fizycznie unieruchamia samochód",
+          "tetyczna — wynika z nakazu obowiązującej normy (przepisu ruchu drogowego), nie z fizycznej nieuchronności",
+          "logiczna — wynika z definicji słowa «czerwony»",
+          "psychologiczna — bo każdy kierowca jest przekonany, że trzeba się zatrzymać"
+        ],
+        correct: 1,
+        explain: "Kierowca fizycznie MOŻE przejechać na czerwonym (to nie jest przyczynowo niemożliwe) — „musi” odnosi się tu do nakazu normy prawnej, więc interpretacja tetyczna."
+      },
+      {
+        q: "«To MUSI być prawda, ja to czuję» — interpretacja słowa «musi»:",
+        options: [
+          "aksjologiczna — bo czucie to forma oceny",
+          "logiczna — bo przeświadczenia są zawsze logicznie uzasadnione",
+          "dynamiczna — bo emocje mają przyczyny fizjologiczne",
+          "psychologiczna — wyraża silne przeświadczenie mówiącego, nie odwołuje się do logiki, przyczynowości, normy czy oceny"
+        ],
+        correct: 3,
+        explain: "Mówiący nie podaje żadnego logicznego, przyczynowego, normatywnego czy ocennego powodu — tylko własne, subiektywne przekonanie. To interpretacja psychologiczna."
+      },
+      {
+        q: "«Uczniowie MOGĄ wychodzić na przerwę po dzwonku» — interpretacja słowa «mogą»:",
+        options: [
+          "tetyczna — norma (regulamin szkolny) na to zezwala, nie jest to stwierdzenie o fizycznej możliwości",
+          "dynamiczna — bo drzwi szkoły są fizycznie otwarte",
+          "psychologiczna — bo uczniowie są przekonani, że mogą wyjść",
+          "aksjologiczna — bo wychodzenie na przerwę jest oceniane jako dobre"
+        ],
+        correct: 0,
+        explain: "„Mogą” oznacza tu dozwolenie wynikające z normy (regulaminu), nie fizyczną możliwość przejścia przez drzwi — interpretacja tetyczna."
+      },
+      {
+        q: "«Trójkąt musi mieć trzy boki» jest zdaniem:",
+        options: [
+          "asertorycznym — po prostu stwierdza fakt, bez modalności",
+          "apodyktycznym — stwierdza konieczność (wynikającą z definicji trójkąta)",
+          "problematycznym — stwierdza tylko możliwość",
+          "subsumpcyjnym — łączy dwie nazwy generalne"
+        ],
+        correct: 1,
+        explain: "Zdanie zawiera modalność „musi” (konieczność), nie samo stwierdzenie faktu czy możliwości — to zdanie apodyktyczne."
+      },
+      {
+        q: "Z tego, że zdanie «Pociąg na pewno przyjedzie o 14:00» (asertoryczne, uznane za prawdziwe) wynika, że zdanie «Pociąg może przyjechać o 14:00» (problematyczne) jest:",
+        options: [
+          "fałszywe — możliwość i pewność wzajemnie się wykluczają",
+          "nieokreślone — modalności nie da się ze sobą logicznie powiązać",
+          "prawdziwe — z tego, że coś jest, wynika z pewnością, że może być; to ostatnie, najsłabsze ogniwo łańcucha apodyktyczne→asertoryczne→problematyczne",
+          "prawdziwe, ale tylko jeśli pociąg jest też zdaniem apodyktycznym"
+        ],
+        correct: 2,
+        explain: "Łańcuch wynikania działa w jedną stronę: apodyktyczne → asertoryczne → problematyczne. Jeśli coś faktycznie jest, to z pewnością może być — możliwość to najsłabsze, najmniej zobowiązujące stwierdzenie z tych trzech."
+      }
+    ]
+  }
+};
+
+// ---------- CONCEPT NOTES DATA ----------
+// Each concept: short definition + several quick examples + one practice question (self-check)
+const conceptNotes = {
+  c_znak_oznaka: {
+    title: "Znak vs oznaka",
+    def: "Znak: ktoś go specjalnie tworzy, bo istnieje REGUŁA, która mówi, co on znaczy. Oznaka: po prostu coś, co kojarzy nam się z czymś innym, ale nikt nie ustalał, że to ma znaczyć.",
+    examples: [
+      { ex: "Czerwone światło na sygnalizatorze", note: "ZNAK — jest przepis, że czerwony = stop." },
+      { ex: "Dym nad lasem", note: "OZNAKA ognia — nikt nie ustalał reguły, po prostu dym zwykle towarzyszy ogniu." },
+      { ex: "Kreski narysowane przez policjanta po wypadku", note: "ZNAK — policjant celowo je rysuje wg ustalonych reguł, żeby coś oznaczały." },
+      { ex: "Przylot bocianów", note: "OZNAKA wiosny — naturalne zjawisko, bez umownej reguły." }
+    ],
+    practice: { q: "Zawiązany supełek na chustce, żeby nie zapomnieć o czymś — znak czy oznaka?", a: "ZNAK. Ktoś celowo go zrobił i sam ustalił sobie regułę (\"supełek = nie zapomnij\"), nawet jeśli tylko on tę regułę zna." }
+  },
+  c_nazwa_konkr_abstr: {
+    title: "Nazwy konkretne vs abstrakcyjne",
+    def: "Konkretna = znak rzeczy albo osoby (czegoś, co możesz sobie wyobrazić jako 'obiekt'). Abstrakcyjna = nazwa cechy, zdarzenia albo stosunku — nie wskazuje na 'rzecz'.",
+    examples: [
+      { ex: "\"stół\", \"sędzia\"", note: "KONKRETNE — to rzeczy/osoby." },
+      { ex: "\"białość\", \"przyjaźń\"", note: "ABSTRAKCYJNE — cecha i stosunek, nie rzecz." },
+      { ex: "\"kradzież\", \"cisza\"", note: "ABSTRAKCYJNE — zdarzenie/stan, nie przedmiot." },
+      { ex: "\"wyrok\" jako kartka papieru", note: "KONKRETNA. Ale \"wyrok\" jako akt wydania decyzji = ABSTRAKCYJNA. Ta sama nazwa, dwa znaczenia!" }
+    ],
+    practice: { q: "Czy \"wybuch\" to nazwa konkretna czy abstrakcyjna?", a: "ABSTRAKCYJNA — to nazwa zdarzenia (gwałtownej zmiany), nie nazwa jakiejś rzeczy. Mówienie o wybuchu jak o 'rzeczy' to błąd hipostazowania." }
+  },
+  c_nazwa_prosta_zbiorowa: {
+    title: "Nazwy proste/złożone i zbiorowe/niezbiorowe",
+    def: "Prosta = jeden wyraz. Złożona = więcej niż jeden wyraz (ale to wciąż JEDNA nazwa, jeśli całość może być podmiotem/orzecznikiem w zdaniu). Zbiorowa (kolektywna) = desygnatem jest AGREGAT, całość złożona z części, nie pojedynczy element. Niezbiorowa = desygnatem są poszczególne przedmioty.",
+    examples: [
+      { ex: "\"skrypt\"", note: "PROSTA — jeden wyraz." },
+      { ex: "\"student pierwszego roku prawa, zamieszkały w mieście nad Wisłą\"", note: "ZŁOŻONA — wiele wyrazów, ale tworzą jedną nazwę (mogą być podmiotem jednego zdania)." },
+      { ex: "\"las\" (agregat drzew), \"Sejm\" (agregat posłów)", note: "ZBIOROWE — desygnatem jest CAŁOŚĆ, nie pojedyncze drzewo czy pojedynczy poseł. Poseł NIE jest desygnatem nazwy 'Sejm'." },
+      { ex: "\"drzewo\", \"poseł\"", note: "NIEZBIOROWE — desygnatem jest pojedynczy element, nie agregat." },
+      { ex: "\"warsztat\" — dla prawnika vs dla technika", note: "To, czy nazwa jest zbiorowa, zależy czasem od PUNKTU WIDZENIA: dla prawnika to jednostka niepodzielna (niezbiorowa), dla technika — zespół urządzeń (zbiorowa)." }
+    ],
+    practice: { q: "Czemu \"spółdzielnia zaciągnęła pożyczkę\" nie znaczy tego samego co \"członkowie spółdzielni zaciągnęli pożyczkę\"?", a: "Bo to częsty błąd: utożsamianie AGREGATU (całości, np. spółdzielni jako osoby prawnej) z KLASĄ jego części składowych (wszystkich członków). Spółdzielnia jako całość może zaciągnąć pożyczkę, ale to nie znaczy, że każdy z osobna członek (czy ich klasa) ją zaciągnął — to dwa różne desygnaty, mylenie nazwy zbiorowej z nazwą ogólną odnoszącą się do elementów." }
+  },
+  c_nazwa_indyw_gener: {
+    title: "Nazwy indywidualne vs generalne",
+    def: "Indywidualna = wskazuje TĘ JEDNĄ konkretną rzecz, bez względu na jej cechy (jak imię). Generalna = wskazuje przedmiot PRZEZ JEGO CECHY — pasuje do każdego, kto te cechy ma.",
+    examples: [
+      { ex: "\"Kraków\"", note: "INDYWIDUALNA — to miasto, niezależnie jakie cechy ma czy zmieni." },
+      { ex: "\"miasto nad Wisłą\"", note: "GENERALNA — pasuje do każdego miasta, które tę cechę spełnia (może być wiele albo żadne)." },
+      { ex: "\"ten oto\" (wskazując palcem)", note: "INDYWIDUALNA — wskazuje konkretny obiekt." },
+      { ex: "\"taki oto\" (np. \"taki oto kolor\")", note: "GENERALNA — wskazuje na typ/cechę, nie na jeden obiekt." }
+    ],
+    practice: { q: "PUŁAPKA: \"najstarszy żyjący człowiek\" — ma tylko JEDEN desygnat. Czy to nazwa indywidualna?", a: "NIE! To GENERALNA, mimo że ma jeden desygnat — bo wskazuje przez CECHĘ (\"bycie najstarszym\"), nie przez to, że to konkretne 'imię'. Jednostkowość (1 desygnat) i indywidualność (sposób wskazywania) to dwie różne sprawy!" }
+  },
+  c_zakres_nazwy: {
+    title: "Zakres nazwy: ogólne, jednostkowe, puste",
+    def: "To, ile desygnatów (obiektów) ma dana nazwa. Ogólna = więcej niż 1. Jednostkowa = tylko 1. Pusta = 0 (nic nie istnieje, choć nazwa coś znaczy).",
+    examples: [
+      { ex: "\"koń\"", note: "OGÓLNA — wiele koni na świecie." },
+      { ex: "\"najdłuższa rzeka w Polsce\"", note: "JEDNOSTKOWA — tylko Wisła to spełnia." },
+      { ex: "\"krasnoludek\", \"kulisty sześcian\"", note: "PUSTA — nic takiego nie istnieje, ale wiemy, co by to znaczyło." },
+      { ex: "\"student\"", note: "OGÓLNA — wielu studentów." }
+    ],
+    practice: { q: "Czy nazwa jednostkowa to to samo co nazwa indywidualna?", a: "NIE, to inny podział! Jednostkowa/ogólna/pusta = ILE desygnatów. Indywidualna/generalna = JAK wskazujemy desygnat (przez 'imię' czy przez cechę). Można być jednostkową i generalną naraz (patrz przykład wyżej)." }
+  },
+  c_cechy_konstyt: {
+    title: "Cechy konstytutywne vs konsekutywne",
+    def: "Konstytutywne = minimalny zestaw cech, który WYSTARCZY, żeby rozpoznać desygnat. Konsekutywne = inne cechy, które automatycznie WYNIKAJĄ z posiadania cech konstytutywnych.",
+    examples: [
+      { ex: "Kwadrat: \"figura, 4 boki, równe, prostokątna\"", note: "To cechy KONSTYTUTYWNE — wystarczą, żeby rozpoznać kwadrat." },
+      { ex: "Kwadrat ma też \"przekątne równe i prostopadłe\"", note: "To cechy KONSEKUTYWNE — wynikają automatycznie z bycia kwadratem, nie trzeba ich wymieniać." },
+      { ex: "Pęczak: \"kasza + jęczmienna + bardzo gruba\"", note: "KONSTYTUTYWNE — usuń jedną cechę, i już nie wiadomo, czy to pęczak." }
+    ],
+    practice: { q: "Dlaczego ten sam zestaw cech może czasem być konstytutywny, a czasem konsekutywny?", a: "Bo zależy, KTÓRE cechy wybierzemy jako 'punkt startowy' do rozpoznania. Dla kwadratu możesz wybrać różne minimalne zestawy (np. '4 boki równe + kąty proste' ALBO '4 boki równe + przekątne równe') — reszta cech stanie się wtedy konsekutywna." }
+  },
+  c_supozycje: {
+    title: "Trzy supozycje (role) nazwy",
+    def: "Ta sama nazwa może być użyta: (1) dla JEDNEGO konkretnego desygnatu [prosta], (2) dla CAŁEGO gatunku jako twór myślowy [formalna], (3) jako znak SAMEGO SIEBIE — słowa jako słowa [materialna].",
+    examples: [
+      { ex: "\"Zając przebiegł mi drogę\"", note: "PROSTA — mówimy o jednym konkretnym zającu." },
+      { ex: "\"Zając jest pospolity w Polsce\"", note: "FORMALNA — mówimy o całym gatunku, nie o jednym zwierzęciu." },
+      { ex: "\"ZAJĄC ma 5 liter\"", note: "MATERIALNA — mówimy o samym słowie, nie o zwierzęciu (stąd cudzysłów)." }
+    ],
+    practice: { q: "\"Pilot jest osobą kierującą samolotem\" — jaka supozycja?", a: "FORMALNA — to definicja całego pojęcia 'pilot', nie mówimy o jednym konkretnym pilocie." }
+  },
+  c_def_realna_nominalna: {
+    title: "Definicja realna vs nominalna",
+    def: "Realna = zdanie O PRZEDMIOTACH (jakie mają cechy). Nominalna = zdanie O SŁOWIE (co ono znaczy). To, czym się zajmujemy na egzaminie, to głównie nominalna.",
+    examples: [
+      { ex: "\"Człowiek to istota rozumna\"", note: "REALNA — twierdzenie o cechach ludzi." },
+      { ex: "\"Deltoid znaczy: czworokąt z dwoma parami przyległych boków równych\"", note: "NOMINALNA — informacja o znaczeniu słowa." }
+    ],
+    practice: { q: "Po czym rozpoznać, że definicja jest nominalna a nie realna?", a: "Nominalna mówi o SŁOWIE (\"wyraz X znaczy...\", \"X to inaczej...\"), realna mówi o PRZEDMIOCIE bez odniesienia do słowa (\"człowiek JEST istotą...\"). Czasem to samo zdanie można odczytać dwojako — stąd nieporozumienia." }
+  },
+  c_def_sprawozd_proj: {
+    title: "Definicje: sprawozdawcza, konstrukcyjna, regulująca",
+    def: "Sprawozdawcza = opisuje JAK JEST używane słowo teraz (może być prawdziwa/fałszywa). Konstrukcyjna = wymyśla NOWE znaczenie od zera. Regulująca = doprecyzowuje słowo, które już istnieje, ale jest nieostre.",
+    examples: [
+      { ex: "\"Księgarnia to sklep, gdzie sprzedaje się książki\"", note: "SPRAWOZDAWCZA — opisuje istniejące użycie. Prawdziwa, bo tak faktycznie mówimy." },
+      { ex: "Chemicy: \"sól = substancja z atomów metalu i reszty kwasowej\"", note: "KONSTRUKCYJNA — stare słowo, ale całkiem nowe, szersze znaczenie." },
+      { ex: "Ustawa: \"przyuczona pielęgniarka = osoba pracująca min. 2 lata bez wykształcenia\"", note: "REGULUJĄCA — słowo już istniało nieostro (\"jakoś długo pracowała\"), ustawa tylko PRECYZUJE granicę." }
+    ],
+    practice: { q: "Czym różni się regulująca od konstrukcyjnej, jeśli obie 'ustalają znaczenie na przyszłość'?", a: "Regulująca SZANUJE dotychczasowe (nieostre) znaczenie i tylko je precyzuje. Konstrukcyjna IGNORUJE dotychczasowe znaczenie i nadaje całkiem nowe. Test: czy nowa definicja zgadza się z tym, jak ludzie już intuicyjnie rozumieli słowo? Jeśli tak — regulująca. Jeśli nie — konstrukcyjna." }
+  },
+  c_def_klasyczna: {
+    title: "Definicja klasyczna i nieklasyczna (obie to definicje równościowe)",
+    def: "Definicja RÓWNOŚCIOWA ma budowę 'definiendum = definiens'. Dzieli się na: KLASYCZNĄ — wzór 'A to taki B (rodzaj), który ma cechę C (różnica gatunkowa)'; i NIEKLASYCZNĄ — definiens podaje zakres przez WYLICZENIE podtypów, bez wskazywania jednej wspólnej cechy odróżniającej.",
+    examples: [
+      { ex: "\"Dom to budynek (rodzaj) mieszkalny (różnica)\"", note: "KLASYCZNA — Budynek = szersza kategoria, mieszkalny = to, co wyróżnia dom z budynków." },
+      { ex: "\"Kwadrat to prostokąt (rodzaj) równoboczny (różnica)\"", note: "KLASYCZNA — Prostokąt jest szerszy, równoboczność wyróżnia kwadrat." },
+      { ex: "\"Zboże to: pszenica, żyto, jęczmień, owies, kukurydza, gryka i proso\"", note: "NIEKLASYCZNA — nie podaje wspólnej cechy odróżniającej, tylko WYLICZA wszystkie podtypy. Wygodne, gdy trudno wskazać jedną cechę wspólną (zboża są bardzo różnorodne)." },
+      { ex: "Trzy stylizacje tej samej definicji klasycznej: słownikowa / semantyczna / przedmiotowa", note: "\"Wyraz «ustawa» znaczy tyle co...\" (słownikowa) / \"Wyraz «ustawa» oznacza...\" (semantyczna) / \"Ustawa to zbiór przepisów...\" (przedmiotowa, bez wzmianki o słowie) — to TA SAMA definicja, inaczej tylko wysłowiona." }
+    ],
+    practice: { q: "\"Zboże to: pszenica, żyto, jęczmień, owies...\" — czy to definicja klasyczna?", a: "NIE — to definicja równościowa, ale NIEklasyczna. Nie podaje rodzaju+różnicy, tylko WYLICZA wszystkie podtypy. To inny, równie poprawny sposób budowy definicji równościowej — różnica jest w BUDOWIE definiensa, nie w tym, czy definicja jest 'gorsza'." }
+  },
+  c_def_postulaty: {
+    title: "Definicja przez postulaty (aksjomatyczna)",
+    def: "To NIE jest definicja równościowa (nie ma postaci 'definiendum = definiens'). Słowo definiowane umieszcza się w jednym lub kilku zdaniach (postulatach) zbudowanych ze słów już znanych — z tego, jak słowo działa w tych zdaniach, odbiorca ma się DOMYŚLIĆ jego znaczenia.",
+    examples: [
+      { ex: "Definiowanie słowa \"między\" (na prostej) przez 3 postulaty o punktach A, B, C", note: "Nie da się wprost powiedzieć 'między to znaczy...', ale z reguł typu 'jeśli C jest między A i B, to C jest między B i A' można WYDEDUKOWAĆ, jak słowo działa." },
+      { ex: "\"Punkt\" i \"prosta\" w geometrii", note: "Nie definiuje się ich równościowo — ich sens wynika z PEWNIKÓW (aksjomatów) geometrii, w których te słowa występują." },
+      { ex: "Definicja częściowa", note: "Jeśli postulaty NIE wyczerpują w pełni sposobu użycia słowa (dopuszczają więcej niż jedno znaczenie), definicję przez postulaty nazywamy CZĄSTKOWĄ." }
+    ],
+    practice: { q: "Czym definicja przez postulaty różni się od definicji równościowej w stylizacji przedmiotowej — obie nie mówią wprost 'to słowo znaczy...'?", a: "Stylizacja przedmiotowa WCIĄŻ ma postać 'definiendum = definiens' (jedno zdanie typu 'popielniczka to naczynie do...'), tylko nie nazywa explicite słowa. Definicja przez postulaty nie ma TAKIEJ postaci w ogóle — to zestaw kilku osobnych zdań/reguł, z których trzeba WYDEDUKOWAĆ znaczenie, nie jedno zdanie podające równość zakresów." }
+  },
+  c_bledy_definicji: {
+    title: "Błędy definicji",
+    def: "Cztery główne pułapki: ignotum per ignotum (tłumaczysz niejasne przez równie niejasne), idem per idem (słowo definiowane wraca w definicji), przesunięcie kategorialne (mylisz kategorię — np. cechę nazywasz rzeczą), za szeroka/za wąska (źle dopasowany zakres).",
+    examples: [
+      { ex: "\"Polopiryna to kwas acetylosalicylowy\" (dla kogoś, kto nie wie co to kwas acetylosalicylowy)", note: "IGNOTUM PER IGNOTUM — tłumaczysz nieznane przez inne nieznane." },
+      { ex: "\"Logika to nauka o myśleniu zgodnym z prawidłami logiki\"", note: "IDEM PER IDEM — słowo 'logika' wraca w definicji samej siebie." },
+      { ex: "\"Norma to stosunek między ludźmi\"", note: "PRZESUNIĘCIE KATEGORIALNE — norma to WYPOWIEDŹ, nie stosunek. Pomylono kategorie." },
+      { ex: "\"Prokurator to pracownik prokuratury\"", note: "ZA SZEROKA — sprzątaczka też jest pracownikiem prokuratury, ale nie jest prokuratorem." },
+      { ex: "\"Ołówek to przyrząd z grafitu w NIEBIESKIEJ oprawce\"", note: "ZA WĄSKA — wyklucza ołówki w innych kolorach, które też są ołówkami." }
+    ],
+    practice: { q: "Jak szybko odróżnić 'za szeroką' od 'za wąskiej'?", a: "Za SZEROKA = definiens (część po 'to') obejmuje WIĘCEJ niż powinien (łapie też rzeczy, które nie są desygnatem). Za WĄSKA = definiens obejmuje MNIEJ niż powinien (wyklucza prawdziwe desygnaty). Podpowiedź: 'szeroka' jak za duże ubranie, 'wąska' jak za małe." }
+  },
+  c_podzial_warunki: {
+    title: "Warunki poprawnego podziału logicznego",
+    def: "Podział musi być: (1) WYCZERPUJĄCY — każdy element całości trafia do jakiegoś członu, (2) ROZŁĄCZNY — żaden element nie trafia do dwóch członów naraz, (3) wg JEDNEJ podstawy podziału (jednej zasady).",
+    examples: [
+      { ex: "Pociągi: pasażerskie / towarowe", note: "NIEWYCZERPUJĄCY — są jeszcze pociągi techniczne, które nigdzie nie trafiają." },
+      { ex: "Pracownicy wg zawodu, gdy ktoś ma dwa zawody", note: "NIEROZŁĄCZNY — ta osoba trafia do dwóch grup naraz." },
+      { ex: "Polacy: blondyni / rolnicy", note: "ZŁY PODZIAŁ — dwie różne podstawy (kolor włosów vs zawód) naraz. I niewyczerpujący, i nierozłączny." },
+      { ex: "Rodziny: 1-3 dzieci / 3-5 / 5-7 / 7+", note: "NIEROZŁĄCZNY — rodzina z 3 dzieci łapie się do dwóch przedziałów." }
+    ],
+    practice: { q: "Jak naprawić podział 'rodziny: 1-3 / 3-5 / 5-7 / 7+'?", a: "Przesunąć granice tak, by się nie powtarzały: 1-2 / 3-4 / 5-6 / 7+. Każda liczba dzieci trafia teraz do jednego i tylko jednego przedziału." }
+  },
+  c_dychotomia_klasyf: {
+    title: "Dychotomia, klasyfikacja, partycja",
+    def: "Dychotomia = podział na 2 człony: ma cechę / nie ma cechy (zawsze wyczerpujący i rozłączny). Klasyfikacja = podział wielopoziomowy (dzielimy, a potem dzielimy człony dalej). Partycja = wyróżnianie CZĘŚCI jednego przedmiotu — to NIE jest podział logiczny!",
+    examples: [
+      { ex: "Mieszkańcy: umiejący czytać / nie umiejący czytać", note: "DYCHOTOMIA — dwa człony, jeden ma cechę, drugi nie." },
+      { ex: "Akta sądowe → wydziały → rodzaje spraw → konkretne sprawy", note: "KLASYFIKACJA — wielostopniowy podział, każdy poziom dzielony dalej." },
+      { ex: "\"Roślina dzieli się na korzeń, łodygę, liście, kwiat\"", note: "PARTYCJA, nie podział logiczny! To są CZĘŚCI jednej rośliny, nie podzbiory zakresu nazwy 'roślina'." }
+    ],
+    practice: { q: "Dlaczego partycja to pułapka na egzaminie?", a: "Bo WYGLĄDA jak podział logiczny (jest słowo 'dzieli się'), ale nie spełnia definicji — nie dzielimy ZAKRESU NAZWY na podklasy, tylko wskazujemy części składowe JEDNEGO przedmiotu. Sprawdzaj: czy człony są PODZBIORAMI desygnatów, czy CZĘŚCIAMI jednego obiektu?" }
+  },
+  c_zdanie_logiczne: {
+    title: "Zdanie w sensie logicznym",
+    def: "Musi być: oznajmujące + mieć obiektywną wartość prawda/fałsz (niezależną od tego, kto je ocenia). Wypowiedzi niezupełne nie są jeszcze pełnymi zdaniami — czegoś im brakuje.",
+    examples: [
+      { ex: "\"Warszawa jest stolicą Polski\"", note: "ZDANIE — oznajmujące, ma wartość logiczną (prawda)." },
+      { ex: "\"Zamknij okno!\"", note: "NIE zdanie — rozkaz, nie ma wartości prawda/fałsz." },
+      { ex: "\"Deszcz jest pożyteczny\"", note: "WYPOWIEDŹ NIEZUPEŁNA — pożyteczny dla kogo? w jakich warunkach? Brakuje dopowiedzenia." },
+      { ex: "\"Ten X jest większy\"", note: "FUNKCJA ZDANIOWA — ma zmienną, staje się zdaniem po podstawieniu konkretnej wartości." }
+    ],
+    practice: { q: "Czy \"Czy pada deszcz?\" jest zdaniem w sensie logicznym?", a: "NIE — to pytanie, nie ma wartości prawda/fałsz (samo pytanie nie jest ani prawdziwe, ani fałszywe, choć może mieć 'założenie', które może być prawdziwe lub fałszywe)." }
+  },
+  c_relacje_symetria: {
+    title: "Relacje: symetryczna / asymetryczna / nonsymetryczna",
+    def: "Symetryczna: jeśli xRy, to ZAWSZE też yRx. Asymetryczna: jeśli xRy, to NIGDY yRx. Nonsymetryczna: czasem tak, czasem nie — zależy od przypadku.",
+    examples: [
+      { ex: "\"jest małżonkiem\"", note: "SYMETRYCZNA — jeśli A jest małżonkiem B, to B jest małżonkiem A." },
+      { ex: "\"jest starszy od\"", note: "ASYMETRYCZNA — jeśli A starszy od B, to NIGDY B starszy od A." },
+      { ex: "\"kocha\"", note: "NONSYMETRYCZNA — z tego, że A kocha B, NIC nie wynika o tym, czy B kocha A (może tak, może nie)." },
+      { ex: "\"szanuje\"", note: "NONSYMETRYCZNA — tak samo, zależy od konkretnego przypadku." }
+    ],
+    practice: { q: "Skąd wiadomo, że \"kocha\" to nonsymetryczna, a nie po prostu 'nie symetryczna'?", a: "Bo nonsymetryczna oznacza: w jednych przypadkach zachodzi odwrotnie, w innych nie. Sprawdzasz dwa warunki: (1) czy ZAWSZE działa w obie strony? Nie. (2) czy NIGDY nie działa w obie strony? Też nie (czasem miłość jest odwzajemniona!). Skoro ani 'zawsze', ani 'nigdy' — to nonsymetryczna." }
+  },
+  c_relacje_przechodnia: {
+    title: "Relacje: przechodnia / atranzytywna / nontranzytywna",
+    def: "Przechodnia: jeśli xRy i yRz, to ZAWSZE xRz. Atranzytywna: jeśli xRy i yRz, to NIGDY xRz. Nontranzytywna: czasem tak, czasem nie.",
+    examples: [
+      { ex: "\"jest starszy od\"", note: "PRZECHODNIA — A starszy od B, B starszy od C → A starszy od C. Zawsze." },
+      { ex: "\"jest ojcem\"", note: "ATRANZYTYWNA — A ojcem B, B ojcem C → A NIGDY nie jest ojcem C (to dziadek, nie ojciec)." },
+      { ex: "\"jest krewnym\"", note: "NONTRANZYTYWNA — ojciec krewny dziecka, dziecko krewne matki, ale ojciec NIE musi być krewnym matki." },
+      { ex: "\"jest przyjacielem\"", note: "NONTRANZYTYWNA — przyjaciel przyjaciela bywa przyjacielem, ale nie musi." }
+    ],
+    practice: { q: "Jak nie pomylić atranzytywnej z nontranzytywną?", a: "Atranzytywna = 'NIGDY nie zachodzi' (pewna negatywna reguła, jak ojcostwo). Nontranzytywna = 'czasem tak, czasem nie' — brak reguły w ogóle (jak przyjaźń). Test: czy potrafisz wymyślić PRZYKŁAD, gdzie przechodniość DZIAŁA? Jeśli tak — to nontranzytywna, nie atranzytywna." }
+  },
+  c_relacje_porzadkujace: {
+    title: "Relacje porządkujące i równościowe",
+    def: "Porządkująca = asymetryczna + przechodnia + spójna (pozwala ustawić wszystkich w jeden szereg, np. od najmniejszego do największego). Równościowa = symetryczna + przechodnia + zwrotna (dzieli na grupy 'tych samych').",
+    examples: [
+      { ex: "\"jest wyższy wzrostem od\" (w grupie bez remisów)", note: "PORZĄDKUJĄCA — można wszystkich ustawić w szereg wg wzrostu." },
+      { ex: "\"jest rówieśnikiem\"", note: "RÓWNOŚCIOWA — symetryczna (A rówieśnik B → B rówieśnik A), przechodnia, zwrotna (każdy jest swoim rówieśnikiem)." },
+      { ex: "Stosunek spójny", note: "Pomocniczy warunek: każde DWA elementy klasy są połączone relacją w jakimś kierunku — nikt nie zostaje 'poza układem'." }
+    ],
+    practice: { q: "Czy rówieśnictwo może być relacją porządkującą?", a: "NIE — bo jest symetryczna, a porządkująca musi być asymetryczna (nikt nie może być 'i wyższy, i niższy' od kogoś naraz, ale rówieśnik rówieśnika to wciąż rówieśnik w obie strony — to wyklucza ustawienie w jednoznaczny szereg)." }
+  },
+  c_normy: {
+    title: "Rodzaje norm: indywidualna/generalna × konkretna/abstrakcyjna",
+    def: "Dwa NIEZALEŻNE wymiary. Adresat: indywidualny (1 osoba) vs generalny (klasa osób). Okoliczność: konkretna (jedna sytuacja) vs abstrakcyjna (powtarzalny typ sytuacji). Można je łączyć w 4 kombinacje.",
+    examples: [
+      { ex: "\"Jan Kowalski musi zapłacić podatek do 30 kwietnia 2026\"", note: "INDYWIDUALNA + KONKRETNA — jedna osoba, jedna sytuacja." },
+      { ex: "\"Każdy obywatel musi płacić podatki rocznie\"", note: "GENERALNA + ABSTRAKCYJNA — klasa osób, powtarzalna sytuacja. Typowa ustawa." },
+      { ex: "\"Jan musi co roku zgłaszać dochód\"", note: "INDYWIDUALNA + ABSTRAKCYJNA — jedna osoba, ale powtarzalna sytuacja (co roku)." }
+    ],
+    practice: { q: "Czy norma 'wszyscy świadkowie tej jednej sprawy muszą się zjawić 5 maja' jest generalna czy indywidualna?", a: "GENERALNA + KONKRETNA — adresat to klasa (świadkowie, niejedna konkretna osoba), ale okoliczność jednorazowa (jedna konkretna data i sprawa)." }
+  },
+  c_pytania: {
+    title: "Pytania: zamknięte/otwarte, założenie, sugestywne",
+    def: "Do rozstrzygnięcia (zamknięte) = wybór z gotowych opcji (tak/nie). Do uzupełnienia (może być otwarte) = trzeba samemu sformułować odpowiedź. Założenie pytania = to, co pytający przyjmuje za prawdę, zadając pytanie.",
+    examples: [
+      { ex: "\"Czy zdałeś egzamin?\"", note: "DO ROZSTRZYGNIĘCIA (zamknięte) — wybór tak/nie." },
+      { ex: "\"Kiedy zdałeś egzamin?\"", note: "DO UZUPEŁNIENIA, ale ZAMKNIĘTE — wymaga konkretnej daty, schemat jest jasny." },
+      { ex: "\"Dlaczego wybuchła wojna?\"", note: "DO UZUPEŁNIENIA i OTWARTE — nie ma jednego schematu odpowiedzi." },
+      { ex: "\"Jakiego koloru jest uczucie?\"", note: "NIEWŁAŚCIWIE POSTAWIONE — błędne założenie (że uczucia mają kolor)." },
+      { ex: "\"Czy miał na sobie BRĄZOWY kapelusz?\" (świadkowi, który nie jest pewien)", note: "SUGESTYWNE — podsuwa konkretną odpowiedź niepewnemu świadkowi." }
+    ],
+    practice: { q: "Czym różni się pytanie niewłaściwie postawione od sugestywnego?", a: "Niewłaściwie postawione = ZAŁOŻENIE pytania jest fałszywe (np. że uczucia mają kolor) — nie da się na niego normalnie odpowiedzieć. Sugestywne = założenie może być OK, ale FORMA pytania podsuwa konkretną odpowiedź osobie niepewnej. To różne problemy: jedno dotyczy treści, drugie — wpływu na odpowiadającego." }
+  },
+  c_chalmers_indukcja: {
+    title: "Indukcjonizm naiwny i problem indukcji",
+    def: "Indukcjonizm naiwny: nauka zaczyna się od czystej, neutralnej obserwacji, z której wyprowadzamy ogólne prawa. Problem indukcji (Hume): nie można logicznie uzasadnić przejścia 'widziałem to 1000 razy' → 'więc zawsze tak jest'.",
+    examples: [
+      { ex: "\"Słońce wschodziło codziennie, więc zawsze będzie wschodzić\"", note: "Klasyczny przykład INDUKCJI — wniosek ogólny z powtarzających się przypadków, ale logicznie NIEGWARANTOWANY." },
+      { ex: "Próba uzasadnienia: \"indukcja działała dotychczas, więc będzie działać\"", note: "BŁĘDNE KOŁO — to samo rozumowanie indukcyjne, używane do uzasadnienia indukcji. Zakłada to, co miało udowodnić." }
+    ],
+    practice: { q: "Czemu nie można po prostu powiedzieć \"indukcja zawsze dotychczas działała, więc jest uzasadniona\"?", a: "Bo to rozumowanie SAMO jest indukcyjne (wnioskujesz z przeszłych przypadków o przyszłości) — czyli używasz indukcji, żeby uzasadnić indukcję. To błędne koło (petitio principii), nie dowód." }
+  },
+  c_chalmers_obserwacja: {
+    title: "Teoria a zdania obserwacyjne",
+    def: "Zdania obserwacyjne nie są 'czyste' i neutralne — są 'obciążone teorią'. To, co widzimy i jak to opisujemy, zależy od wiedzy teoretycznej, którą już mamy. Dwaj obserwatorzy patrzący na to samo miejsce mogą doznawać RÓŻNYCH wrażeń wzrokowych, nie tylko różnie interpretować to samo wrażenie.",
+    examples: [
+      { ex: "Student medycyny ucząc się czytać zdjęcia rentgenowskie płuc (przykład Polanyiego z książki)", note: "Na początku widzi tylko mgliste cienie serca i żeber. Po tygodniach nauki zaczyna widzieć płuca, zmiany patologiczne, blizny, oznaki infekcji — to SAMO zdjęcie, ale inne doznanie wzrokowe, bo zmieniła się jego wiedza teoretyczna." },
+      { ex: "Galileusz i jego przeciwnicy patrzący przez teleskop na księżyce Jowisza", note: "Przeciwnicy Galileusza mieli prawdziwe trudności w 'zobaczeniu' tego, co on widział — to nie był sam upór, ale realna różnica w tym, co oko + mózg rejestrowały, bez wprawy w korzystaniu z nowego narzędzia." }
+    ],
+    practice: { q: "Jak to podważa indukcjonizm naiwny?", a: "Indukcjonizm naiwny zakłada, że obserwacja jest NEUTRALNYM punktem startowym, niezależnym od teorii, i że dwaj obserwatorzy patrzący na to samo zawsze 'widzą' to samo. Jeśli jednak samo DOZNANIE WZROKOWE (nie tylko jego interpretacja) zależy od wiedzy obserwatora, obserwacja nie może być czystym, obiektywnym fundamentem, od którego nauka 'zaczyna się od zera'." }
+  },
+  c_chalmers_falsyfikacja: {
+    title: "Falsyfikacjonizm Poppera",
+    def: "Kryterium naukowości teorii to nie potwierdzalność, a FALSYFIKOWALNOŚĆ — musi istnieć logicznie możliwe zdanie obserwacyjne, które by tę hipotezę obaliło. Nauka rozwija się przez śmiałe wystawianie teorii na próbę i ich obalanie, nie przez zbieranie potwierdzeń.",
+    examples: [
+      { ex: "\"Wszystkie kruki są czarne\"", note: "FALSYFIKOWALNA — zaobserwowanie jednego nieczarnego kruka logicznie obala to zdanie (przykład z książki Chalmersa)." },
+      { ex: "\"Pada albo nie pada\"", note: "NIEFALSYFIKOWALNA — to zdanie jest prawdziwe niezależnie od pogody, bez względu na cokolwiek (logiczna tautologia)." },
+      { ex: "\"Wszystkie punkty na obwodzie okręgu euklidesowego są równo odległe od środka\"", note: "NIEFALSYFIKOWALNA — prawdziwe z definicji koła w geometrii euklidesowej, żadna obserwacja tego nie zmieni." },
+      { ex: "Horoskop: \"może spotkać cię szczęście w zakładach sportowych\"", note: "NIEFALSYFIKOWALNA — prawdziwa niezależnie od tego, czy obstawisz zakład i czy wygrasz, czy nie. Typowa pokrętna strategia wróżek." }
+    ],
+    practice: { q: "Czemu wg Poppera potwierdzenie teorii NIE czyni jej bardziej 'udowodnioną'?", a: "Bo nigdy nie można powiedzieć o teorii, że jest prawdziwa, choćby świetnie sprawowała się w sprawdzianach — zawsze może się znaleźć kolejny przypadek, który ją obali. Można jedynie powiedzieć, że jedna teoria jest LEPSZA od innej, jeśli przetrwała sprawdziany, które obaliły teorie wcześniejsze. Liczy się to, czy teoria PRZETRWAŁA próby obalenia, nie ile razy została 'potwierdzona'." }
+  },
+  c_stosunki_nazw: {
+    title: "Stosunki między zakresami nazw",
+    def: "Biorąc dwie nazwy S i P, ich zakresy mogą być w jednym z 5 stosunków: zamienność (te same desygnaty), podrzędność (S w całości wewnątrz P), nadrzędność (P w całości wewnątrz S), krzyżowanie (częściowo się pokrywają) albo wykluczanie (wcale się nie pokrywają).",
+    examples: [
+      { ex: "ZAMIENNOŚĆ: \"stolica Polski\" i \"miasto, w którym jest Pałac Kultury\"", note: "Te dwie nazwy mają identyczny zakres (Warszawa) — każdy desygnat jednej jest desygnatem drugiej." },
+      { ex: "PODRZĘDNOŚĆ: S=\"pies\" względem P=\"ssak\"", note: "Każdy pies jest ssakiem, ale nie każdy ssak jest psem (są też koty, konie...). Zakres S leży CAŁY wewnątrz zakresu P." },
+      { ex: "NADRZĘDNOŚĆ: S=\"ssak\" względem P=\"pies\"", note: "To odwrotna strona tej samej relacji — ssak jest NADrzędny względem psa." },
+      { ex: "KRZYŻOWANIE: S=\"student\", P=\"sportowiec\"", note: "Są studenci-sportowcy (część wspólna), są studenci niesportowcy, są sportowcy niebędący studentami. Trzy różne grupy." },
+      { ex: "WYKLUCZANIE (sprzeczność): \"liczba parzysta\" i \"liczba nieparzysta\"", note: "Żadna liczba nie jest jednocześnie obu, a RAZEM wyczerpują całą klasę liczb — to sprzeczność (nazwy negatywne względem siebie)." },
+      { ex: "WYKLUCZANIE (przeciwieństwo): \"pies\" i \"kot\"", note: "Żadne zwierzę nie jest jednocześnie psem i kotem, ALE razem nie wyczerpują wszystkich zwierząt (są też konie, ptaki...) — to przeciwieństwo, nie sprzeczność." }
+    ],
+    practice: { q: "Jaka jest różnica między sprzecznością a przeciwieństwem — obie są \"wykluczaniem się\", więc czym się różnią?", a: "Przy SPRZECZNOŚCI suma obu zakresów wyczerpuje całą klasę uniwersalną (każdy przedmiot jest jednym albo drugim, np. parzysta/nieparzysta — nie ma trzeciej opcji). Przy PRZECIWIEŃSTWIE suma obu zakresów NIE wyczerpuje wszystkiego — są jeszcze inne przedmioty poza obiema nazwami (pies/kot nie wyczerpują wszystkich zwierząt, bo są jeszcze np. konie)." }
+  },
+  c_zdania_analit_syntet: {
+    title: "Zdania analityczne i syntetyczne, rodzaje zdań prostych",
+    def: "Analityczne: prawdziwość/fałszywość wynika z samego ZNACZENIA słów (nie trzeba sprawdzać świata). Syntetyczne: trzeba sprawdzić w rzeczywistości. Zdania proste dzielą się też na: egzystencjalne (istnieje X), atomiczne (ten X jest taki), subsumpcyjne (każde/niektóre X jest takie).",
+    examples: [
+      { ex: "\"Kwadrat ma cztery boki\"", note: "ANALITYCZNE — wynika z samej definicji słowa 'kwadrat'; zaprzeczenie byłoby niezgodne z regułami języka, nie ze światem." },
+      { ex: "\"Pada deszcz\"", note: "SYNTETYCZNE — trzeba wyjść za okno i sprawdzić; żadna definicja słów nie rozstrzyga tego za nas." },
+      { ex: "\"Jest (istnieje) gaz lżejszy od powietrza\"", note: "EGZYSTENCJALNE — stwierdza, że klasa 'gazów lżejszych od powietrza' nie jest pusta, bez wskazania którego konkretnie." },
+      { ex: "\"Jan jest górnikiem\"", note: "ATOMICZNE — jedna konkretna osoba (nazwa indywidualna) przynależy do jakiejś klasy (nazwa generalna)." },
+      { ex: "\"Każdy notariusz jest prawnikiem\" / \"Niektórzy studenci są pilni\"", note: "SUBSUMPCYJNE — obie nazwy są generalne; stwierdza się, że jedna klasa (w całości albo części) zawiera się w drugiej." }
+    ],
+    practice: { q: "Czy zdanie \"Minuta składa się z 60 sekund\" jest analityczne czy syntetyczne?", a: "ANALITYCZNE — sekunda jest ZDEFINIOWANA jako 1/60 minuty, więc prawdziwość wynika z samej definicji tych słów, nie z mierzenia czegokolwiek w świecie." }
+  },
+  c_wypowiedzi_oceniajace: {
+    title: "Wypowiedzi oceniające a zdania w sensie logicznym",
+    def: "Ocena to czyjeś przeżycie aprobaty/dezaprobaty stanu rzeczy. Czyste wypowiedzi oceniające (bez opisu) NIE mają wartości prawda/fałsz — tylko WYRAŻAJĄ przeżycie. Ale wiele wypowiedzi oceniających zawiera DODATKOWO element opisowy, co czyni je DWUZNACZNYMI: raz brzmią jak czysta ocena, raz jak zdanie opisowe ze stwierdzeniem faktu.",
+    examples: [
+      { ex: "\"Ach, jak ładnie!\", \"Brawo!\", \"Fuj!\"", note: "CZYSTA OCENA — nie opisują niczego, tylko wyrażają przeżycie. Nie mają wartości prawda/fałsz, bo nic nie stwierdzają." },
+      { ex: "\"Tramwaje, które kursują w Kutnie, są ładne\"", note: "OCENA + OPIS — wyraża ocenę estetyczną, ALE zawiera też (fałszywe) stwierdzenie opisowe, że w Kutnie kursują tramwaje. To opisowa część MA wartość logiczną, ocena sama — nie." },
+      { ex: "\"Ten obraz jest ładny\" — DWA możlie odczytania", note: "(1) jako wyraz czyjejś oceny estetycznej (bez wartości logicznej) ALBO (2) jako zdanie OPISOWE stwierdzające, że obraz ma cechy zgodne z przyjętymi w jakimś środowisku kanonami estetyki (TO ma wartość prawda/fałsz, bo można sprawdzić zgodność z kanonem)." },
+      { ex: "Estetyczna / moralna / hedonistyczna", note: "Trzy typy ocen z notatek: \"Ten zachód słońca jest piękny\" (estetyczna), \"Kradzież jest złem\" (moralna), \"Ta zupa jest pyszna\" (hedonistyczna)." }
+    ],
+    practice: { q: "Dlaczego \"Ten obraz jest ładny\" jest trudnym przykładem na egzaminie?", a: "Bo jest DWUZNACZNE: nie da się z samej budowy zdania rozstrzygnąć, czy to czysty wyraz oceny (bez wartości logicznej) czy zdanie opisowe o zgodności z kanonem estetycznym (z wartością logiczną). To pokazuje, że spór \"czy oceny są zdaniami w sensie logicznym\" nie ma jednej odpowiedzi — zależy od tego, jak konkretną wypowiedź rozumiemy w danym kontekście." }
+  },
+  c_obowiazywanie_normy: {
+    title: "Obowiązywanie normy",
+    def: "Zwrot 'norma obowiązuje' jest wieloznaczny. Dwa główne sensy: (1) BEHAWIORYSTYCZNY — czy ludzie faktycznie się do niej stosują i czy grozi sankcja za nieposłuch; (2) UZASADNIENIE — czy norma ma usprawiedliwienie: TETYCZNE (ktoś z władzą ją ustanowił) albo AKSJOLOGICZNE (wskazane postępowanie jest oceniane jako dobre).",
+    examples: [
+      { ex: "\"Królowa powinna nosić złotą sukienkę\" (wymyślony przykład bez wskazanego adresata)", note: "NIEOBOWIĄZUJĄCA — nikt tego nie ustanowił (brak uzasadnienia tetycznego) i nikt się tym nie kieruje (brak skuteczności behawiorystycznej)." },
+      { ex: "Sędzia dzieli sprawy: parzyste numery dla sędziego A, nieparzyste dla B", note: "NORMA WYŁĄCZNIE TETYCZNA — nie ma znaczenia oceniającego (nie jest \"lepiej\", żeby A miał akurat parzyste), liczy się tylko to, że przełożony tak ustanowił." },
+      { ex: "\"Powinieneś się szczepić przed wyjazdem do tropików\"", note: "NORMA AKSJOLOGICZNA — uzasadniona oceną, że szczepienie (mimo dolegliwości) prowadzi do dobrego skutku (unikniesz choroby)." }
+    ],
+    practice: { q: "Czy jedna norma może być jednocześnie tetyczna i aksjologiczna?", a: "TAK — to najczęstszy przypadek. Ktoś ustanawia normę DLA INNYCH (uzasadnienie tetyczne — \"bo tak kazał\"), a jednocześnie ocenia, że wskazane postępowanie jest dobre (uzasadnienie aksjologiczne — \"bo to słuszne\"). Adresat może przyjąć normę z jednego z tych powodów, z obu, albo podporządkować się tylko dlatego, że ktoś ma nad nim władzę, bez podzielania oceny." }
+  },
+  c_moze_musi: {
+    title: "Interpretacje słów \"może\" i \"musi\"",
+    def: "Te słowa są WIELOZNACZNE. \"Musi być A\" ma co najmniej 5 interpretacji: logiczną (A wynika z uznanej wiedzy), dynamiczną (A jest nieuchronnie spowodowane przyczynowo), aksjologiczną (źle by było, gdyby nie A), tetyczną (A jest nakazane normą), psychologiczną (silne przeświadczenie, że A). Analogicznie dla \"może być A\".",
+    examples: [
+      { ex: "\"Przeciwprostokątna MUSI mieć 5 cm\" (przy bokach 3 i 4)", note: "LOGICZNA — wynika z twierdzenia Pitagorasa (z uznanej za prawdziwą wiedzy), nie z przyczynowości fizycznej." },
+      { ex: "\"Ciało nie podparte MUSI spadać\"", note: "DYNAMICZNA — fakt jest nieuchronnie spowodowany przez istniejące czynniki (grawitację), nie tylko logicznie wynika z wiedzy." },
+      { ex: "\"Temperatura w pokoju MUSI wynosić 18°C\" (żeby eksperyment się udał)", note: "AKSJOLOGICZNA — wyraża, że byłoby źle, gdyby było inaczej, nie że to logicznie wynika lub jest przyczynowo nieuchronne." },
+      { ex: "\"Sędzia MUSI orzec utratę praw publicznych\" (przy karze śmierci)", note: "TETYCZNA — taki jest nakaz obowiązującej normy prawnej, niezależnie od przyczynowości czy logiki." },
+      { ex: "\"Dwa razy dwa MUSI być cztery\" (jako wyraz przekonania)", note: "PSYCHOLOGICZNA — wyraża silne przeświadczenie mówiącego, nie odwołuje się wprost do żadnej z powyższych relacji." }
+    ],
+    practice: { q: "\"Osoba cywilna MOŻE nosić kapelusz, a żołnierz w służbie nie może\" — jaka interpretacja?", a: "TETYCZNA — \"może\" znaczy tu \"nie jest mu zakazane przez normę\". To nie chodzi o logiczną możliwość, przyczynowość czy ocenę, lecz o to, co normy (przepisy) komuś zakazują albo dopuszczają." }
+  },
+  c_modalnosci_zdan: {
+    title: "Modalności zdań: asertoryczne, apodyktyczne, problematyczne",
+    def: "Asertoryczne: po prostu stwierdzają, że tak jest. Apodyktyczne: stwierdzają, że tak być MUSI. Problematyczne: stwierdzają, że tak być MOŻE. Z apodyktycznego wynika odpowiednie asertoryczne, a z asertorycznego — problematyczne (przy jednostronnym rozumieniu możliwości).",
+    examples: [
+      { ex: "\"Warszawa jest stolicą Polski\"", note: "ASERTORYCZNE — proste stwierdzenie faktu, bez \"musi\" czy \"może\"." },
+      { ex: "\"Kwadrat musi mieć cztery boki\"", note: "APODYKTYCZNE — stwierdza nieuchronność/konieczność (w interpretacji logicznej: wynika z definicji)." },
+      { ex: "\"Jutro może być pochmurno\"", note: "PROBLEMATYCZNE — stwierdza tylko możliwość, nie pewność." }
+    ],
+    practice: { q: "Czy z tego, że \"musi być A\", wynika, że \"może być A\"? A w drugą stronę?", a: "TAK w pierwszą stronę: jeśli coś MUSI być (apodyktyczne), to tym bardziej JEST (asertoryczne), a jeśli JEST, to z pewnością MOŻE być (problematyczne) — to łańcuch wynikania apodyktyczne→asertoryczne→problematyczne. NIE działa to w drugą stronę: z tego, że coś MOŻE być, nie wynika, że JEST, a tym bardziej że MUSI być — możliwość jest najsłabszym, najmniej zobowiązującym stwierdzeniem z tych trzech." }
+  }
+};
+
+// ---------- DAY PLAN DATA ----------
+const sections = [
+  {
+    id: "r1",
+    badge: "Zagadnienia 1–4",
+    title: "Rozdział I–II — Znaki i nazwy",
+    color: "#8B5A3C",
+    blocks: [
+      { time: "8 min", label: "Znak vs oznaka", type: "concept", key: "c_znak_oznaka" },
+      { time: "8 min", label: "Nazwy konkretne vs abstrakcyjne", type: "concept", key: "c_nazwa_konkr_abstr" },
+      { time: "8 min", label: "Nazwy proste/złożone i zbiorowe/niezbiorowe", type: "concept", key: "c_nazwa_prosta_zbiorowa" },
+      { time: "10 min", label: "Nazwy indywidualne vs generalne (pułapka!)", type: "concept", key: "c_nazwa_indyw_gener" },
+      { time: "8 min", label: "Zakres nazwy: ogólne / jednostkowe / puste", type: "concept", key: "c_zakres_nazwy" },
+      { time: "8 min", label: "Cechy konstytutywne vs konsekutywne", type: "concept", key: "c_cechy_konstyt" },
+      { time: "8 min", label: "Trzy supozycje nazwy", type: "concept", key: "c_supozycje" },
+      {
+        time: "15 min",
+        label: "Własne przykłady — rodzaje nazw",
+        detail: "Wymyśl WŁASNE: 2 przykłady nazw indywidualnych i 2 generalne, jeden przykład nazwy zbiorowej. To dokładnie typ zadań egzaminacyjnych (\"podawanie własnych przykładów\").",
+        type: "active"
+      },
+      {
+        time: "15 min",
+        label: "QUIZ — Znaki i nazwy (rozdz. I–II)",
+        detail: "quiz:q_r1",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r3",
+    badge: "Zagadnienie 5",
+    title: "Rozdział III — Stosunki między zakresami nazw",
+    color: "#6B5A8B",
+    blocks: [
+      { time: "10 min", label: "Stosunki między zakresami nazw (5 typów)", type: "concept", key: "c_stosunki_nazw" },
+      {
+        time: "10 min",
+        label: "Własny przykład — stosunek krzyżowania",
+        detail: "Wymyśl własną parę nazw (innych niż w notatkach) będących w stosunku krzyżowania się, i własną parę w stosunku przeciwieństwa. To częsty format pytania (\"określ stosunek między zakresami nazw X i Y\", często z rysunkiem).",
+        type: "active"
+      },
+      {
+        time: "12 min",
+        label: "QUIZ — Stosunki między zakresami nazw (rozdz. III)",
+        detail: "quiz:q_r3",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r4",
+    badge: "Zagadnienia 6–8",
+    title: "Rozdział IV — Definicje",
+    color: "#8B5A3C",
+    blocks: [
+      { time: "8 min", label: "Definicja realna vs nominalna", type: "concept", key: "c_def_realna_nominalna" },
+      { time: "10 min", label: "Sprawozdawcza / konstrukcyjna / regulująca", type: "concept", key: "c_def_sprawozd_proj" },
+      { time: "8 min", label: "Definicja klasyczna i nieklasyczna (genus + differentia)", type: "concept", key: "c_def_klasyczna" },
+      { time: "8 min", label: "Definicja przez postulaty (aksjomatyczna)", type: "concept", key: "c_def_postulaty" },
+      { time: "12 min", label: "Błędy definicji — 5 pułapek", type: "concept", key: "c_bledy_definicji" },
+      {
+        time: "10 min",
+        label: "Własne przykłady — błędy definicji",
+        detail: "Wymyśl 1 własną definicję za szeroką i 1 za wąską. Na egzaminie częsty format: \"odnajdź przynajmniej jeden błąd w poniższych definicjach, krótko go charakteryzując\" — kilka definicji naraz, różne błędy.",
+        type: "active"
+      },
+      {
+        time: "15 min",
+        label: "QUIZ — Znaki, nazwy, definicje (rozdz. I–IV)",
+        detail: "quiz:d1a",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r5",
+    badge: "Zagadnienie 9",
+    title: "Rozdział V — Podział logiczny",
+    color: "#3C6B5A",
+    blocks: [
+      { time: "10 min", label: "Warunki poprawnego podziału logicznego", type: "concept", key: "c_podzial_warunki" },
+      { time: "8 min", label: "Dychotomia, klasyfikacja, partycja", type: "concept", key: "c_dychotomia_klasyf" },
+      {
+        time: "15 min",
+        label: "Własny podział — konstrukcja + uzasadnienie",
+        detail: "Wybierz własną nazwę (np. \"napój\", \"pojazd\") i: 1) dokonaj jej podziału logicznego, 2) wskaż kryterium (podstawę) podziału, 3) wymień dwa warunki poprawności podziału, 4) uzasadnij, że Twój podział je spełnia. To dokładnie format pytania z egzaminu — nie tylko rozpoznanie, ale SAMODZIELNA konstrukcja + uzasadnienie.",
+        type: "active"
+      },
+      {
+        time: "15 min",
+        label: "QUIZ — Podział logiczny (rozdz. V)",
+        detail: "quiz:d1b",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r6",
+    badge: "Zagadnienie 10",
+    title: "Rozdział VI — Zdanie",
+    color: "#3C5A8B",
+    blocks: [
+      { time: "8 min", label: "Zdanie w sensie logicznym", type: "concept", key: "c_zdanie_logiczne" },
+      { time: "10 min", label: "Zdania analityczne/syntetyczne, rodzaje zdań prostych", type: "concept", key: "c_zdania_analit_syntet" },
+      {
+        time: "12 min",
+        label: "QUIZ — Zdanie w sensie logicznym (rozdz. VI)",
+        detail: "quiz:q_r6",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r8",
+    badge: "Zagadnienie 12",
+    title: "Rozdział VIII — Relacje",
+    color: "#3C5A8B",
+    blocks: [
+      { time: "10 min", label: "Relacje: symetryczna / asymetryczna / nonsymetryczna", type: "concept", key: "c_relacje_symetria" },
+      { time: "10 min", label: "Relacje: przechodnia / atranzytywna / nontranzytywna", type: "concept", key: "c_relacje_przechodnia" },
+      { time: "10 min", label: "Relacje porządkujące i równościowe", type: "concept", key: "c_relacje_porzadkujace" },
+      {
+        time: "25 min",
+        label: "Aktywne ćwiczenie: 5 relacji własnych",
+        detail: "Wymyśl 5 własnych relacji (np. \"jest sąsiadem\", \"jest dłużnikiem wobec\") i dla każdej określ WSZYSTKIE właściwości z listy (symetria, przechodniość, spójność, zwrotność). To ćwiczy egzaminacyjny typ pytania najlepiej.",
+        type: "active"
+      },
+      {
+        time: "20 min",
+        label: "QUIZ — Zdania i relacje (rozdz. VI, VIII)",
+        detail: "quiz:d2a",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r9",
+    badge: "Zagadnienia 13–15",
+    title: "Rozdział IX — Normy i wypowiedzi oceniające",
+    color: "#8B5A3C",
+    blocks: [
+      { time: "10 min", label: "Rodzaje norm (indywidualna/generalna × konkretna/abstrakcyjna)", type: "concept", key: "c_normy" },
+      { time: "10 min", label: "Obowiązywanie normy (tetyczne / aksjologiczne / behawiorystyczne)", type: "concept", key: "c_obowiazywanie_normy" },
+      { time: "8 min", label: "Wypowiedzi oceniające a zdania w sensie logicznym", type: "concept", key: "c_wypowiedzi_oceniajace" },
+      {
+        time: "15 min",
+        label: "QUIZ — Normy i wypowiedzi oceniające (rozdz. IX)",
+        detail: "quiz:q_r9",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r10",
+    badge: "Zagadnienia 16–17",
+    title: "Rozdział X — Modalności",
+    color: "#3C5A8B",
+    blocks: [
+      { time: "10 min", label: "Interpretacje słów \"może\" i \"musi\"", type: "concept", key: "c_moze_musi" },
+      { time: "8 min", label: "Modalności zdań: asertoryczne/apodyktyczne/problematyczne", type: "concept", key: "c_modalnosci_zdan" },
+      {
+        time: "15 min",
+        label: "QUIZ — Modalności (rozdz. X)",
+        detail: "quiz:q_r10",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "r11",
+    badge: "Zagadnienie 11",
+    title: "Rozdział XI — Pytania i odpowiedzi",
+    color: "#6B5A8B",
+    blocks: [
+      { time: "10 min", label: "Pytania: zamknięte/otwarte, założenie, sugestywne", type: "concept", key: "c_pytania" },
+      {
+        time: "20 min",
+        label: "QUIZ — Normy, modalności, pytania (rozdz. IX–XI)",
+        detail: "quiz:d2b",
+        type: "quiz"
+      }
+    ]
+  },
+  {
+    id: "chalmers",
+    badge: "Zagadnienia 18–21",
+    title: "Chalmers — Filozofia nauki",
+    color: "#5A8B3C",
+    blocks: [
+      { time: "10 min", label: "Indukcjonizm naiwny i problem indukcji", type: "concept", key: "c_chalmers_indukcja" },
+      { time: "10 min", label: "Teoria a zdania obserwacyjne", type: "concept", key: "c_chalmers_obserwacja" },
+      { time: "10 min", label: "Falsyfikacjonizm Poppera", type: "concept", key: "c_chalmers_falsyfikacja" },
+      {
+        time: "20 min",
+        label: "QUIZ — Chalmers (rozdz. I–IV)",
+        detail: "quiz:d3a",
+        type: "quiz"
+      },
+      {
+        time: "15 min",
+        label: "Dodatkowo: mechanizm rozwoju nauki (Kuhn) — NIE jest w oficjalnych 21 zagadnieniach",
+        detail: "Z notatek Barbary Tomczyk: nauka normalna → kryzys → ewolucja nauki (Kuhn). Paradygmat, anomalie. To rozdział VIII Chalmersa, poza oficjalną listą zagadnień (1–21) — potencjalny kontekst/tło do falsyfikacjonizmu, niski priorytet.",
+        type: "read"
+      }
+    ]
+  },
+  {
+    id: "powtorki",
+    badge: "Powtórka łączona",
+    title: "Quizy zbiorcze — wszystkie rozdziały na raz",
+    color: "#3A2E1F",
+    blocks: [
+      {
+        time: "15 min",
+        label: "QUIZ UZUPEŁNIAJĄCY — stosunki nazw, zdania, oceny, normy, modalności",
+        detail: "quiz:extra",
+        type: "quiz"
+      },
+      {
+        time: "40 min",
+        label: "Szybka powtórka WSZYSTKICH 21 zagadnień",
+        detail: "Przejdź po liście zagadnień z karty egzaminacyjnej punkt po punkcie i sprawdź na głos, czy umiesz w 30 sekund zdefiniować/wyjaśnić każdy temat. Punkty, które szwankują — wróć do odpowiedniej sekcji rozdziałowej powyżej.",
+        type: "active"
+      },
+      {
+        time: "25 min",
+        label: "QUIZ KOŃCOWY — symulacja egzaminu (15 pytań z całości)",
+        detail: "quiz:fast",
+        type: "quiz"
+      },
+      {
+        time: "15 min",
+        label: "Lekka powtórka błędów z quizów",
+        detail: "Wróć tylko do pytań, w których pomyliłeś się w quizach powyżej. Nie czytaj całych rozdziałów ponownie — punktowo dobij słabe miejsca.",
+        type: "active"
+      }
+    ]
+  }
+];
+
+// ---------- COMPONENTS ----------
+
+function QuizBlock({ quizKey }) {
+  const bank = quizBanks[quizKey];
+  const [idx, setIdx] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+
+  const q = bank.questions[idx];
+
+  function pick(i) {
+    if (selected !== null) return;
+    setSelected(i);
+    if (i === q.correct) setScore((s) => s + 1);
+  }
+
+  function next() {
+    if (idx + 1 >= bank.questions.length) {
+      setDone(true);
+    } else {
+      setIdx(idx + 1);
+      setSelected(null);
+    }
+  }
+
+  function restart() {
+    setIdx(0);
+    setSelected(null);
+    setScore(0);
+    setDone(false);
+  }
+
+  if (done) {
+    const pct = Math.round((score / bank.questions.length) * 100);
+    return (
+      <div style={{ background: "#FAF6F0", border: "2px solid #D4A85A", borderRadius: 10, padding: "20px", marginTop: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+          <Award size={22} color="#B8742E" />
+          <span style={{ fontWeight: 700, fontSize: 17, color: "#3A2E1F" }}>Wynik: {score}/{bank.questions.length} ({pct}%)</span>
+        </div>
+        <p style={{ color: "#6B5D4D", fontSize: 14, marginBottom: 14, lineHeight: 1.5 }}>
+          {pct >= 85 ? "Bardzo dobrze! Ten temat masz opanowany." :
+           pct >= 60 ? "Niezły wynik, ale wróć do błędnych odpowiedzi — przeczytaj wyjaśnienia." :
+           "Ten temat wymaga powtórki. Wróć do notatek koncepcyjnych powyżej, potem podejdź do quizu jeszcze raz."}
+        </p>
+        <button onClick={restart} style={{
+          display: "flex", alignItems: "center", gap: 6, background: "#B8742E", color: "white",
+          border: "none", borderRadius: 8, padding: "8px 14px", fontSize: 14, fontWeight: 600, cursor: "pointer"
+        }}>
+          <RotateCcw size={15} /> Spróbuj jeszcze raz
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ background: "#FAF6F0", border: "2px solid #E8D9C0", borderRadius: 10, padding: "18px", marginTop: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10, fontSize: 12, color: "#8B7355", fontWeight: 600 }}>
+        <span>Pytanie {idx + 1} / {bank.questions.length}</span>
+        <span>{score} pkt</span>
+      </div>
+      <div style={{ width: "100%", height: 4, background: "#E8D9C0", borderRadius: 2, marginBottom: 14, overflow: "hidden" }}>
+        <div style={{ width: `${(idx / bank.questions.length) * 100}%`, height: "100%", background: "#B8742E", transition: "width 0.3s" }} />
+      </div>
+      <p style={{ fontSize: 15.5, fontWeight: 600, color: "#3A2E1F", marginBottom: 14, lineHeight: 1.45 }}>{q.q}</p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {q.options.map((opt, i) => {
+          let bg = "white", border = "#DDD0BC", textColor = "#3A2E1F";
+          if (selected !== null) {
+            if (i === q.correct) { bg = "#E8F3E3"; border = "#7BAA5C"; }
+            else if (i === selected) { bg = "#F8E3DD"; border = "#D17A5C"; }
+          }
+          return (
+            <button
+              key={i}
+              onClick={() => pick(i)}
+              disabled={selected !== null}
+              style={{
+                textAlign: "left", padding: "10px 12px", borderRadius: 8, border: `2px solid ${border}`,
+                background: bg, color: textColor, fontSize: 14, cursor: selected === null ? "pointer" : "default",
+                display: "flex", alignItems: "center", justifyContent: "space-between", lineHeight: 1.4
+              }}
+            >
+              <span>{opt}</span>
+              {selected !== null && i === q.correct && <Check size={16} color="#5C8A3C" style={{ flexShrink: 0, marginLeft: 8 }} />}
+              {selected !== null && i === selected && i !== q.correct && <X size={16} color="#B5503A" style={{ flexShrink: 0, marginLeft: 8 }} />}
+            </button>
+          );
+        })}
+      </div>
+      {selected !== null && (
+        <div style={{ marginTop: 12, padding: "10px 12px", background: "#F0EBE0", borderRadius: 8, fontSize: 13.5, color: "#5C4F3D", lineHeight: 1.5 }}>
+          {q.explain}
+        </div>
+      )}
+      {selected !== null && (
+        <button onClick={next} style={{
+          marginTop: 12, display: "flex", alignItems: "center", gap: 6, background: "#3A2E1F", color: "white",
+          border: "none", borderRadius: 8, padding: "9px 16px", fontSize: 14, fontWeight: 600, cursor: "pointer"
+        }}>
+          {idx + 1 >= bank.questions.length ? "Zobacz wynik" : "Dalej"} <ChevronRight size={15} />
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ConceptBlock({ conceptKey }) {
+  const c = conceptNotes[conceptKey];
+  const [showPractice, setShowPractice] = useState(false);
+
+  return (
+    <div style={{ marginTop: 10 }}>
+      {/* Definition */}
+      <div style={{
+        background: "#F3EEE3", borderLeft: "4px solid #B8742E", borderRadius: "0 8px 8px 0",
+        padding: "10px 14px", marginBottom: 12
+      }}>
+        <p style={{ fontSize: 14, color: "#3A2E1F", lineHeight: 1.55, margin: 0, fontWeight: 600 }}>{c.def}</p>
+      </div>
+
+      {/* Examples */}
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+        <Lightbulb size={14} color="#B8742E" />
+        <span style={{ fontSize: 11.5, fontWeight: 700, color: "#B8742E", textTransform: "uppercase", letterSpacing: "0.3px" }}>
+          Przykłady
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 14 }}>
+        {c.examples.map((ex, i) => (
+          <div key={i} style={{
+            background: "white", border: "1px solid #EEE5D8", borderRadius: 8,
+            padding: "9px 12px", display: "flex", flexDirection: "column", gap: 3
+          }}>
+            <span style={{ fontSize: 13.5, color: "#3A2E1F", fontWeight: 600 }}>{ex.ex}</span>
+            <span style={{ fontSize: 12.5, color: "#7A6B54", lineHeight: 1.4 }}>{ex.note}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Practice */}
+      <div style={{
+        background: "#EAF1E5", border: "1px solid #C9DEC0", borderRadius: 8, padding: "12px 14px"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+          <PenLine size={14} color="#4A7A35" />
+          <span style={{ fontSize: 11.5, fontWeight: 700, color: "#4A7A35", textTransform: "uppercase", letterSpacing: "0.3px" }}>
+            Sprawdź się
+          </span>
+        </div>
+        <p style={{ fontSize: 13.5, color: "#2E4A22", fontWeight: 600, margin: "0 0 8px", lineHeight: 1.45 }}>{c.practice.q}</p>
+        {!showPractice ? (
+          <button
+            onClick={() => setShowPractice(true)}
+            style={{
+              display: "flex", alignItems: "center", gap: 6, background: "white", color: "#4A7A35",
+              border: "1.5px solid #4A7A35", borderRadius: 7, padding: "6px 12px", fontSize: 13,
+              fontWeight: 600, cursor: "pointer"
+            }}
+          >
+            <Eye size={14} /> Pokaż odpowiedź
+          </button>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <p style={{ fontSize: 13.5, color: "#2E4A22", lineHeight: 1.5, margin: 0, background: "white", padding: "9px 11px", borderRadius: 7 }}>
+              {c.practice.a}
+            </p>
+            <button
+              onClick={() => setShowPractice(false)}
+              style={{
+                display: "flex", alignItems: "center", gap: 6, background: "transparent", color: "#6B5D4D",
+                border: "none", padding: 0, fontSize: 12, fontWeight: 600, cursor: "pointer", alignSelf: "flex-start"
+              }}
+            >
+              <EyeOff size={13} /> Ukryj
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Block({ block, doneMap, toggleDone, blockId }) {
+  const [open, setOpen] = useState(false);
+  const isQuiz = block.type === "quiz";
+  const isConcept = block.type === "concept";
+  const quizKey = isQuiz ? block.detail.replace("quiz:", "") : null;
+  const checked = doneMap[blockId];
+
+  const typeColors = {
+    read: { bg: "#EDE3F2", text: "#6B4A8B", label: "Czytanie" },
+    quiz: { bg: "#FCE8D6", text: "#B8742E", label: "Test" },
+    active: { bg: "#E0EEDC", text: "#4A7A35", label: "Aktywne" },
+    concept: { bg: "#DCE8F2", text: "#3A6B8B", label: "Notatka" }
+  };
+  const tc = typeColors[block.type];
+
+  return (
+    <div style={{ borderBottom: "1px solid #EEE5D8" }}>
+      <div
+        onClick={() => setOpen(!open)}
+        style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 4px", cursor: "pointer" }}
+      >
+        <div
+          onClick={(e) => { e.stopPropagation(); toggleDone(blockId); }}
+          style={{
+            width: 22, height: 22, borderRadius: 6, border: checked ? "none" : "2px solid #C9BBA3",
+            background: checked ? "#5C8A3C" : "white", display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0, cursor: "pointer"
+          }}
+        >
+          {checked && <Check size={14} color="white" />}
+        </div>
+        <span style={{
+          fontSize: 11, fontWeight: 700, color: tc.text, background: tc.bg, borderRadius: 5,
+          padding: "2px 7px", flexShrink: 0
+        }}>
+          {tc.label}
+        </span>
+        <span style={{ fontSize: 12, color: "#9C8B70", flexShrink: 0, minWidth: 42 }}>{block.time}</span>
+        <span style={{
+          fontSize: 14.5, fontWeight: 600, color: checked ? "#A89B85" : "#3A2E1F",
+          textDecoration: checked ? "line-through" : "none", flex: 1
+        }}>
+          {block.label}
+        </span>
+        {open ? <ChevronDown size={18} color="#9C8B70" /> : <ChevronRight size={18} color="#9C8B70" />}
+      </div>
+      {open && (
+        <div style={{ padding: "0 4px 16px 42px" }}>
+          {block.type === "read" && (
+            <p style={{ fontSize: 13.5, color: "#6B5D4D", lineHeight: 1.55, margin: 0 }}>{block.detail}</p>
+          )}
+          {block.type === "active" && (
+            <p style={{ fontSize: 13.5, color: "#6B5D4D", lineHeight: 1.55, margin: 0 }}>{block.detail}</p>
+          )}
+          {isQuiz && <QuizBlock quizKey={quizKey} />}
+          {isConcept && <ConceptBlock conceptKey={block.key} />}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Section({ section, doneMap, toggleDone }) {
+  const totalBlocks = section.blocks.length;
+  const doneCount = section.blocks.filter((_, i) => doneMap[`${section.id}-${i}`]).length;
+  const pct = Math.round((doneCount / totalBlocks) * 100);
+
+  return (
+    <div style={{ marginBottom: 24, background: "white", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+      <div style={{ background: section.color, padding: "16px 18px", color: "white" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+          <BookOpen size={15} />
+          <span style={{ fontSize: 12.5, fontWeight: 600, opacity: 0.9 }}>{section.badge}</span>
+        </div>
+        <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, lineHeight: 1.3 }}>{section.title}</h2>
+        <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ flex: 1, height: 6, background: "rgba(255,255,255,0.3)", borderRadius: 3, overflow: "hidden" }}>
+            <div style={{ width: `${pct}%`, height: "100%", background: "white", transition: "width 0.3s" }} />
+          </div>
+          <span style={{ fontSize: 12, fontWeight: 700 }}>{doneCount}/{totalBlocks}</span>
+        </div>
+      </div>
+      <div style={{ padding: "4px 14px" }}>
+        {section.blocks.map((block, i) => (
+          <Block key={i} block={block} blockId={`${section.id}-${i}`} doneMap={doneMap} toggleDone={toggleDone} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [doneMap, setDoneMap] = useState({});
+  const [loaded, setLoaded] = useState(false);
+
+  // Load saved progress once on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const result = await storage.get("logika-done-map");
+        if (!cancelled && result && result.value) {
+          setDoneMap(JSON.parse(result.value));
+        }
+      } catch (e) {
+        // key not found yet on first run - that's fine
+      }
+      if (!cancelled) setLoaded(true);
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Persist progress whenever it changes (after initial load)
+  useEffect(() => {
+    if (!loaded) return;
+    (async () => {
+      try {
+        await storage.set("logika-done-map", JSON.stringify(doneMap));
+      } catch (e) {
+        console.error("Nie udało się zapisać postępu:", e);
+      }
+    })();
+  }, [doneMap, loaded]);
+
+  function toggleDone(id) {
+    setDoneMap((m) => ({ ...m, [id]: !m[id] }));
+  }
+
+  const totalAll = sections.reduce((s, d) => s + d.blocks.length, 0);
+  const doneAll = Object.values(doneMap).filter(Boolean).length;
+  const pctAll = Math.round((doneAll / totalAll) * 100);
+
+  return (
+    <div style={{ fontFamily: "'Georgia', 'Iowan Old Style', serif", background: "#F4EEE3", minHeight: "100vh", padding: "20px 14px 60px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 22 }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 8 }}>
+            <BookOpen size={26} color="#B8742E" />
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#3A2E1F", margin: "0 0 6px", letterSpacing: "-0.3px" }}>
+            Logika II — materiały do egzaminu
+          </h1>
+          <p style={{ fontSize: 13.5, color: "#8B7355", margin: 0, fontFamily: "system-ui, sans-serif" }}>
+            21 zagadnień · Ziembiński + Chalmers + notatki B. Tomczyk
+          </p>
+        </div>
+
+        <div style={{
+          background: "#3A2E1F", borderRadius: 14, padding: "16px 18px", marginBottom: 22,
+          display: "flex", alignItems: "center", gap: 14
+        }}>
+          <Target size={28} color="#E8C078" style={{ flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontFamily: "system-ui, sans-serif" }}>
+              <span style={{ color: "#E8DCC8", fontSize: 13, fontWeight: 600 }}>Postęp łączny</span>
+              <span style={{ color: "#E8C078", fontSize: 13, fontWeight: 700 }}>{doneAll}/{totalAll} ({pctAll}%)</span>
+            </div>
+            <div style={{ height: 7, background: "rgba(255,255,255,0.15)", borderRadius: 4, overflow: "hidden" }}>
+              <div style={{ width: `${pctAll}%`, height: "100%", background: "#E8C078", transition: "width 0.3s" }} />
+            </div>
+          </div>
+        </div>
+
+        <div style={{
+          background: "#FFF8EC", border: "1px solid #E8D9C0", borderRadius: 10, padding: "14px 16px", marginBottom: 22,
+          fontFamily: "system-ui, sans-serif", fontSize: 13, color: "#6B5D4D", lineHeight: 1.5, display: "flex", gap: 10
+        }}>
+          <Flame size={18} color="#B8742E" style={{ flexShrink: 0, marginTop: 1 }} />
+          <span>
+            <strong style={{ color: "#3A2E1F" }}>Jak to działa:</strong> materiał jest podzielony WG ROZDZIAŁÓW podręcznika
+            (numeracja zgodna z kartą zagadnień), nie wg dni — wracaj do konkretnej sekcji, kiedy potrzebujesz. Niebieskie
+            bloki "Notatka" to krótka definicja + kilka przykładów + jedno pytanie kontrolne z odkrywaną odpowiedzią.
+            Zielone bloki "Aktywne" to zadania do samodzielnego rozwiązania na papierze (rozpoznawanie + konstruowanie
+            własnych przykładów — dokładnie format pytań z egzaminu). Na końcu każdego rozdziału (lub klastra rozdziałów) jest quiz testujący całość.
+          </span>
+        </div>
+
+        {sections.map((section) => (
+          <Section key={section.id} section={section} doneMap={doneMap} toggleDone={toggleDone} />
+        ))}
+
+        <div style={{
+          background: "white", borderRadius: 14, padding: "18px", textAlign: "center",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.08)", fontFamily: "system-ui, sans-serif"
+        }}>
+          <p style={{ fontSize: 13, color: "#8B7355", margin: 0, lineHeight: 1.6 }}>
+            Przed egzaminem: quiz końcowy (sekcja "Powtórka łączona") + szybki przegląd list słów-pułapek
+            (indywidualna≠jednostkowa, nontranzytywny≠atranzytywny, nonsymetryczny≠asymetryczny). Powodzenia!
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+// ---------- RENDER ----------
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
