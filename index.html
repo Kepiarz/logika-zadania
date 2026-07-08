@@ -333,15 +333,15 @@ const quizBanks = {
         explain: "Konkretna odnosi się do jednorazowo określonej sytuacji, abstrakcyjna — do powtarzalnego typu okoliczności."
       },
       {
-        q: "Norma równościowa (z notatek: symetryczna, spójna) — to relacja, w której:",
+        q: "Różnica między wypowiedzią «Palenie w tym pokoju jest naganne» a «Nie wolno palić w tym pokoju» polega na tym, że:",
         options: [
-          "wszyscy adresaci są sobie równi w danym zbiorze",
-          "norma jest taka sama dla każdego",
-          "norma dotyczy tylko jednej osoby",
-          "to nie istnieje"
+          "pierwsza to norma, druga to ocena — norma zawsze używa przymiotników",
+          "pierwsza wyraża ocenę (dezaprobatę czynu), druga jest normą (wprost wyznacza komuś zakaz postępowania)",
+          "obie są normami, tylko różnie sformułowanymi",
+          "obie są ocenami, bo dotyczą tego samego zachowania"
         ],
-        correct: 0,
-        explain: "Zgodnie z definicją relacji równościowej (symetryczna+przechodnia+zwrotna), choć w notatkach skrótowo: symetryczna i spójna w danym zbiorze."
+        correct: 1,
+        explain: "Ocena wyraża aprobatę/dezaprobatę stanu rzeczy («naganne» = źle oceniam), a norma wprost WYZNACZA adresatowi sposób postępowania («nie wolno» = zakaz). To sąsiednie, ale różne kategorie — właśnie o ich rozróżnianie chodzi w zagadnieniu 15."
       },
       {
         q: "Wypowiedź oceniająca wyraża:",
@@ -817,7 +817,7 @@ const quizBanks = {
           "nie wszystkie ptaki latają (np. struś, pingwin), więc to nie jest cecha konstytutywna wszystkich desygnatów"
         ],
         correct: 3,
-        explain: "Cecha konstytutywna musi przysługiwać KAŻDEMU desygnatowi nazwy. Struś i pingwin są ptakami, ale nie latają — definicja jest więc nieprawidłowa (za wąska względem rzeczywistego zakresu)."
+        explain: "Cecha konstytutywna musi przysługiwać KAŻDEMU desygnatowi nazwy. Struś i pingwin są ptakami, ale nie latają — a z drugiej strony nietoperz i ważka latają, choć nie są ptakami. Zakresy «ptak» i «zwierzę latające» KRZYŻUJĄ się, więc definicja jest błędna w obu kierunkach naraz (i za wąska, i za szeroka)."
       }
     ]
   },
@@ -1456,7 +1456,7 @@ const conceptNotes = {
     title: "Stosunki między zakresami nazw",
     def: "Biorąc dwie nazwy S i P, ich zakresy mogą być w jednym z 5 stosunków: zamienność (te same desygnaty), podrzędność (S w całości wewnątrz P), nadrzędność (P w całości wewnątrz S), krzyżowanie (częściowo się pokrywają) albo wykluczanie (wcale się nie pokrywają).",
     examples: [
-      { ex: "ZAMIENNOŚĆ: \"stolica Polski\" i \"miasto, w którym jest Pałac Kultury\"", note: "Te dwie nazwy mają identyczny zakres (Warszawa) — każdy desygnat jednej jest desygnatem drugiej." },
+      { ex: "ZAMIENNOŚĆ: \"stolica Polski\" i \"miasto, w którym stoi Pałac Kultury i Nauki\"", note: "Te dwie nazwy mają identyczny zakres (Warszawa) — każdy desygnat jednej jest desygnatem drugiej." },
       { ex: "PODRZĘDNOŚĆ: S=\"pies\" względem P=\"ssak\"", note: "Każdy pies jest ssakiem, ale nie każdy ssak jest psem (są też koty, konie...). Zakres S leży CAŁY wewnątrz zakresu P." },
       { ex: "NADRZĘDNOŚĆ: S=\"ssak\" względem P=\"pies\"", note: "To odwrotna strona tej samej relacji — ssak jest NADrzędny względem psa." },
       { ex: "KRZYŻOWANIE: S=\"student\", P=\"sportowiec\"", note: "Są studenci-sportowcy (część wspólna), są studenci niesportowcy, są sportowcy niebędący studentami. Trzy różne grupy." },
