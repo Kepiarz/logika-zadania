@@ -84,18 +84,21 @@ const quizBanks = {
       {
         q: "Czym różni się znak od oznaki?",
         options: [
+          "Nie ma różnicy, to synonimy",
           "Znak jest słowny, oznaka — niesłowna",
           "Znak rządzi się regułą znaczeniową, oznaka tylko współwystępuje ze stanem rzeczy bez takiej reguły",
-          "Znak jest fałszywy, oznaka prawdziwa",
-          "Nie ma różnicy, to synonimy"
-        ],
-        correct: 1,
+          "Znak jest fałszywy, oznaka prawdziwa"
+        ], correct: 0,
         explain: "Dym jest oznaką ognia (brak reguły znaczeniowej), ale kreski narysowane przez policjanta na asfalcie są znakiem (są reguły wskazujące, co oznaczają)."
       },
       {
         q: "\"Białość\" to przykład nazwy:",
-        options: ["konkretnej", "abstrakcyjnej", "indywidualnej", "zbiorowej"],
-        correct: 1,
+        options: [
+          "indywidualnej",
+          "zbiorowej",
+          "konkretnej",
+          "abstrakcyjnej"
+        ], correct: 3,
         explain: "Nazwa abstrakcyjna nie jest znakiem rzeczy/osoby, lecz wskazuje na cechę, zdarzenie lub stosunek."
       },
       {
@@ -111,26 +114,42 @@ const quizBanks = {
       },
       {
         q: "Nazwa \"najstarszy żyjący w dniu 15 IX 1993 człowiek\" jest nazwą:",
-        options: ["indywidualną", "jednostkową, lecz generalną", "pustą", "zbiorową"],
-        correct: 1,
+        options: [
+          "zbiorową",
+          "indywidualną",
+          "jednostkową, lecz generalną",
+          "pustą"
+        ], correct: 0,
         explain: "Klasyczna pułapka: nazwa jednostkowa (jeden desygnat) ≠ nazwa indywidualna. Ta nazwa wskazuje na cechę (a nie na konkretne indywiduum z założenia), więc jest generalna, choć ma jeden desygnat."
       },
       {
         q: "Zespół cech wystarczający do odróżnienia desygnatów nazwy od innych przedmiotów to:",
-        options: ["treść leksykalna", "zespół cech konstytutywnych", "cechy konsekutywne", "determinanda"],
-        correct: 1,
+        options: [
+          "cechy konsekutywne",
+          "determinanda",
+          "treść leksykalna",
+          "zespół cech konstytutywnych"
+        ], correct: 3,
         explain: "Cechy konstytutywne wystarczają do rozpoznania desygnatu; pozostałe wspólne cechy (które z tego wynikają) to cechy konsekutywne."
       },
       {
         q: "\"Zając jest pospolity w Polsce\" — słowo \"zając\" występuje tu w supozycji:",
-        options: ["prostej", "formalnej", "materialnej", "indywidualnej"],
-        correct: 1,
+        options: [
+          "indywidualnej",
+          "prostej",
+          "formalnej",
+          "materialnej"
+        ], correct: 0,
         explain: "Supozycja formalna = nazwa dla całego gatunku (nie pojedynczego desygnatu). Supozycja prosta byłaby np. w \"Zając przebiegł mi drogę\"."
       },
       {
         q: "Definicja \"Logika jest nauką o myśleniu zgodnym z prawidłami logiki\" zawiera błąd:",
-        options: ["ignotum per ignotum", "idem per idem (błędne koło bezpośrednie)", "przesunięcia kategorialnego", "definicji za szerokiej"],
-        correct: 1,
+        options: [
+          "przesunięcia kategorialnego",
+          "definicji za szerokiej",
+          "ignotum per ignotum",
+          "idem per idem (błędne koło bezpośrednie)"
+        ], correct: 3,
         explain: "Wyraz definiowany (\"logika\") występuje w definiens — to błędne koło bezpośrednie."
       },
       {
@@ -170,14 +189,22 @@ const quizBanks = {
     questions: [
       {
         q: "Podział pociągów na pasażerskie i towarowe (pomijając techniczne) jest błędny, bo:",
-        options: ["jest nierozłączny", "jest niewyczerpujący", "ma za dużo członów", "narusza zasadę dychotomii"],
-        correct: 1,
+        options: [
+          "narusza zasadę dychotomii",
+          "jest nierozłączny",
+          "jest niewyczerpujący",
+          "ma za dużo członów"
+        ], correct: 0,
         explain: "Istnieją pociągi techniczne, które nie należą do żadnego z dwóch członów — suma członów nie wyczerpuje całości dzielonej."
       },
       {
         q: "Podział pracowników wg zawodu, gdy niektórzy mają dwa zawody, narusza zasadę:",
-        options: ["wyczerpywania", "rozłączności", "jednej podstawy podziału", "dychotomii"],
-        correct: 1,
+        options: [
+          "jednej podstawy podziału",
+          "dychotomii",
+          "wyczerpywania",
+          "rozłączności"
+        ], correct: 3,
         explain: "Te osoby należałyby do dwóch członów na raz — to narusza rozłączność."
       },
       {
@@ -193,8 +220,12 @@ const quizBanks = {
       },
       {
         q: "Podział na: rodziny z 1-3 dzieci, z 3-5, z 5-7, z 7+ jest błędny, bo:",
-        options: ["niewyczerpujący", "granice się powtarzają — nierozłączny", "brak podstawy podziału", "to nie jest podział logiczny"],
-        correct: 1,
+        options: [
+          "brak podstawy podziału",
+          "to nie jest podział logiczny",
+          "niewyczerpujący",
+          "granice się powtarzają — nierozłączny"
+        ], correct: 3,
         explain: "Rodziny z 3, 5, 7 dzieci są liczone podwójnie — przedziały powinny być np. 1-2, 3-4, 5-6, 7+."
       },
       {
@@ -239,14 +270,22 @@ const quizBanks = {
       },
       {
         q: "Stosunek wynikania logicznego między zdaniami jest stosunkiem:",
-        options: ["symetrycznym i przechodnim", "nonsymetrycznym i przechodnim", "asymetrycznym i nieprzechodnim", "symetrycznym i nieprzechodnim"],
-        correct: 1,
+        options: [
+          "symetrycznym i nieprzechodnim",
+          "symetrycznym i przechodnim",
+          "nonsymetrycznym i przechodnim",
+          "asymetrycznym i nieprzechodnim"
+        ], correct: 0,
         explain: "Z p→q nie wynika q→p (nonsymetryczny), ale wynikanie jest przechodnie: jeśli p wynika z q, a q z r, to p wynika z r."
       },
       {
         q: "Stosunek ojcostwa (\"x jest ojcem y\") jest:",
-        options: ["przechodni", "atranzytywny", "nontranzytywny", "symetryczny"],
-        correct: 1,
+        options: [
+          "nontranzytywny",
+          "symetryczny",
+          "przechodni",
+          "atranzytywny"
+        ], correct: 3,
         explain: "Jeśli Adam jest ojcem Bolesława, a Bolesław ojcem Czesława, to na pewno Adam NIE jest ojcem Czesława — atranzytywny (czyli zawsze przeczy przechodniości)."
       },
       {
@@ -258,23 +297,21 @@ const quizBanks = {
       {
         q: "Aby stosunek był porządkujący w danej klasie, musi być jednocześnie:",
         options: [
+          "symetryczny, przechodni, spójny",
           "symetryczny, przechodni, zwrotny",
           "asymetryczny, przechodni, spójny",
-          "nonsymetryczny, atranzytywny, spójny",
-          "symetryczny, przechodni, spójny"
-        ],
-        correct: 1,
+          "nonsymetryczny, atranzytywny, spójny"
+        ], correct: 0,
         explain: "Te trzy warunki łącznie pozwalają ustawić elementy klasy w jeden uporządkowany szereg (np. wzrost żołnierzy w kompanii)."
       },
       {
         q: "Stosunek równościowy w danej klasie to stosunek:",
         options: [
+          "spójny i asymetryczny",
           "symetryczny, przechodni, zwrotny",
           "asymetryczny, przechodni, spójny",
-          "tylko symetryczny",
-          "spójny i asymetryczny"
-        ],
-        correct: 0,
+          "tylko symetryczny"
+        ], correct: 3,
         explain: "Np. rówieśnictwo — symetryczny + przechodni + zwrotny = pozwala dzielić klasę na klasy abstrakcji."
       },
       {
@@ -324,46 +361,51 @@ const quizBanks = {
       {
         q: "Norma konkretna a abstrakcyjna różnią się ze względu na:",
         options: [
+          "ich obowiązywanie",
           "liczbę adresatów",
           "okoliczność — jednorazowa sytuacja vs powtarzalna kategoria sytuacji",
-          "to, czy jest zapisana w ustawie",
-          "ich obowiązywanie"
-        ],
-        correct: 1,
+          "to, czy jest zapisana w ustawie"
+        ], correct: 0,
         explain: "Konkretna odnosi się do jednorazowo określonej sytuacji, abstrakcyjna — do powtarzalnego typu okoliczności."
       },
       {
         q: "Różnica między wypowiedzią «Palenie w tym pokoju jest naganne» a «Nie wolno palić w tym pokoju» polega na tym, że:",
         options: [
-          "pierwsza to norma, druga to ocena — norma zawsze używa przymiotników",
-          "pierwsza wyraża ocenę (dezaprobatę czynu), druga jest normą (wprost wyznacza komuś zakaz postępowania)",
           "obie są normami, tylko różnie sformułowanymi",
-          "obie są ocenami, bo dotyczą tego samego zachowania"
-        ],
-        correct: 1,
+          "obie są ocenami, bo dotyczą tego samego zachowania",
+          "pierwsza to norma, druga to ocena — norma zawsze używa przymiotników",
+          "pierwsza wyraża ocenę (dezaprobatę czynu), druga jest normą (wprost wyznacza komuś zakaz postępowania)"
+        ], correct: 3,
         explain: "Ocena wyraża aprobatę/dezaprobatę stanu rzeczy («naganne» = źle oceniam), a norma wprost WYZNACZA adresatowi sposób postępowania («nie wolno» = zakaz). To sąsiednie, ale różne kategorie — właśnie o ich rozróżnianie chodzi w zagadnieniu 15."
       },
       {
         q: "Wypowiedź oceniająca wyraża:",
-        options: ["opis stanu świata", "aprobatę lub deaprobatę jakiegoś zjawiska", "żądanie informacji", "zawsze normę postępowania"],
-        correct: 1,
+        options: [
+          "zawsze normę postępowania",
+          "opis stanu świata",
+          "aprobatę lub deaprobatę jakiegoś zjawiska",
+          "żądanie informacji"
+        ], correct: 0,
         explain: "Ocena to stan umysłowy przeżycia aprobaty lub deaprobaty — różni się od zdania opisowego."
       },
       {
         q: "Rodzaje wypowiedzi oceniających to (wg notatek): estetyczna, moralna i:",
-        options: ["logiczna", "hedonistyczna", "deontyczna", "epistemiczna"],
-        correct: 1,
+        options: [
+          "deontyczna",
+          "epistemiczna",
+          "logiczna",
+          "hedonistyczna"
+        ], correct: 3,
         explain: "Trzy typy ocen: estetyczna (piękne/brzydkie), moralna (dobre/złe), hedonistyczna (przyjemne/nieprzyjemne)."
       },
       {
         q: "Pytanie \"Jakiego koloru jest uczucie?\" jest pytaniem:",
         options: [
-          "otwartym, ale poprawnym",
           "niewłaściwie postawionym — błędne założenie",
           "do rozstrzygnięcia",
-          "sugestywnym"
-        ],
-        correct: 1,
+          "sugestywnym",
+          "otwartym, ale poprawnym"
+        ], correct: 2,
         explain: "Założeniem pytania jest, że uczucie ma kolor — co jest niezgodne z rzeczywistością, więc pytanie jest niewłaściwie postawione."
       },
       {
@@ -397,12 +439,11 @@ const quizBanks = {
       {
         q: "Indukcjonizm naiwny zakłada, że nauka zaczyna się od:",
         options: [
-          "teorii, którą się potem testuje",
-          "neutralnych, obiektywnych obserwacji niezależnych od teorii",
           "falsyfikacji hipotez",
-          "paradygmatu"
-        ],
-        correct: 1,
+          "paradygmatu",
+          "teorii, którą się potem testuje",
+          "neutralnych, obiektywnych obserwacji niezależnych od teorii"
+        ], correct: 3,
         explain: "Naiwny indukcjonizm: obserwacja jest punktem wyjścia, niezależna od oczekiwań i teorii — to właśnie Chalmers krytykuje."
       },
       {
@@ -419,23 +460,22 @@ const quizBanks = {
       {
         q: "Wg Chalmersa zdania obserwacyjne są:",
         options: [
-          "całkowicie niezależne od teorii",
-          "zawsze formułowane w języku jakiejś teorii — \"obciążone teorią\"",
           "tylko subiektywnymi wrażeniami",
-          "niepotrzebne do nauki"
-        ],
-        correct: 1,
+          "niepotrzebne do nauki",
+          "całkowicie niezależne od teorii",
+          "zawsze formułowane w języku jakiejś teorii — \"obciążone teorią\""
+        ], correct: 3,
         explain: "To kluczowa teza rozdziału III: obserwacja zależy od teoretycznych założeń obserwatora, nie jest neutralnym punktem wyjścia."
       },
       {
         q: "Falsyfikacjonizm (Popper) jako kryterium naukowości teorii przyjmuje:",
         options: [
           "potwierdzalność przez obserwacje",
-          "falsyfikowalność — możliwość empirycznego obalenia teorii",
           "powszechną akceptację przez naukowców",
+          "falsyfikowalność — możliwość empirycznego obalenia teorii",
           "logiczną niesprzeczność"
         ],
-        correct: 1,
+        correct: 2,
         explain: "Teoria naukowa musi dawać się w zasadzie obalić przez doświadczenie — teorie niefalsyfikowalne (np. tautologie) nie są naukowe w tym sensie."
       },
       {
@@ -467,8 +507,12 @@ const quizBanks = {
     questions: [
       {
         q: "\"Kierowca pogotowia włącza niebieskie światło\" to przykład:",
-        options: ["oznaki", "znaku", "definicji", "normy"],
-        correct: 1,
+        options: [
+          "definicji",
+          "normy",
+          "oznaki",
+          "znaku"
+        ], correct: 3,
         explain: "Istnieje reguła znaczeniowa (przepisy) nakazująca wiązać z tym sygnałem określoną treść — to znak, nie oznaka."
       },
       {
@@ -479,8 +523,12 @@ const quizBanks = {
       },
       {
         q: "\"Sejm\" w odróżnieniu od \"poseł\" to przykład nazwy:",
-        options: ["jednostkowej", "zbiorowej (kolektywnej)", "pustej", "indywidualnej"],
-        correct: 1,
+        options: [
+          "pustej",
+          "indywidualnej",
+          "jednostkowej",
+          "zbiorowej (kolektywnej)"
+        ], correct: 3,
         explain: "Sejm to agregat posłów — desygnatem nazwy zbiorowej jest całość, nie poszczególny element."
       },
       {
@@ -497,12 +545,11 @@ const quizBanks = {
       {
         q: "Definicja za wąska to taka, w której:",
         options: [
+          "rodzaj jest źle wybrany",
           "definiens obejmuje więcej niż definiendum",
           "definiens nie obejmuje wszystkich desygnatów definiendum",
-          "definiendum występuje w definiensie",
-          "rodzaj jest źle wybrany"
-        ],
-        correct: 1,
+          "definiendum występuje w definiensie"
+        ], correct: 0,
         explain: "Np. \"ołówek to przyrząd z grafitu w niebieskiej oprawce\" — pomija ołówki innych kolorów."
       },
       {
@@ -513,25 +560,32 @@ const quizBanks = {
       },
       {
         q: "Stosunek \"jest większy od\" jest:",
-        options: ["symetryczny", "asymetryczny i przechodni", "nonsymetryczny", "zwrotny"],
-        correct: 1,
+        options: [
+          "nonsymetryczny",
+          "zwrotny",
+          "symetryczny",
+          "asymetryczny i przechodni"
+        ], correct: 3,
         explain: "Jeśli A>B, to nieprawda że B>A (asymetryczny); jeśli A>B i B>C, to A>C (przechodni)."
       },
       {
         q: "Stosunek \"jest rówieśnikiem\" jest:",
-        options: ["porządkujący", "równościowy (symetryczny, przechodni, zwrotny)", "atranzytywny", "asymetryczny"],
-        correct: 1,
+        options: [
+          "równościowy (symetryczny, przechodni, zwrotny)",
+          "atranzytywny",
+          "asymetryczny",
+          "porządkujący"
+        ], correct: 2,
         explain: "Klasyczny przykład relacji równościowej z podręcznika — dzieli klasę na klasy abstrakcji (roczniki)."
       },
       {
         q: "Norma generalna i abstrakcyjna razem oznaczają normę, która:",
         options: [
-          "dotyczy jednej osoby w jednej sytuacji",
-          "dotyczy klasy osób w powtarzalnym typie sytuacji",
           "nie obowiązuje",
-          "jest zawsze ustawą"
-        ],
-        correct: 1,
+          "jest zawsze ustawą",
+          "dotyczy jednej osoby w jednej sytuacji",
+          "dotyczy klasy osób w powtarzalnym typie sytuacji"
+        ], correct: 3,
         explain: "Połączenie dwóch wymiarów: adresat (generalny = klasa) i okoliczność (abstrakcyjna = typ powtarzalny) — typowa norma ustawowa."
       },
       {
@@ -597,43 +651,62 @@ const quizBanks = {
     questions: [
       {
         q: "Zakresy nazw \"pies\" (S) i \"ssak\" (P) są w stosunku:",
-        options: ["zamienności", "podrzędności S względem P", "krzyżowania się", "wykluczania się"],
-        correct: 1,
+        options: [
+          "wykluczania się",
+          "zamienności",
+          "podrzędności S względem P",
+          "krzyżowania się"
+        ], correct: 0,
         explain: "Każdy pies jest ssakiem, ale nie każdy ssak jest psem — zakres S leży całkowicie wewnątrz zakresu P."
       },
       {
         q: "Zakresy nazw \"student\" i \"sportowiec\" są w stosunku:",
-        options: ["podrzędności", "nadrzędności", "krzyżowania się", "sprzeczności"],
-        correct: 2,
+        options: [
+          "krzyżowania się",
+          "sprzeczności",
+          "podrzędności",
+          "nadrzędności"
+        ], correct: 0,
         explain: "Są studenci-sportowcy, są studenci niesportowcy i są sportowcy niebędący studentami — trzy różne grupy, to krzyżowanie."
       },
       {
         q: "Różnica między sprzecznością a przeciwieństwem (jako odmianami wykluczania się) polega na tym, że:",
         options: [
-          "sprzeczność dotyczy tylko liczb",
-          "przy sprzeczności suma obu zakresów wyczerpuje całą klasę uniwersalną, przy przeciwieństwie nie",
           "przeciwieństwo jest mocniejszą formą sprzeczności",
-          "nie ma żadnej różnicy"
-        ],
-        correct: 1,
+          "nie ma żadnej różnicy",
+          "sprzeczność dotyczy tylko liczb",
+          "przy sprzeczności suma obu zakresów wyczerpuje całą klasę uniwersalną, przy przeciwieństwie nie"
+        ], correct: 3,
         explain: "Sprzeczność: każdy przedmiot jest jednym z dwóch (np. parzysta/nieparzysta). Przeciwieństwo: oba zakresy się wykluczają, ale są jeszcze inne przedmioty poza nimi (np. pies/kot — są jeszcze konie)."
       },
       {
         q: "Zdanie \"Minuta składa się z 60 sekund\" jest zdaniem:",
-        options: ["syntetycznym", "analitycznym", "egzystencjalnym", "subsumpcyjnym"],
-        correct: 1,
+        options: [
+          "subsumpcyjnym",
+          "syntetycznym",
+          "analitycznym",
+          "egzystencjalnym"
+        ], correct: 0,
         explain: "Prawdziwość wynika z samej definicji sekundy (1/60 minuty) — nie trzeba nic sprawdzać w rzeczywistości."
       },
       {
         q: "\"Jan jest górnikiem\" to przykład zdania:",
-        options: ["egzystencjalnego", "atomicznego", "subsumpcyjnego", "problematycznego"],
-        correct: 1,
+        options: [
+          "subsumpcyjnego",
+          "problematycznego",
+          "egzystencjalnego",
+          "atomicznego"
+        ], correct: 3,
         explain: "Atomiczne — nazwa indywidualna (Jan) przynależy do klasy oznaczonej nazwą generalną (górnicy)."
       },
       {
         q: "\"Każdy notariusz jest prawnikiem\" to przykład zdania:",
-        options: ["atomicznego", "egzystencjalnego", "subsumpcyjnego", "apodyktycznego"],
-        correct: 2,
+        options: [
+          "subsumpcyjnego",
+          "apodyktycznego",
+          "atomicznego",
+          "egzystencjalnego"
+        ], correct: 0,
         explain: "Subsumpcyjne — obie nazwy (notariusz, prawnik) są generalne; jedna klasa zawiera się w drugiej."
       },
       {
@@ -1203,6 +1276,121 @@ const quizBanks = {
         explain: "Łańcuch wynikania działa w jedną stronę: apodyktyczne → asertoryczne → problematyczne. Jeśli coś faktycznie jest, to z pewnością może być — możliwość to najsłabsze, najmniej zobowiązujące stwierdzenie z tych trzech."
       }
     ]
+  },
+  q_r4: {
+    title: "Definicje (rozdz. IV)",
+    questions: [
+      {
+        q: "Ustawa definiuje: «Przez bezdomnego rozumie się osobę niezamieszkującą w lokalu mieszkalnym». Słowo «bezdomny» już wcześniej istniało w języku z podobnym, choć nieostrym znaczeniem. To definicja:",
+        options: [
+          "sprawozdawcza — opisuje, jak słowo było dotąd używane w języku",
+          "konstrukcyjna — tworzy dla słowa zupełnie nowe, wcześniej nieistniejące znaczenie",
+          "regulująca — precyzuje istniejące nieostre znaczenie, nie zmieniając go radykalnie",
+          "ostensywna — wskazuje przykłady bezdomności zamiast podawać cechy"
+        ],
+        correct: 2,
+        explain: "Słowo już istniało, ale było nieostre. Ustawa tylko wytycza granicę — to definicja regulująca. Konstrukcyjna byłaby, gdyby słowu nadano całkowicie obce mu dotąd znaczenie."
+      },
+      {
+        q: "«Piłka to okrągły przedmiot służący do zabawy.» Jakie błędy zawiera ta definicja?",
+        options: [
+          "tylko idem per idem — bo «piłka» wraca w definiensie w formie ukrytej",
+          "tylko za wąska — wyklucza piłki lekarskie i rehabilitacyjne, które nie służą zabawie",
+          "tylko za szeroka — obejmuje przedmioty niebędące piłkami, np. kule do kręgli",
+          "za szeroka i za wąska jednocześnie — «okrągły przedmiot do zabawy» obejmuje też bańki mydlane (za szeroka), a wyklucza piłki rugby, które nie są okrągłe (za wąska)"
+        ],
+        correct: 3,
+        explain: "Definicja błędna w obu kierunkach: za szeroka (bańka mydlana, globus) i za wąska (piłki do rugby, American football są eliptyczne, a są piłkami). To częsty przypadek — zły zestaw cech powoduje dwa błędy naraz."
+      },
+      {
+        q: "Wskaż definiendum w zdaniu: «Wdową nazywamy kobietę, której mąż zmarł i która nie zawarła ponownego małżeństwa.»",
+        options: [
+          "kobietę, której mąż zmarł i która nie zawarła ponownego małżeństwa",
+          "wdową",
+          "kobietę",
+          "która nie zawarła ponownego małżeństwa"
+        ],
+        correct: 1,
+        explain: "Definiendum to wyraz/wyrażenie, które definiujemy — tu «wdowa» (zapisana w celowniku «wdową»). Reszta zdania po «nazywamy» to definiens."
+      },
+      {
+        q: "«Architekt to osoba zajmująca się projektowaniem budynków w Polsce.» Błąd tej definicji to:",
+        options: [
+          "za wąska — architekci projektują też mosty, wnętrza i parki, a ponadto pracują poza granicami Polski; definicja wyklucza prawdziwych desygnatów",
+          "ignotum per ignotum — «projektowanie» jest równie niejasne jak «architekt»",
+          "przesunięcie kategorialne — architekt to zawód, nie osoba",
+          "idem per idem — «architekt» wraca w definiensie w formie słowa «architektoniczny»"
+        ],
+        correct: 0,
+        explain: "Dodanie zbędnych ograniczeń («budynków», «w Polsce») wyklucza prawdziwych desygnatów — architektów projektujących inne obiekty i pracujących za granicą. To klasyczna definicja za wąska."
+      },
+      {
+        q: "«Miłość to chemiczna reakcja zachodzącą w mózgu.» Główny błąd logiczny tej definicji to:",
+        options: [
+          "ignotum per ignotum — «reakcja chemiczna» jest niezrozumiała dla przeciętnego odbiorcy",
+          "idem per idem — «miłość» pojawia się też w definiensie w ukrytej formie",
+          "przesunięcie kategorialne — miłość to uczucie/stan psychiczny, a definicja przypisuje jej kategorię procesu fizykochemicznego",
+          "definicja jest poprawna — miłość rzeczywiście polega na reakcjach chemicznych"
+        ],
+        correct: 2,
+        explain: "Miłość należy do kategorii uczuć/stanów psychicznych — przypisanie jej kategorii «reakcji chemicznej» to zamiana kategorii ontologicznej. To przesunięcie kategorialne, analogiczne do «norma to stosunek między ludźmi» z podręcznika."
+      },
+      {
+        q: "Czym definicja REALNA różni się od NOMINALNEJ?",
+        options: [
+          "realna mówi o znaczeniu wyrazu, nominalna mówi o cechach przedmiotów",
+          "realna mówi o cechach samych przedmiotów (desygnatów), nominalna mówi o znaczeniu lub użyciu wyrazu",
+          "realna jest zawsze klasyczna, a nominalna zawsze przez postulaty",
+          "realna dotyczy tylko nazw abstrakcyjnych, nominalna — tylko nazw konkretnych"
+        ],
+        correct: 1,
+        explain: "Realna: «Człowiek jest istotą rozumną» — zdanie o przedmiotach (ludziach). Nominalna: «Wyraz 'człowiek' znaczy tyle, co istota rozumna» — zdanie o słowie. Ta sama treść, inny podmiot wypowiedzi."
+      },
+      {
+        q: "Definicja klasyczna musi zawierać:",
+        options: [
+          "genus (rodzaj — szersza kategoria) oraz differentia specifica (cechę wyróżniającą definiowany przedmiot spośród innych z tego rodzaju)",
+          "wyliczenie wszystkich desygnatów definiowanej nazwy bez wskazywania cech wspólnych",
+          "przykład użycia definiowanego słowa w typowym zdaniu języka naturalnego",
+          "listę synonimów i antonimów definiowanego wyrazu"
+        ],
+        correct: 0,
+        explain: "Wzór definicji klasycznej: «A to taki B (genus), który ma cechę C (differentia specifica)». Np. «budzik to zegar, który o ustalonej godzinie wydaje sygnał dźwiękowy». Wyliczenie desygnatów to definicja nieklasyczna (równościowa przez enumerację)."
+      },
+      {
+        q: "Który z poniższych sądów o definicjach jest PRAWDZIWY?",
+        options: [
+          "definicja sprawozdawcza, jako opis języka, zawsze jest prawdziwa — bo mówi o faktach",
+          "definicja regulująca tworzy dla słowa całkowicie nowe znaczenie, nieistniejące dotąd",
+          "definicja konstrukcyjna opisuje, jak słowo jest aktualnie używane przez większość ludzi",
+          "definicja sprawozdawcza może być prawdziwa lub fałszywa — opisuje fakt językowy, który można zweryfikować"
+        ],
+        correct: 3,
+        explain: "Sprawozdawcza jest opisem faktycznego użycia słowa — może być trafna lub błędna. Np. «Makaroniarz to osoba lubiąca makaron» to sprawozdawcza, ale fałszywa (tak słowa się nie używa). Opcje A, B, C mylą ze sobą typy definicji."
+      },
+      {
+        q: "«Ignotum per ignotum» to błąd polegający na tym, że:",
+        options: [
+          "definicja tłumaczy niejasne słowo innym równie niejasnym słowem — odbiorca, który nie znał definiendum, nie zrozumie też definiensa",
+          "wyraz definiowany pojawia się bezpośrednio lub pośrednio w tekście definiensa",
+          "pojęcie jest przypisane do niewłaściwej kategorii ontologicznej",
+          "zakres definiensa jest szerszy niż zakres definiendum"
+        ],
+        correct: 0,
+        explain: "Ignotum per ignotum = «niejasne przez niejasne». Przykład: «Polopiryna to kwas acetylosalicylowy» — dla osoby nieznającej chemii nic to nie wyjaśnia. Różni się od idem per idem (B), gdzie chodzi o powrót tego samego słowa."
+      },
+      {
+        q: "W definicji «Autobus to pojazd silnikowy (A) przeznaczony do przewozu większej liczby pasażerów (B)» — co jest różnicą gatunkową (differentia specifica)?",
+        options: [
+          "pojazd silnikowy — bo to szersza kategoria, do której należą też samochody i ciężarówki",
+          "pojazd — bo autobus jest przede wszystkim pojazdem",
+          "przeznaczony do przewozu większej liczby pasażerów — to cecha, która wyróżnia autobus spośród wszystkich pojazdów silnikowych",
+          "autobus — bo to właśnie definiujemy"
+        ],
+        correct: 2,
+        explain: "Genus (rodzaj) to szersza kategoria: «pojazd silnikowy». Differentia specifica to cecha odróżniająca: «przewóz większej liczby pasażerów» — to właśnie wyklucza samochody osobowe i ciężarówki z zakresu «autobus»."
+      }
+    ]
   }
 };
 
@@ -1591,8 +1779,8 @@ const sections = [
       },
       {
         time: "15 min",
-        label: "QUIZ — Znaki, nazwy, definicje (rozdz. I–IV)",
-        detail: "quiz:d1a",
+        label: "QUIZ — Definicje (rozdz. IV)",
+        detail: "quiz:q_r4",
         type: "quiz"
       }
     ]
@@ -1735,6 +1923,12 @@ const sections = [
     title: "Quizy zbiorcze — wszystkie rozdziały na raz",
     color: "#3A2E1F",
     blocks: [
+      {
+        time: "15 min",
+        label: "QUIZ ZBIORCZY — Znaki, nazwy, definicje (rozdz. I–IV)",
+        detail: "quiz:d1a",
+        type: "quiz"
+      },
       {
         time: "15 min",
         label: "QUIZ UZUPEŁNIAJĄCY — stosunki nazw, zdania, oceny, normy, modalności",
