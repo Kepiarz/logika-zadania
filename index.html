@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language & Cognition — Practice Quiz</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface-2: #f1f5f9;
+    --border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #94a3b8;
+    --accent: #2563eb;
+    --accent-bg: #eff6ff;
+    --accent-text: #1d4ed8;
+    --success-bg: #f0fdf4;
+    --success-border: #86efac;
+    --success-text: #14532d;
+    --success-letter-bg: #bbf7d0;
+    --danger-bg: #fef2f2;
+    --danger-border: #fca5a5;
+    --danger-text: #7f1d1d;
+    --danger-letter-bg: #fecaca;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #1e293b;
+      --border: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      --accent: #3b82f6;
+      --accent-bg: #1e3a8a33;
+      --accent-text: #93c5fd;
+      --success-bg: #052e1633;
+      --success-border: #16a34a;
+      --success-text: #86efac;
+      --success-letter-bg: #14532d;
+      --danger-bg: #45090933;
+      --danger-border: #dc2626;
+      --danger-text: #fca5a5;
+      --danger-letter-bg: #7f1d1d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-2: #1e293b;
+    --border: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --accent: #3b82f6;
+    --accent-bg: #1e3a8a33;
+    --accent-text: #93c5fd;
+    --success-bg: #052e1633;
+    --success-border: #16a34a;
+    --success-text: #86efac;
+    --success-letter-bg: #14532d;
+    --danger-bg: #45090933;
+    --danger-border: #dc2626;
+    --danger-text: #fca5a5;
+    --danger-letter-bg: #7f1d1d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  .header-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.75rem; font-size: 13px;
+  }
+  .progress-text { color: var(--text-muted); }
+  .score-badge {
+    font-weight: 500; background: var(--accent-bg); color: var(--accent-text);
+    padding: 3px 10px; border-radius: 20px;
+  }
+  .progress-bar-bg { height: 4px; background: var(--surface-2); border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden; }
+  .progress-bar-fill { height: 4px; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+  .topic-badge {
+    display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 0.75rem; text-transform: uppercase;
+  }
+  .question {
+    font-size: 16px; font-weight: 500; line-height: 1.6; margin-bottom: 1.25rem; color: var(--text-primary);
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+  .option {
+    display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--surface);
+    cursor: pointer; text-align: left; font-size: 14px; line-height: 1.5;
+    color: var(--text-primary); transition: all 0.15s; width: 100%; font-family: inherit;
+  }
+  .option:hover:not(.disabled) { border-color: var(--accent); }
+  .option.disabled { cursor: default; }
+  .option.correct { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+  .option.wrong { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger-text); }
+  .opt-letter {
+    min-width: 22px; height: 22px; border-radius: 50%; background: var(--surface-2);
+    color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0; margin-top: 1px;
+  }
+  .option.correct .opt-letter { background: var(--success-letter-bg); color: var(--success-text); }
+  .option.wrong .opt-letter { background: var(--danger-letter-bg); color: var(--danger-text); }
+  .explanation {
+    background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+    padding: 12px 14px; font-size: 13.5px; line-height: 1.65; color: var(--text-secondary); margin-bottom: 1rem;
+  }
+  .explanation .verdict-correct { font-weight: 600; color: var(--success-text); }
+  .explanation .verdict-wrong { font-weight: 600; color: var(--danger-text); }
+  .btn-next {
+    width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); font-size: 14px; font-weight: 500; cursor: pointer;
+    color: var(--text-primary); font-family: inherit;
+  }
+  .btn-next:hover { background: var(--surface-2); }
+  .result-card { text-align: center; padding: 3rem 1rem; max-width: 520px; margin: 0 auto; }
+  .result-score { font-size: 72px; font-weight: 600; color: var(--accent); line-height: 1; }
+  .result-score span { font-size: 32px; color: var(--text-muted); }
+  .result-pct { font-size: 28px; font-weight: 500; margin: 0.5rem 0 0.25rem; }
+  .result-msg { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 15px; }
+  .btn-restart {
+    padding: 10px 28px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); font-size: 14px; font-weight: 500; cursor: pointer;
+    color: var(--text-primary); font-family: inherit;
+  }
+  .btn-restart:hover { background: var(--surface-2); }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const ALL = [
+  {t:"CG Basics",q:"In Cognitive Grammar, nouns profile:",o:["things.","atemporal relations.","temporal relations.","domains."],a:0,e:"Nouns profile things — regions in a domain (concrete or abstract). This is a foundational definition with no example to vary."},
+  {t:"CG Basics",q:"Verbs profile:",o:["things","atemporal relations.","temporal relations.","domains."],a:2,e:"Verbs profile processes — temporal relations where the flow of time is essential to the construal."},
+  {t:"CG Basics",q:"Prepositions and adjectives share the property of profiling:",o:["things.","atemporal relations.","temporal relations.","processes."],a:1,e:"Both adjectives and prepositions profile atemporal relations — relations that don't require the flow of time to be understood. They differ mainly in whether the landmark is 'built in' (adjectives) or must be explicit (prepositions)."},
+  {t:"CG Basics",q:"Which grammatical category has a RELATION (rather than a thing) as its trajector?",o:["Nouns","Adjectives","Adverbs","Prepositions with a thing as landmark"],a:2,e:"Adverbs profile atemporal relations whose trajector is itself another relation — this is why adverbs can modify verbs, adjectives, and other adverbs, all of which profile relations."},
+  {t:"Grounding & Virtuality",q:"Attenuation, as part of subjectification, refers to:",o:["weakening of a part of meaning during subjectification.","referring to an object mentioned previously in a discourse space.","turning an agent-oriented sentence into a theme-oriented one.","relating the content of a sentence to the ground."],a:0,e:"Attenuation is the gradual fading of a meaning element during subjectification — e.g. the sense of 'a creature with legs' fades from 'to run' as the verb is applied to vehicles, then roads, then abstract processes."},
+  {t:"Constructional Schemas",q:"A constructional schema is best described as:",o:["an instruction for building a sentence.","a template for building a sentence.","a \u201claw\u201d governing sentence structure.","an algorithm for building a sentence."],a:1,e:"Constructional schemas are flexible templates abstracted from usage events — not rigid instructions, laws, or algorithms, which would misrepresent CG's usage-based, non-rule-bound view of grammar."},
+  {t:"Constructional Schemas",q:"Which two factors can prevent a minor constructional schema (e.g. an irregular form like 'children') from being replaced by the regular major schema?",o:["Grounding and entrenchment.","Elaboration and extension.","Specialization and entrenchment.","Profiling and specialization."],a:2,e:"A minor schema can survive by specialising for a distinct meaning (like 'hung' vs. 'hanged') or through entrenchment — high frequency of use keeps a form easy to retrieve from memory, resisting replacement by the regular pattern."},
+  {t:"Construal & Diagrams",q:"Dimensions of construal include:",o:["specificity, perspective, scope, and scale of construal.","specificity, perspective, entrenchment.","entrenchment, grounding, specificity.","extension, elaboration, profiling."],a:0,e:"The dimensions of construal are profile/base, scope, scale, specificity, and perspective. Entrenchment and grounding are separate CG concepts, not dimensions of construal itself."},
+  {t:"Reference Point",q:"Which of the following is NOT a reference-point phenomenon?",o:["Metonymy","Active zone","Entrenchment","Nested locative"],a:2,e:"Entrenchment concerns how easily a form is retrieved from memory due to frequency — a schema/memory concept, not a reference-point arrangement. Metonymy, active zones, and nested locatives are all explicitly reference-point phenomena in CG."},
+  {t:"CG Basics",q:"The two major subtypes of nouns, based on how their boundaries are construed, are:",o:["perfective and imperfective nouns.","grounded and ungrounded nouns.","profiled and unprofiled nouns.","count and mass nouns."],a:3,e:"Count nouns have boundaries within the immediate scope of construal; mass nouns have boundaries outside it. This is the fundamental noun subclassification in CG."},
+  {t:"CG Basics",q:"The two major subtypes of verbs are:",o:["perfective and imperfective verbs.","grounded and ungrounded verbs.","profiled and unprofiled verbs.","count and mass verbs."],a:0,e:"This mirrors the count/mass distinction but for processes: perfective verbs have endpoints within the immediate scope; imperfective verbs do not."},
+  {t:"Grounding & Virtuality",q:"The ground, in Cognitive Grammar, includes:",o:["the trajector and the landmark.","elaboration and extension.","the speaker, the hearer, the time and place of speaking.","profiling."],a:2,e:"The ground is the situational context of the speech event: speaker, hearer, time and place of speaking, plus nearby objects/people."},
+  {t:"Structure of Events",q:"Which of the following is a theme-oriented sentence?",o:["Mary painted the fence.","The valley teems with wildflowers.","They demolished the building.","I am here."],a:1,e:"This is a setting-subject construction: the valley (a location, not an agent) is the trajector, so the true participants (the flowers) are backgrounded — a classic theme-oriented construal, parallel to 'The garden is swarming with bees.' The others are agent-oriented (a, c) or a grounding example with no patient/theme (d)."},
+  {t:"Grounding & Virtuality",q:"Which of the referents in bold is virtual?",o:["This apple on the table.","All swans are birds.","I fixed the car yesterday.","There is a ghost in that house."],a:1,e:"Generic statements invoke a maximal extension — a virtual collection encompassing every swan past, present, future, and hypothetical. The other options refer to actual, specific referents in the speaker's world (even option d asserts a specific actual claim about a specific location, not a generic type)."},
+  {t:"Structure of Events",q:"The basic action chain for describing force-dynamic interactions between things includes:",o:["mover, path, receiver","agent, zero","agent, instrument, patient","experiencer, agent, instrument, patient"],a:2,e:"The standard action chain: energy flows from the agent (source), optionally through an instrument, to the patient (energy sink). 'Zero' and 'experiencer' are special, non-prototypical roles, not part of the basic three-part chain."},
+  {t:"Structure of Events",q:"A sentence resists passivization when:",o:["the meaning of the sentence is subjectified.","there is no energy flow from the agent to the patient.","the sentence is agent-oriented.","the sentence is theme-oriented."],a:1,e:"Passivization requires robust energy flow. Sentences describing perception, mental states, or measurement (e.g. 'Jill saw a jackdaw') lack this flow and resist passivization."},
+  {t:"Construal & Diagrams",q:"A diagram shows a small circle fully enclosed within a box labelled 'immediate scope', with no time arrow at all. This diagram illustrates:",o:["bounded construal in nouns.","unbounded construal in nouns.","perfective construal in verbs.","imperfective construal in verbs."],a:0,e:"A circle (a delineated thing) fully inside the immediate scope box shows a bounded object (like 'cat') whose boundary lies within the immediate scope. No time arrow means it's a nominal, not a verbal, diagram."},
+  {t:"Construal & Diagrams",q:"A diagram shows a time arrow (T) whose dotted ends extend beyond the 'immediate scope' box on both sides. This diagram illustrates:",o:["bounded construal in nouns.","unbounded construal in nouns.","perfective construal in verbs.","imperfective construal in verbs."],a:3,e:"Dotted lines extending past the immediate scope box mean the process's endpoints fall OUTSIDE the immediate scope — the definition of imperfective construal (compare with 'like', whose beginning/end are vague)."},
+  {t:"Construal & Diagrams",q:"If one diagram presents the BASE for the process (TO) MELT, and a second diagram shows the entire time axis bolded from start to end along with every stage, this construal corresponds to:",o:["It melts.","It is melting.","It is melted.","to melt."],a:0,e:"A fully bolded time axis (full sequential scanning of the whole process) matches a finite, general/habitual statement: 'It melts'. 'It is melting' would bold only the middle stage; 'It is melted' would box only the final stage; 'to melt' is the unmarked base, already given."},
+  {t:"Construal & Diagrams",q:"Using the same base for (TO) MELT, a diagram shows the time axis NOT bolded, but the FINAL stage of the process boxed and highlighted. This construal corresponds to:",o:["It melts.","It is melting.","It is melted.","to melt."],a:2,e:"No bolded time axis but a boxed final stage = summary scanning of just the resultant state — exactly the construal behind 'It is melted' (parallel to 'It is broken'), profiling the end-result rather than the ongoing process."},
+  {t:"Language Design Features",q:"Reflexivity is the property of language that allows us to:",o:["imitate sounds heard in nature.","talk about language using language.","refer to events distant in time and space.","create an infinite number of new sentences."],a:1,e:"Reflexivity lets us use language to comment on language itself (e.g. discussing grammar or meaning) — a capacity animals lack. The other options describe onomatopoeia, displacement, and productivity respectively."},
+  {t:"Language Design Features",q:"Arbitrariness refers to:",o:["an obvious motivation in the form-meaning unit.","the possibility of talking about events distant in space and time.","the lack of a motivated connection between form and meaning.","a strong form-to-meaning resemblance."],a:2,e:"Arbitrariness is the absence of any natural link between a word's sound and its meaning — the connection exists purely by convention."},
+  {t:"Language Acquisition",q:"The critical period hypothesis states that:",o:["babies start speaking in full sentences in early childhood.","language developed at a specific point in human evolution.","the brain is most ready to acquire language during a window in childhood.","the brain develops during a specific stage of pregnancy."],a:2,e:"The critical period is a neurological window (roughly birth to puberty) during which the brain is maximally plastic for native-like language acquisition."},
+  {t:"Neurolinguistics",q:"Damage to Wernicke's area typically results in:",o:["fluent speech that is largely meaningless.","halting, effortful speech with relatively preserved comprehension.","a complete inability to perceive any auditory input.","difficulty coordinating the muscles needed for articulation."],a:0,e:"Wernicke's aphasia is fluent but semantically empty speech ('word salad'). Option (b) is actually the profile of BROCA'S aphasia (the reverse pair) — a classic exam-style swap. Option (d) describes apraxia of speech, a distinct motor-planning disorder."},
+  {t:"Word Formation",q:"Which of the following is TRUE?",o:["An infix is a type of suffix.","A suffix is a type of affix.","An affix is a type of prefix.","A prefix is a type of suffix."],a:1,e:"'Affix' is the umbrella term for any bound morpheme attached to a root. Prefixes, suffixes, and infixes are all subtypes of affixes, distinguished by position — none is a subtype of the others."},
+  {t:"Word Formation",q:"Words like \u2018sandwich\u2019 (from the Earl of Sandwich) and \u2018jeans\u2019 (from Genoa) are called:",o:["acronyms","eponyms","epigrams","epigraphs"],a:1,e:"An eponym is a word derived from a proper name — a person's name (sandwich) or a place name (jeans, from Genoa, Italy)."},
+  {t:"Dialects & Contact",q:"A pidgin is a variety of language that:",o:["excludes outsiders from understanding members of a group.","facilitates communication between two groups with a common practical purpose, e.g. trade.","increases the prestige of its speakers.","facilitates communication between different generations of speakers."],a:1,e:"A pidgin is a simplified contact language developed so two groups without a shared language can communicate for practical purposes, classically trade. It has no native speakers."},
+  {t:"Language Design Features",q:"A history teacher describing the fall of the Roman Empire — an event distant in both time and place — illustrates which property of language?",o:["Displacement","Productivity","Duality","Cultural transmission"],a:0,e:"Displacement is the ability to talk about things not present in the immediate here-and-now — past events, distant places, even fictional things. Animals' communication is typically limited to the immediate context."},
+  {t:"Word Formation",q:"The word 'google' (originally a misspelling of 'googol', now used as a common verb) is an example of:",o:["adding affixes to words.","inventing a totally new word from scratch.","modifying words by shortening them.","modifying words by changing their grammatical class."],a:1,e:"Coinage is the invention of a brand-new term with no existing word or morpheme as its base — classic examples include aspirin, kleenex, and google."},
+  {t:"Sign Language & Gestures",q:"Finger-spelling is:",o:["a written representation of gestures.","a natural, obligatory part of every sign language grammar.","a written representation of the alphabet's letters.","a manual representation of the letters of the alphabet."],a:3,e:"Finger-spelling uses hand configurations to represent alphabet letters manually — used mainly for proper names or unfamiliar/borrowed terms lacking an established sign. It's a supplementary tool, not a core, obligatory grammatical component."},
+  {t:"Writing Systems",q:"An ancient wedge-shaped writing system, pressed into clay tablets by the Sumerians, is called:",o:["hieroglyphics","cuneiform","rebus writing","a syllabary"],a:1,e:"Cuneiform (from Latin 'cuneus', wedge) is the wedge-shaped script pressed into clay tablets in ancient Mesopotamia — the earliest documented linguistic writing system, about 5000 years old."},
+  {t:"Writing Systems",q:"A symbol that visually resembles the object it represents (e.g. a drawing of the sun for 'sun') is called a:",o:["logogram","ideogram","pictogram","syllabary"],a:2,e:"A pictogram is defined by direct visual resemblance to its referent and is independent of any particular spoken language. An ideogram, by contrast, has become more abstract, representing an associated idea rather than a direct picture (e.g. a sun symbol meaning 'heat')."},
+  {t:"Writing Systems",q:"A single written symbol representing an entire word, such as the numeral '9' or the symbol '&', is called a:",o:["pictogram","logogram","rebus","grapheme"],a:1,e:"A logogram represents a whole word/morpheme, with an arbitrary (non-pictorial) relationship between symbol and meaning — e.g. Chinese characters, or symbols like $, @, 9, &."},
+  {t:"Neurolinguistics",q:"A general term for a language disorder caused by brain damage is:",o:["dyslexia","aphasia","apraxia","agnosia"],a:1,e:"Aphasia is the umbrella clinical term for any language impairment resulting from brain damage (e.g. Broca's or Wernicke's aphasia)."},
+  {t:"Language Acquisition",q:"The developmental stage (around 6\u201310 months) in which infants produce repeated consonant-vowel sequences such as 'ba-ba-ba' is called:",o:["cooing","babbling","the holophrastic stage","telegraphic speech"],a:1,e:"Babbling follows cooing (vowel-like sounds) and precedes the one-word/holophrastic stage. It's characterised by repeated CV syllables."},
+  {t:"Language Acquisition",q:"A child saying 'foots' instead of 'feet', having over-applied the regular plural rule, demonstrates:",o:["overextension","overgeneralization","telegraphic speech","holophrasis"],a:1,e:"Overgeneralization is applying a regular grammatical rule (like the -s plural) too widely, to irregular cases. This is distinct from overextension, which is a semantic (meaning-based) phenomenon."},
+  {t:"Sign Language & Gestures",q:"A fixed gesture with a specific, conventionalised meaning that can replace speech entirely (e.g. a thumbs-up) is called a/an:",o:["iconic gesture","deictic gesture","beat","emblem"],a:3,e:"An emblem is a gesture with a fixed form and specific, conventionalised meaning, understood independently of speech. Iconics visually resemble content; beats mark rhythm; deictics point."},
+  {t:"Sign Language & Gestures",q:"A gesture used to point toward an object or person, anchoring reference to the physical or shared context, is called:",o:["an emblem","a deictic gesture","a beat","an iconic gesture"],a:1,e:"A deictic gesture points to or indicates something, anchoring reference to context — distinct from an emblem, which carries fixed meaning independent of any physical referent."},
+  {t:"Sign Language & Gestures",q:"The natural, primary sign language of the Deaf community in the United States is abbreviated as:",o:["BSL","MCE","ASL","LSF"],a:2,e:"ASL = American Sign Language. BSL is British Sign Language, LSF is French Sign Language (historically related to ASL), and MCE (Manually Coded English) is an artificial system signing English word-for-word, not a natural language."},
+  {t:"Sign Language & Gestures",q:"The historical educational approach that insisted deaf children be taught spoken articulation and lip-reading instead of sign language is called:",o:["oralism","manualism","bilingualism","Total Communication"],a:0,e:"Oralism dominated 20th-century Deaf education and largely failed (fewer than 10% of students achieved intelligible speech), unlike natural sign language acquisition."},
+  {t:"Language Origins",q:"According to the natural sound source hypothesis, the 'bow-wow' theory proposes that the first words imitated natural sounds, while the 'pooh-pooh' theory proposes that language:",o:["evolved from instinctive human cries and emotional exclamations.","developed from rhythmic chants that coordinated group physical labour.","was borrowed exclusively from animal calls.","emerged only after early humans developed tools."],a:0,e:"The 'pooh-pooh' theory holds that language evolved from spontaneous emotional cries (pain, fear, surprise). Option (b) describes a different, related proposal sometimes called the 'yo-he-ho' theory (language arising from coordinated physical effort) — a real but distinct hypothesis, not 'pooh-pooh'."},
+  {t:"Language Origins",q:"Which physical feature is considered advantageous for human speech production, compared to other primates?",o:["teeth slanting outward","a relatively small, mobile mouth","a shorter pharynx for quicker airflow","thinner, less muscular lips"],a:1,e:"A relatively small mouth (compared to other primates) allows for quicker, more agile tongue movements needed for speech. Note the trap in (c): a LONGER pharynx (not shorter) is the advantageous feature, since it acts as a resonating chamber; and (d) reverses the truth — human lips are MORE muscular and flexible than other primates', aiding sounds like p, b, m."},
+  {t:"Language Origins",q:"The Innateness Hypothesis is supported by which key observation?",o:["All languages contain onomatopoeic words.","Children acquire language remarkably quickly without formal instruction.","The brain shows clear left-hemisphere lateralization.","Broca's area is located in the frontal lobe."],a:1,e:"The speed and universality of child language acquisition without explicit teaching ('poverty of the stimulus') is the central argument for an innate, biological predisposition for language — associated with concepts like Universal Grammar and the FOXP2 gene."},
+  {t:"Language Design Features",q:"Productivity, as a design feature of human language, refers to:",o:["the ability to talk about things distant in time and space.","the ability to produce an unlimited number of novel utterances.","the arbitrary link between form and meaning.","the fact that language must be culturally transmitted."],a:1,e:"Productivity (or open-endedness) is the capacity to create and understand an infinite number of never-before-produced sentences — distinct from displacement (a), arbitrariness (c), and cultural transmission (d)."},
+  {t:"Word Formation",q:"Compounding differs from blending in that compounding:",o:["creates entirely new words with no existing base.","always shortens both source words.","keeps the morpheme boundaries of the source words intact.","only combines words from different grammatical categories."],a:2,e:"Compounding (e.g. bookcase = book + case) preserves both full source morphemes. Blending (e.g. smog = smoke + fog) cuts across morpheme boundaries, fusing parts of two words."},
+  {t:"Neurolinguistics",q:"Accidentally saying 'you hissed my mystery lecture' instead of 'you missed my history lecture' is an example of a:",o:["malapropism","spoonerism","slip of the ear","blend"],a:1,e:"A spoonerism is the accidental swapping of initial sounds between two words in an utterance — a slip of the tongue in production, not a hearing error."},
+  {t:"Neurolinguistics",q:"Saying 'medication' when 'meditation' was intended is an example of a:",o:["spoonerism","malapropism","slip of the ear","coinage"],a:1,e:"A malapropism is using an incorrect word that sounds similar to the intended one, often with a comic effect — a lexical selection error, unlike a spoonerism's sound-swap."},
+  {t:"Neurolinguistics",q:"Mishearing the lyric \u201c'scuse me while I kiss the sky\u201d as \u201c'scuse me while I kiss this guy\u201d is an example of a:",o:["spoonerism","malapropism","slip of the ear","blend"],a:2,e:"A slip of the ear (mondegreen) occurs when the listener's brain misinterprets a heard sound or phrase — a perception error, distinct from spoonerisms and malapropisms, which are production errors."},
+  {t:"Neurolinguistics",q:"The dichotic listening test demonstrates the Right-Ear Advantage for linguistic sounds because:",o:["the left ear's signal projects directly to the language-dominant hemisphere.","the right ear's signal projects directly to the left hemisphere, which processes language.","musical and linguistic sounds are processed identically by both hemispheres.","the right hemisphere is dominant for language in most people."],a:1,e:"Right-ear signals project directly (via crossed neural pathways) to the left hemisphere, which is language-dominant in most people. Option (a) reverses the correct ear/hemisphere pairing, and (d) reverses which hemisphere is language-dominant — both classic swap-style distractors."},
+  {t:"Pragmatics & Discourse",q:"The three types of deixis are:",o:["iconic, symbolic, indexical","person, spatial, temporal","direct, indirect, mixed","proximal, distal, neutral"],a:1,e:"Deictic expressions are grouped into person deixis (I, you), spatial deixis (here, there), and temporal deixis (now, then) — all dependent on the situational context of the utterance."},
+  {t:"Pragmatics & Discourse",q:"Saying \u201cIt's quite cold in this room\u201d to indirectly ask someone to close a window is an example of:",o:["a direct speech act using a declarative.","an indirect speech act using a declarative.","an indirect speech act using an interrogative.","a direct speech act using an imperative."],a:1,e:"The grammatical form is declarative (a statement of fact), but the communicative intent is a request — making this an indirect speech act performed via a declarative sentence."},
+  {t:"Pragmatics & Discourse",q:"Positive politeness strategies are primarily aimed at:",o:["respecting the hearer's autonomy and avoiding imposition.","building solidarity and emphasizing closeness with the hearer.","issuing commands as directly as possible.","avoiding any face-threatening act entirely."],a:1,e:"Positive politeness emphasizes solidarity and shared identity between speaker and hearer (e.g. 'Let's do this together, mate!'), in contrast to negative politeness, which focuses on respecting the hearer's autonomy and independence."},
+  {t:"Pragmatics & Discourse",q:"In the sentence \u201cWhen he arrived, John sat down immediately,\u201d the pronoun \u201che\u201d is an example of:",o:["anaphora","cataphora","deixis","an emblem"],a:1,e:"Cataphora is a forward reference — 'he' appears before its antecedent 'John' is mentioned. Anaphora, by contrast, refers BACK to something already mentioned (e.g. 'We saw a cat. It was sleeping.')."},
+  {t:"Language Acquisition",q:"A child's utterance \u201cthis shoe all wet\u201d, which lacks inflectional morphemes but keeps a correct word order, is characteristic of:",o:["the holophrastic stage","the two-word stage","telegraphic speech","babbling"],a:2,e:"Telegraphic speech (around age 2\u20132.5) strings together lexical morphemes in correct grammatical order while omitting inflectional endings (like -ed or -s) and function words, much like an old telegram."},
+  {t:"Language Acquisition",q:"A child using the word 'ball' to refer to the moon, based on shared roundness, illustrates:",o:["overgeneralization","overextension","telegraphic speech","reflexivity"],a:1,e:"Overextension is a SEMANTIC phenomenon — extending a word's meaning based on perceived similarity (shape, size, sound). This is distinct from overgeneralization, which is a GRAMMATICAL phenomenon (over-applying a rule like the plural -s)."},
+  {t:"Writing Systems",q:"A writing system in which an existing symbol is reused only for its sound value, regardless of its original meaning (e.g. using the numeral '2' for the word 'to'), is called:",o:["logographic writing","rebus writing","syllabic writing","ideographic writing"],a:1,e:"Rebus writing borrows an existing symbol purely for its phonetic value, discarding its original meaning — a key transitional step from meaning-based to sound-based writing systems."},
+  {t:"Writing Systems",q:"One major reason for irregular English spelling is that:",o:["16th-century spelling reformers successfully updated spelling to match pronunciation.","the printing press froze spelling conventions while pronunciation kept changing.","the Great Vowel Shift altered spelling to match the new pronunciations.","English borrowed pronunciation, but never spelling, from French and Latin."],a:1,e:"Printing (from the 15th century) fixed spelling conventions while pronunciation kept evolving (notably via the Great Vowel Shift), producing silent letters. Option (a) reverses the outcome — reformers largely FAILED and were rejected. Option (c) reverses cause and effect — the Great Vowel Shift changed PRONUNCIATION while spelling stayed frozen, not the other way round."},
+  {t:"Language History",q:"A word such as English 'mother', German 'Mutter', and Spanish 'madre', which share a similar form and meaning due to common ancestry, are called:",o:["eponyms","cognates","calques","loanwords"],a:1,e:"Cognates are words across related languages with similar form and meaning, descended from a shared proto-language ancestor — key evidence used in comparative reconstruction (e.g. of Proto-Indo-European)."},
+  {t:"Language History",q:"The Norman Conquest of 1066 explains why English has different words for living animals (e.g. cow, pig) and the meat derived from them (e.g. beef, pork), because:",o:["French became the language of the ruling class, while English remained the language of the peasants who raised the animals.","beef and pork are Old Norse borrowings.","cow and pig are eponyms.","the animal names underwent semantic narrowing."],a:0,e:"After 1066, French became the prestige language of the Norman aristocracy (who ate the meat), while Anglo-Saxon peasants (who raised the animals) kept the Germanic terms — creating this classic vocabulary split."},
+  {t:"Language History",q:"The change from Old English 'acsian' to Modern English 'ask', involving the transposition of two adjacent sounds, is an example of:",o:["epenthesis","metathesis","prothesis","sound loss"],a:1,e:"Metathesis is the swapping of the position of two adjacent (or nearby) sounds within a word — also seen in 'bridd' \u2192 'bird' and 'hros' \u2192 'horse'."},
+  {t:"Language History",q:"The historical change by which 'holy day' came to mean any day off work ('holiday') is an example of semantic:",o:["narrowing","broadening","amelioration","metathesis"],a:1,e:"Broadening is when a word's meaning expands to cover a wider range of referents than it originally did — the opposite of narrowing (e.g. 'hound', which once meant any dog, now refers only to hunting dogs)."},
+  {t:"Dialects & Contact",q:"A situation in which two very distinct varieties of the same language coexist in a community, one used for formal/official purposes and one for everyday communication, is called:",o:["bilingualism","diglossia","a dialect continuum","creolization"],a:1,e:"Diglossia describes a community with a High (H) variety for education, religion, and official contexts, and a Low (L) variety for everyday, informal communication — e.g. Classical vs. Egyptian Arabic."},
+  {t:"Dialects & Contact",q:"A pidgin becomes a creole when:",o:["it is standardized by a government language planning committee.","it acquires many borrowed words from a prestige language.","it is adopted as the first native language by a new generation of children.","its speakers become bilingual in the lexifier language."],a:2,e:"Creolization occurs when a pidgin, which has no native speakers, is acquired as a first (native) language by children growing up in the community — at which point it develops full grammatical complexity."},
+  {t:"Language & Culture",q:"In studies of gendered speech, tag questions (e.g. \u201c...isn't it?\u201d) and hedges (e.g. \u201csort of\u201d) are described as being used more frequently by:",o:["men, as part of an assertive, dominant conversational style.","women, often to soften statements and invite agreement.","speakers of standard dialects only, regardless of gender.","both genders in exactly equal measure."],a:1,e:"Sociolinguistic studies describe women as using hedges and tag questions more frequently, often to soften assertions and invite agreement — while men are described as favouring a more direct, assertive style, the reverse pattern from option (a)."},
+  {t:"Language & Culture",q:"The strong version of the Sapir-Whorf hypothesis (linguistic determinism) claims that:",o:["language merely influences habitual thought.","language completely determines and restricts what its speakers are able to think.","all languages share a universal grammar.","vocabulary size correlates with a culture's technological complexity."],a:1,e:"Linguistic determinism (the strong version) claims language rigidly controls thought — speakers can only think in categories their grammar provides. This is distinct from the weaker 'linguistic relativity' claim (a), which says language merely influences habitual patterns of thought."},
+];
+
+const TOPIC_COLORS = {
+  "CG Basics": ["#e0e7ff","#3730a3"], "Construal & Diagrams": ["#fce7f3","#9d174d"], "Reference Point": ["#dbeafe","#1e40af"],
+  "Constructional Schemas": ["#ede9fe","#4c1d95"], "Grounding & Virtuality": ["#fee2e2","#991b1b"], "Structure of Events": ["#f0f9ff","#0c4a6e"],
+  "Language Design Features": ["#fef3c7","#92400e"], "Word Formation": ["#d1fae5","#065f46"], "Neurolinguistics": ["#ffedd5","#9a3412"],
+  "Pragmatics & Discourse": ["#fdf4ff","#6b21a8"], "Writing Systems": ["#ecfdf5","#064e3b"], "Language Acquisition": ["#f7fee7","#3f6212"],
+  "Sign Language & Gestures": ["#fef9c3","#854d0e"], "Language History": ["#fae8ff","#86198f"], "Dialects & Contact": ["#e0f2fe","#075985"],
+  "Language & Culture": ["#fef2f2","#991b1b"],
+};
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+let questions = shuffle(ALL);
+let qi = 0, score = 0, chosen = null;
+
+function render() {
+  const app = document.getElementById('app');
+  const total = questions.length;
+
+  if (qi >= total) {
+    const pct = Math.round((score / total) * 100);
+    const msg = pct >= 80 ? "Great job! You're well prepared. \u{1F389}"
+      : pct >= 60 ? "Good effort — review the missed topics before the exam."
+      : "Keep studying — focus on the explanations for wrong answers.";
+    app.innerHTML = `
+      <div class="result-card">
+        <div class="result-score">${score}<span>/${total}</span></div>
+        <div class="result-pct">${pct}%</div>
+        <div class="result-msg">${msg}</div>
+        <button class="btn-restart" id="restartBtn">Restart with new shuffle</button>
+      </div>`;
+    document.getElementById('restartBtn').onclick = () => {
+      questions = shuffle(ALL); qi = 0; score = 0; chosen = null; render();
+    };
+    return;
+  }
+
+  const q = questions[qi];
+  const pct = Math.round((qi / total) * 100);
+  const colors = TOPIC_COLORS[q.t] || ["#f1f5f9", "#374151"];
+
+  app.innerHTML = `
+    <div class="header-row">
+      <span class="progress-text">Question ${qi + 1} of ${total}</span>
+      <span class="score-badge">${score} correct</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="topic-badge" style="background:${colors[0]};color:${colors[1]}">${q.t}</div>
+    <div class="question">${q.q}</div>
+    <div class="options" id="optsWrap">
+      ${q.o.map((opt, i) => `
+        <button class="option" data-i="${i}">
+          <span class="opt-letter">${"ABCD"[i]}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+    </div>
+    <div id="explWrap"></div>
+    <div id="nextWrap"></div>
+  `;
+
+  document.querySelectorAll('.option').forEach(btn => {
+    btn.onclick = () => choose(parseInt(btn.dataset.i, 10));
+  });
+}
+
+function choose(i) {
+  if (chosen !== null) return;
+  chosen = i;
+  const q = questions[qi];
+  const correct = i === q.a;
+  if (correct) score++;
+
+  document.querySelectorAll('.option').forEach((btn, idx) => {
+    btn.classList.add('disabled');
+    btn.disabled = true;
+    if (idx === q.a) btn.classList.add('correct');
+    else if (idx === i) btn.classList.add('wrong');
+  });
+
+  document.getElementById('explWrap').innerHTML = `
+    <div class="explanation">
+      <span class="${correct ? 'verdict-correct' : 'verdict-wrong'}">${correct ? '✓ Correct. ' : '✗ Incorrect. '}</span>
+      ${q.e}
+    </div>`;
+
+  document.getElementById('nextWrap').innerHTML = `
+    <button class="btn-next" id="nextBtn">${qi + 1 < questions.length ? 'Next question →' : 'See results'}</button>`;
+  document.getElementById('nextBtn').onclick = () => {
+    qi++; chosen = null; render();
+  };
+}
+
+render();
+</script>
+</body>
+</html>
